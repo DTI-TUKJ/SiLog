@@ -41,166 +41,126 @@
                             <div class="nk-block">
                                 <div class="row g-gs">
                               
-                                    <div class="col-md-4 col-xxl-4">
-                                        <div class="card card-bordered card-full">
-                                            <div class="card-inner border-bottom">
-                                                <div class="card-title-group">
-                                                    <div class="card-title">
-                                                        <h6 class="title">Kendaraan</h6>
+                                    <div class="col-md-4">
+                                         <div class="card card-bordered card-full">
+                                            <div class="card-inner">
+                                                <div class="row g-gs">
+                                                    <div class="col-md-3">
+                                                 
+                                                            
                                                     </div>
-                                                    <div class="card-tools">
-                                                        <ul class="card-tools-nav">
-                                                           
-                                                            <li class="active"><a href="#"><span>All</span></a></li>
-                                                        </ul>
+                                                    <div class="col-md-4" >
+                                                 
+                                                            <div class="card-title-group align-start mb-0" style="margin-top: 10px;">
+                                                                <div class="card-title">
+                                                                    <h6 class="subtitle">Asset Name</h6>
+                                                                </div>
+                                                              
+                                                            </div>
+                                                            <div class="card-amount">
+                                                                <span class="amount" style="font-size:20px">Mobil Avanza
+                                                                </span>
+                                                                
+                                                            </div>
+                                                            <div class="invest-data">
+                                                                <div class="invest-data-amount g-2">
+                                                                    <div class="invest-data-history">
+                                                                        <div class="title">Status</div>
+                                                                        <div class="amount">In Use until <b> 4.00 PM  </b> </div>
+                                                                    </div>
+                                                                 <!--    <div class="invest-data-history">
+                                                                        <div class="title">This Week</div>
+                                                                        <div class="amount">1,259.28 <span class="currency currency-usd">USD</span></div>
+                                                                    </div> -->
+                                                                </div>
+                                                              
+                                                            </div>   
                                                     </div>
                                                 </div>
+                                               
                                             </div>
-                                            <ul class="nk-activity">
-                                                <li class="nk-activity-item">
-                                                    <div class="nk-activity-media user-avatar bg-success"><img src="<?php echo base_url('') ?>/images/avatar/c-sm.jpg" alt=""></div>
-                                                    <div class="nk-activity-data">
-                                                        <div class="label">Keith Jensen requested to Widthdrawl.</div>
-                                                        <span class="time">2 hours ago</span>
-                                                    </div>
-                                                </li>
-                                                <li class="nk-activity-item">
-                                                    <div class="nk-activity-media user-avatar bg-warning">HS</div>
-                                                    <div class="nk-activity-data">
-                                                        <div class="label">Harry Simpson placed a Order.</div>
-                                                        <span class="time">2 hours ago</span>
-                                                    </div>
-                                                </li>
-                                                <li class="nk-activity-item">
-                                                    <div class="nk-activity-media user-avatar bg-azure">SM</div>
-                                                    <div class="nk-activity-data">
-                                                        <div class="label">Stephanie Marshall got a huge bonus.</div>
-                                                        <span class="time">2 hours ago</span>
-                                                    </div>
-                                                </li>
-                                                <li class="nk-activity-item">
-                                                    <div class="nk-activity-media user-avatar bg-purple"><img src="<?php echo base_url('') ?>/images/avatar/d-sm.jpg" alt=""></div>
-                                                    <div class="nk-activity-data">
-                                                        <div class="label">Nicholas Carr deposited funds.</div>
-                                                        <span class="time">2 hours ago</span>
-                                                    </div>
-                                                </li>
-                                                <li class="nk-activity-item">
-                                                    <div class="nk-activity-media user-avatar bg-pink">TM</div>
-                                                    <div class="nk-activity-data">
-                                                        <div class="label">Timothy Moreno placed a Order.</div>
-                                                        <span class="time">2 hours ago</span>
-                                                    </div>
-                                                </li>
-                                            </ul>
                                         </div><!-- .card -->
                                     </div><!-- .col -->
-                                    <div class="col-md-4 col-xxl-4">
-                                        <div class="card card-bordered card-full">
-                                            <div class="card-inner border-bottom">
-                                                <div class="card-title-group">
-                                                    <div class="card-title">
-                                                        <h6 class="title">Ruangan</h6>
+                                                                   
+                                    <div class="col-md-4">
+                                         <div class="card card-bordered card-full">
+                                            <div class="card-inner">
+                                                <div class="row g-gs">
+                                                    <div class="col-md-3">
+                                                 
+                                                            
                                                     </div>
-                                                    <div class="card-tools">
-                                                        <ul class="card-tools-nav">
-                                                
-                                                            <li class="active"><a href="#"><span>All</span></a></li>
-                                                        </ul>
+                                                    <div class="col-md-4" >
+                                                 
+                                                            <div class="card-title-group align-start mb-0" style="margin-top: 10px;">
+                                                                <div class="card-title">
+                                                                    <h6 class="subtitle">Asset Name</h6>
+                                                                </div>
+                                                              
+                                                            </div>
+                                                            <div class="card-amount">
+                                                                <span class="amount" style="font-size:20px">Mobil Avanza
+                                                                </span>
+                                                                
+                                                            </div>
+                                                            <div class="invest-data">
+                                                                <div class="invest-data-amount g-2">
+                                                                    <div class="invest-data-history">
+                                                                        <div class="title">Status</div>
+                                                                        <div class="amount">In Use until <b> 4.00 PM  </b> </div>
+                                                                    </div>
+                                                                 <!--    <div class="invest-data-history">
+                                                                        <div class="title">This Week</div>
+                                                                        <div class="amount">1,259.28 <span class="currency currency-usd">USD</span></div>
+                                                                    </div> -->
+                                                                </div>
+                                                              
+                                                            </div>   
                                                     </div>
                                                 </div>
+                                               
                                             </div>
-                                            <ul class="nk-activity">
-                                                <li class="nk-activity-item">
-                                                    <div class="nk-activity-media user-avatar bg-success"><img src="<?php echo base_url('') ?>/images/avatar/c-sm.jpg" alt=""></div>
-                                                    <div class="nk-activity-data">
-                                                        <div class="label">Keith Jensen requested to Widthdrawl.</div>
-                                                        <span class="time">2 hours ago</span>
-                                                    </div>
-                                                </li>
-                                                <li class="nk-activity-item">
-                                                    <div class="nk-activity-media user-avatar bg-warning">HS</div>
-                                                    <div class="nk-activity-data">
-                                                        <div class="label">Harry Simpson placed a Order.</div>
-                                                        <span class="time">2 hours ago</span>
-                                                    </div>
-                                                </li>
-                                                <li class="nk-activity-item">
-                                                    <div class="nk-activity-media user-avatar bg-azure">SM</div>
-                                                    <div class="nk-activity-data">
-                                                        <div class="label">Stephanie Marshall got a huge bonus.</div>
-                                                        <span class="time">2 hours ago</span>
-                                                    </div>
-                                                </li>
-                                                <li class="nk-activity-item">
-                                                    <div class="nk-activity-media user-avatar bg-purple"><img src="<?php echo base_url('') ?>/images/avatar/d-sm.jpg" alt=""></div>
-                                                    <div class="nk-activity-data">
-                                                        <div class="label">Nicholas Carr deposited funds.</div>
-                                                        <span class="time">2 hours ago</span>
-                                                    </div>
-                                                </li>
-                                                <li class="nk-activity-item">
-                                                    <div class="nk-activity-media user-avatar bg-pink">TM</div>
-                                                    <div class="nk-activity-data">
-                                                        <div class="label">Timothy Moreno placed a Order.</div>
-                                                        <span class="time">2 hours ago</span>
-                                                    </div>
-                                                </li>
-                                            </ul>
                                         </div><!-- .card -->
                                     </div><!-- .col -->
-                                    <div class="col-md-4 col-xxl-4">
-                                        <div class="card card-bordered card-full">
-                                            <div class="card-inner border-bottom">
-                                                <div class="card-title-group">
-                                                    <div class="card-title">
-                                                        <h6 class="title">Zoom Meeting</h6>
+
+                                    <div class="col-md-4">
+                                         <div class="card card-bordered card-full">
+                                            <div class="card-inner">
+                                                <div class="row g-gs">
+                                                    <div class="col-md-3">
+                                                 
+                                                            
                                                     </div>
-                                                    <div class="card-tools">
-                                                        <ul class="card-tools-nav">
-                                                          
-                                                            <li class="active"><a href="#"><span>All</span></a></li>
-                                                        </ul>
+                                                    <div class="col-md-4" >
+                                                 
+                                                            <div class="card-title-group align-start mb-0" style="margin-top: 10px;">
+                                                                <div class="card-title">
+                                                                    <h6 class="subtitle">Asset Name</h6>
+                                                                </div>
+                                                              
+                                                            </div>
+                                                            <div class="card-amount">
+                                                                <span class="amount" style="font-size:20px">Mobil Avanza
+                                                                </span>
+                                                                
+                                                            </div>
+                                                            <div class="invest-data">
+                                                                <div class="invest-data-amount g-2">
+                                                                    <div class="invest-data-history">
+                                                                        <div class="title">Status</div>
+                                                                        <div class="amount">In Use until <b> 4.00 PM  </b> </div>
+                                                                    </div>
+                                                                 <!--    <div class="invest-data-history">
+                                                                        <div class="title">This Week</div>
+                                                                        <div class="amount">1,259.28 <span class="currency currency-usd">USD</span></div>
+                                                                    </div> -->
+                                                                </div>
+                                                              
+                                                            </div>   
                                                     </div>
                                                 </div>
+                                               
                                             </div>
-                                            <ul class="nk-activity">
-                                                <li class="nk-activity-item">
-                                                    <div class="nk-activity-media user-avatar bg-success"><img src="<?php echo base_url('') ?>/images/avatar/c-sm.jpg" alt=""></div>
-                                                    <div class="nk-activity-data">
-                                                        <div class="label">Keith Jensen requested to Widthdrawl.</div>
-                                                        <span class="time">2 hours ago</span>
-                                                    </div>
-                                                </li>
-                                                <li class="nk-activity-item">
-                                                    <div class="nk-activity-media user-avatar bg-warning">HS</div>
-                                                    <div class="nk-activity-data">
-                                                        <div class="label">Harry Simpson placed a Order.</div>
-                                                        <span class="time">2 hours ago</span>
-                                                    </div>
-                                                </li>
-                                                <li class="nk-activity-item">
-                                                    <div class="nk-activity-media user-avatar bg-azure">SM</div>
-                                                    <div class="nk-activity-data">
-                                                        <div class="label">Stephanie Marshall got a huge bonus.</div>
-                                                        <span class="time">2 hours ago</span>
-                                                    </div>
-                                                </li>
-                                                <li class="nk-activity-item">
-                                                    <div class="nk-activity-media user-avatar bg-purple"><img src="<?php echo base_url('') ?>/images/avatar/d-sm.jpg" alt=""></div>
-                                                    <div class="nk-activity-data">
-                                                        <div class="label">Nicholas Carr deposited funds.</div>
-                                                        <span class="time">2 hours ago</span>
-                                                    </div>
-                                                </li>
-                                                <li class="nk-activity-item">
-                                                    <div class="nk-activity-media user-avatar bg-pink">TM</div>
-                                                    <div class="nk-activity-data">
-                                                        <div class="label">Timothy Moreno placed a Order.</div>
-                                                        <span class="time">2 hours ago</span>
-                                                    </div>
-                                                </li>
-                                            </ul>
                                         </div><!-- .card -->
                                     </div><!-- .col -->
                                
