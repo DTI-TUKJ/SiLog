@@ -13,10 +13,35 @@
     <title>SiLog | Sistem Logistik</title>
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="<?php echo base_url('') ?>/assets/css/dashlite.css?ver=3.2.0">
-    <link id="skin-default" rel="stylesheet" href="<?php echo base_url('') ?>/assets/css/theme.css?ver=3.2.0">
+    <link id="skin-red" rel="stylesheet" href="<?php echo base_url('') ?>/assets/css/skins/theme-red.css?ver=3.2.0">
+
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/brands.min.css"
+        integrity="sha512-9YHSK59/rjvhtDcY/b+4rdnl0V4LPDWdkKceBl8ZLF5TB6745ml1AfluEU6dFWqwDw9lPvnauxFgpKvJqp7jiQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css"
+        integrity="sha512-SgaqKKxJDQ/tAUAAXzvxZz33rmn7leYDYfBP+YoMRSENhf3zJyx3SBASt/OfeQwBHA1nxMis7mM3EV/oYT6Fdw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/solid.min.css"
+        integrity="sha512-yDUXOUWwbHH4ggxueDnC5vJv4tmfySpVdIcN1LksGZi8W8EVZv4uKGrQc0pVf66zS7LDhFJM7Zdeow1sw1/8Jw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/regular.min.css"
+        integrity="sha512-WidMaWaNmZqjk3gDE6KBFCoDpBz9stTsTZZTeocfq/eDNkLfpakEd7qR0bPejvy/x0iT0dvzIq4IirnBtVer5A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css">
+    <link rel=stylesheet href=https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css"
+        integrity="sha512-MQXduO8IQnJVq1qmySpN87QQkiR1bZHtorbJBD0tzy7/0U9+YIC93QWHeGTEoojMVHWWNkoCp8V6OzVSYrX0oQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body class="nk-body bg-lighter no-touch nk-nio-theme toggle-shown ui-softy">
+<body class="nk-body bg-lighter no-touch nk-nio-theme ui-softy">
     <div class="nk-app-root">
         <!-- wrap @s -->
         <div class="nk-wrap ">
@@ -47,31 +72,10 @@
                             </div>
                             <ul class="nk-menu nk-menu-main ui-s2">
                                 <li class="nk-menu-item has-sub">
-                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                    <a href="#" class="nk-menu-link">
                                         <span class="nk-menu-text">Dashboards</span>
                                     </a>
-                                    <ul class="nk-menu-sub">
-                                        <li class="nk-menu-item">
-                                            <a href="html/index.html" class="nk-menu-link">
-                                                <span class="nk-menu-text">Default Dashboard</span>
-                                            </a>
-                                        </li><!-- .nk-menu-item -->
-                                        <li class="nk-menu-item">
-                                            <a href="html/index-sales.html" class="nk-menu-link">
-                                                <span class="nk-menu-text">Sales Dashboard</span>
-                                            </a>
-                                        </li><!-- .nk-menu-item -->
-                                        <li class="nk-menu-item">
-                                            <a href="html/index-crypto.html" class="nk-menu-link">
-                                                <span class="nk-menu-text">Crypto Dashboard</span>
-                                            </a>
-                                        </li><!-- .nk-menu-item -->
-                                        <li class="nk-menu-item">
-                                            <a href="html/index-analytics.html" class="nk-menu-link">
-                                                <span class="nk-menu-text">Analytics Dashboard</span>
-                                            </a>
-                                        </li><!-- .nk-menu-item -->
-                                    </ul><!-- .nk-menu-sub -->
+                                    
                                 </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
@@ -595,7 +599,7 @@
                                         </div> -->
                                     </div>
                                 </li>
-                            
+                               <?php if(isset(session()->Admin_name)) {?>
                                 <li class="dropdown user-dropdown">
                                     <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
                                         <div class="user-toggle">
@@ -604,8 +608,8 @@
                                             </div>
                                         </div>
                                          <div class="user-info d-none d-xl-block" style="padding-left:10px">
-                                                <div class="user-status" style="color:white;">DTI</div>
-                                                <div class="user-name dropdown-indicator" style="color: #fafafa;"> Sofyan Hadi Hidayat</div>
+                                                <div class="user-status" style="color:white;"><?php echo session()->Admin_name ?></div>
+                                                <div class="user-name dropdown-indicator" style="color: #fafafa;"><?php echo session()->type ?></div>
                                             </div>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-md dropdown-menu-end dropdown-menu-s1 is-light">
@@ -615,30 +619,30 @@
                                                     <span>AB</span>
                                                 </div>
                                                 <div class="user-info">
-                                                    <span class="lead-text">Sofyan Hadi Hidayat</span>
-                                                    <span class="sub-text">sofyan@gmail.com</span>
+                                                    <span class="lead-text"><?php echo session()->Admin_name ?></span>
+                                                    <!-- <span class="sub-text">sofyan@gmail.com</span> -->
                                                 </div>
-                                                <div class="user-action">
+                                              <!--   <div class="user-action">
                                                     <a class="btn btn-icon me-n2" href="html/user-profile-setting.html"><em class="icon ni ni-setting"></em></a>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                        
                                         <div class="dropdown-inner">
                                             <ul class="link-list">
-                                                <li><a href="html/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
+                                             <!--    <li><a href="html/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
                                                 <li><a href="html/user-profile-setting.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
-                                                <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
-                                                <li><a class="dark-mode-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>
+                                                <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li> -->
+                                                 <li><a type="button" class="li-menu-user" data-bs-toggle="modal" data-bs-target="#modalpassword"><i class="icon fa-solid fa-key"></i><span>Change Password</span></a></li>
                                             </ul>
                                         </div>
                                         <div class="dropdown-inner">
                                             <ul class="link-list">
-                                                <li><a href="#"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
-                                            </ul>
+                                                <li><a href="<?php echo base_url('Logout') ?>"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>                                            </ul>
                                         </div>
                                     </div>
                                 </li><!-- .dropdown -->
+                                <?php } ?>
                             </ul><!-- .nk-quick-nav -->
                         </div><!-- .nk-header-tools -->
                     </div><!-- .nk-header-wrap -->

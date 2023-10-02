@@ -13,3 +13,6 @@ $routes->setAutoRoute(true);
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
+$routes->post('/AdminSignin', 'Admin::index');
+$routes->get('/AdminSignin', 'Admin::index');
+$routes->get('/Logout', 'Admin::Logout');

@@ -24,6 +24,6 @@ class Home extends BaseController
 
         // $tesdata=$this->TM->tesGetData();
         // print_r($tesdata);
-        return view('main/example', $dataview);
+        return view('main/dashboard/index', $dataview);
     }
 }
