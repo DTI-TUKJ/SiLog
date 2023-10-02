@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
     <!-- Fav Icon  -->
-    <link rel="shortcut icon" href="<?php echo base_url('') ?>/images/favicon.png">
+    <link rel="shortcut icon" href="<?php echo base_url('') ?>/images/logo_telkom_university.png">
     <!-- Page Title  -->
     <title>SiLog | Sistem Logistik</title>
     <!-- StyleSheets  -->
@@ -54,8 +54,8 @@
                         </div>
                         <div class="nk-header-brand">
                             <a href="html/index.html" class="logo-link">
-                                <img class="logo-light logo-img" src="<?php echo base_url('') ?>/images/logo.png" srcset="<?php echo base_url('') ?>/images/logo2x.png 2x" alt="logo">
-                                <img class="logo-dark logo-img" src="<?php echo base_url('') ?>/images/logo-dark.png" srcset="<?php echo base_url('') ?>/images/logo-dark2x.png 2x" alt="logo-dark">
+                                <img class="logo-light logo-img" src="<?php echo base_url('') ?>/images/Logo-Horizontal-TUJ-white.png" srcset="<?php echo base_url('') ?>/images/Logo-Horizontal-TUJ-white.png 2x" alt="logo">
+                                <img class="logo-dark logo-img" src="<?php echo base_url('') ?>/images/Logo-Horizontal-TUJ-white.png" srcset="<?php echo base_url('') ?>/images/Logo-Horizontal-TUJ-white.png 2x" alt="logo-dark">
                             </a>
                         </div><!-- .nk-header-brand -->
                         <div class="nk-header-menu ms-auto" data-content="headerNav">
