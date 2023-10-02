@@ -16,7 +16,8 @@ class User extends BaseController
     {
         $data = [
             'title' => 'Users',
-            'data' => $this->LM->findAll()
+            'data' => $this->LM->findAll(),
+            'total' => $this->LM->countAll()
         ];
         return view('main/User/index',$data);
     }
