@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 use App\Models\TestingModel;
-
+use App\Models\LoginModel;
 
 class Home extends BaseController
 {
@@ -11,20 +11,13 @@ class Home extends BaseController
         // session_start();
         // $this->validation =  \Config\Services::validation();
         $this->TM = new TestingModel();
+        $this->LM = new LoginModel();
      
    
     }
     public function index()
     { 
-    
-      $dataview=array(
-                        "data_1"=>"content",
-                        "data_2"=>array(
-                                    "data_head"=>"header"
-                                )
-                        );
 
-
-        return view('main/dashboard/index', $dataview);
+        return view('main/dashboard/index');
     }
 }

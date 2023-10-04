@@ -92,7 +92,7 @@
                                 <label class="form-label" for="full-name-1">Asset Name</label>
                                 <div class="form-control-wrap">
                                     <input type="text" class="form-control" id="full-name-1" name="asset_name" value="<?php echo set_value('asset_name') ?>" placeholder="Enter Name">
-                                    <div id="nama-error">
+                                    <div id="asset_name-error">
 
                                     </div>
                                 </div>
@@ -120,7 +120,7 @@
                                          <option value="Zoom">Zoom</option>
                                     </select>
                                 </div>
-                                <div id="asset_type_select-error">
+                                <div id="asset_type-error">
 
                                 </div>
                             </div>
@@ -130,9 +130,9 @@
                             <div class="form-group">
                                 <label class="form-label" for="asset_status">Asset Status</label>
                                 <div class="form-control-wrap">
-                                     <select class="form-select" id="asset_status" name="asset_type" onchange="">
-                                         <option value="Ruangan">Ready</option>
-                                        <option value="Kendaraan">Maintenance</option>
+                                     <select class="form-select" id="asset_status" name="asset_status" onchange="">
+                                         <option value="Ready">Ready</option>
+                                        <option value="Maintenance">Maintenance</option>
 
                                     </select>
                                 </div>
@@ -173,9 +173,9 @@
                             <div class="form-group">
                                 <label class="form-label" for="WhatsApp">Asset Amount</label>
                                 <div class="form-control-wrap">
-                                    <input type="text" class="form-control"  name="asset_amount" id="WhatsApp" placeholder="Enter Amount">
+                                    <input type="number" class="form-control"  name="asset_amount" id="WhatsApp" placeholder="Enter Amount">
                                 </div>
-                                <div id="wa-error">
+                                <div id="asset_amount-error">
 
                                 </div>
                             </div>
@@ -185,10 +185,10 @@
 
                         
                             <div class="form-group">
-                                <label class="form-label" for="pay-amount-1">Asset Image (Opotional)</label>
+                                <label class="form-label" for="pay-amount-1">Asset Image (Optional)</label>
                                 <div class="form-control-wrap">
                                      <input type="file" class="image-preview-filepond" accept="image/*">
-                                    <div id="signature-error">
+                                    <div id="asset_image-error">
 
                                     </div>
                                   
@@ -262,7 +262,7 @@
 
      FilePond.registerPlugin(FilePondPluginFileValidateType);
      FilePond.registerPlugin(FilePondPluginImagePreview);
-      FilePond.registerPlugin(FilePondPluginFileValidateSize);
+     FilePond.registerPlugin(FilePondPluginFileValidateSize);
 
      FilePond.create(document.querySelector(".image-preview-filepond"), {
           credits: null,
@@ -283,79 +283,138 @@
         });
       })
 
-// function addAsset(){
-//         var form_data = new FormData($('#frmtambah')[0]);
-//                $.ajax({
-//                  url:"<?php echo base_url('addPegawai') ?>",
-//                  global: false,
-//                 async: true,
-//                 type: 'post',
-//                 processData: false,
-//                 contentType: false,
-//                 dataType: 'json',
-//                 enctype: "multipart/form-data",
-//                 data: form_data,
-//                 beforeSend: function () {
-//                     $('#buttonsave').hide()
-//                     $('#loader').show()
-//                   },
-//                  success : function(e) {
-//                    if(e.status == 'ok;') 
-//                    {
-//                         $('#buttonsave').show()
-//                          $('#loader').hide()
-//                     let timerInterval
-//                       Swal.fire({
-//                         icon: 'success',
-//                         title: ' Data has been Saved',
-//                         showConfirmButton: false,
-//                         timer: 1500,
-//                         timerProgressBar: true,
-//                         didOpen: () => {
+function addAsset(){
+        var form_data = new FormData($('#frmtambah')[0]);
+               $.ajax({
+                 url:"<?php echo base_url('addAsset') ?>",
+                 global: false,
+                async: true,
+                type: 'post',
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                enctype: "multipart/form-data",
+                data: form_data,
+                beforeSend: function () {
+                    $('#buttonsave').hide()
+                    $('#loader').show()
+                  },
+                 success : function(e) {
+                   if(e.status == 'ok;') 
+                   {
+                        $('#buttonsave').show()
+                         $('#loader').hide()
+                    let timerInterval
+                      Swal.fire({
+                        icon: 'success',
+                        title: ' Data has been Saved',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        timerProgressBar: true,
+                        didOpen: () => {
                           
-//                           timerInterval = setInterval(() => {
+                          timerInterval = setInterval(() => {
 
-//                           }, 100)
-//                         },
-//                         willClose: () => {
-//                           clearInterval(timerInterval)
-//                         }
-//                       }).then((result) => {
+                          }, 100)
+                        },
+                        willClose: () => {
+                          clearInterval(timerInterval)
+                        }
+                      }).then((result) => {
                         
-//                         /* Read more about handling dismissals below */
-//                         if (result.dismiss === Swal.DismissReason.timer) {
+                        /* Read more about handling dismissals below */
+                        if (result.dismiss === Swal.DismissReason.timer) {
                              
-//                          location.reload();
-//                         }
-//                       })
+                         location.reload();
+                        }
+                      })
                     
-//                   } 
-//                   else{ 
-//                    // console.log(e.dataname);
-//                      $('#buttonsave').show()
-//                          $('#loader').hide()
-//                       $.each(e.dataname, function(key, value) {
-//                         document.getElementById(key+"-error").innerHTML ="";
-//                       });
-//                     $.each(e.data, function(key, value) {
+                  } 
+                  else{ 
+                   // console.log(e.dataname);
+                     $('#buttonsave').show()
+                         $('#loader').hide()
+                      $.each(e.dataname, function(key, value) {
+                        document.getElementById(key+"-error").innerHTML ="";
+                      });
+                    $.each(e.data, function(key, value) {
                      
                       
-//                      document.getElementById(key+"-error").innerHTML = `<span class="badge badge-dim bg-danger" style="">`+value+`
-//                                                                         </span>`;
-//                   });
-//                         document.getElementById("signature_m-error").innerHTML ="";
+                     document.getElementById(key+"-error").innerHTML = `<span class="badge badge-dim bg-danger" style="">`+value+`
+                                                                        </span>`;
+                  });
+                       // document.getElementById("signature_m-error").innerHTML ="";
                        
-//                     $('#buttonsave').show()
-//                     $('#loader').hide()
-//                     $("#modaltambah").modal('show');
-//                  }
-//               },
-//               error :function(xhr, status, error) {
-//                alert(xhr.responseText);
-//             }
+                    $('#buttonsave').show()
+                    $('#loader').hide()
+                    $("#modaltambah").modal('show');
+                 }
+              },
+              error :function(xhr, status, error) {
+               alert(xhr.responseText);
+            }
 
-//          });
-//     }
+         });
+    }
+
+function deletedata(id, image) {
+     Swal.fire({
+      title: 'Yakin Ingin menghapus data ?',
+      text: "Data tidak akan bisa kembali",
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+         url:"<?php echo base_url('AssetDelete') ?>",
+         global:false,
+         async:true,
+         type:'post',
+         dataType:'json',
+         data: ({
+            id_asset:id,
+            img:image
+        }),
+         success : function(e) {
+             if(e.status == 'ok;') 
+             {
+
+              let timerInterval
+              Swal.fire({
+                icon: 'success',
+                title: ' Data has been Deleted',
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+                didOpen: () => {
+                  timerInterval = setInterval(() => {
+
+                  }, 100)
+                },
+                willClose: () => {
+                  clearInterval(timerInterval)
+                }
+              }).then((result) => {
+                /* Read more about handling dismissals below */
+                if (result.dismiss === Swal.DismissReason.timer) {
+                  location.reload();
+                }
+              })
+
+          } 
+      },
+      error :function(xhr, status, error) {
+          alert(xhr.responseText);
+      }
+
+  });
+
+
+    }
+})
+}
+
 
 </script>
 
