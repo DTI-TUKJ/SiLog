@@ -21,4 +21,8 @@ $routes->get('/User', 'User::index');
 $routes->get('/User', 'User::index');
 $routes->get('/MyAsset', 'Myasset::index');
 $routes->post('/callDataJson', 'Myasset::dataJson');
+$routes->post('/addAsset', 'Myasset::insertAsset');
+$routes->post('/AssetDelete', 'Myasset::deleteAsset');
+
+
 

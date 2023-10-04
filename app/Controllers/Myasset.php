@@ -44,24 +44,30 @@ class Myasset extends BaseController
             foreach ($lists as $val) {
                // $no++;
                 $row = [];
-                $ur_img= base_url('').'/assets/images/item/default_room.jpg';
+                $ur_img= base_url('').'/assets/images/item/'.$val['asset_image'];
                   
 
                 $row[]='<div class="user-card">
                             <div class="user-avatar bg-dim-primary d-none d-sm-flex">
-                              <img src="'.$ur_img.'" alt="" srcset="" class="profile-img" style="object-fit: cover;">
+                              <img class="user-avatar" src="'.$ur_img.'" alt="" srcset="" class="profile-img" style="object-fit: cover;">
                             </div>
                             <div class="user-info">
-                                <span class="tb-lead">Abu Bin Ishtiyak <span class="dot dot-success d-md-none ms-1"></span></span>
+                                <span class="tb-lead">'.$val['asset_name'].'<span class="dot dot-success d-md-none ms-1"></span></span>
                                                                  
                             </div>
                         </div>';
-                $row[]='<span class="currency">USD</span>';
-                $row[]=' <span class="tb-status text-success">Active</span>';
-                $row[]=' <span>05 Oct 2019</span>';
-                $row[]=' <span class="tb-amount">35040.34 </span>';
+                $row[]='<span class="currency">'.$val['asset_type'].'</span>';
+                if($val['asset_status']=='Ready'){
+
+                  $status=' <span class="tb-status text-success">'.$val['asset_status'].'</span>';
+                }else{
+                    $status=' <span class="tb-status text-warning">'.$val['asset_status'].'</span>';
+                }
+                $row[]=$status;
+                $row[]=' <span>'.$val['amount_asset'].'</span>';
+                $row[]=' <span class="tb-amount">'.$val['type'].' </span>';
                 $row[]='<a href="#" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
-                                            <a href="#" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a>';
+                        <a class="btn btn-danger" onclick="deletedata(\''.$val['id_asset'].'\',\''.$val['asset_image'].'\')"><i class="fa-solid fa-trash"></i></a>';
                 
                 $data[] = $row;
             }
@@ -74,6 +80,94 @@ class Myasset extends BaseController
             echo json_encode($output);
  
     }
+
+    public function insertAsset()
+    {    
+    // detail =$this->request->getPost('manager');
+        // print_r($detail);
+
+    if (session()->id==null){
+            return false;
+        }
+
+    
+        $this->validation->setRules($this->MAM->rules());
+        $isDataValid = $this->validation->withRequest($this->request)->run();
+         $image = $this->request->getFile('asset_image');
+
+        if ($isDataValid) {
+            
+           
+               $directoryPath = 'assets/images/item/';
+
+               if (!is_dir($directoryPath)) {
+                        mkdir($directoryPath, 0777, true); //Create directory recursively
+                      }
+
+             if ($image->isValid() && !$image->hasMoved()) {
+            // Generate a unique name for the uploaded file
+                $newName = 'Assets_'.$this->request->getPost('asset_owner'). '_'.date('YmdHis').'.' . $image->getExtension();
+                $image->move($directoryPath, $newName);
+
+                // // Move the uploaded file to the desired location
+                // $image->move('./uploads', $newName);
+
+                } else {
+                    if ($this->request->getPost('asset_type')=='Ruangan'){
+                         $newName='default_room.jpg';
+                    }else if ($this->request->getPost('asset_type')=='Kendaraan'){
+                         $newName='car_default.jpg';
+                    }else{
+                         $newName='zoom_default.png';
+                    }
+                   
+                   
+                }
+
+            $data = array(
+                'asset_name'            => $this->request->getPost('asset_name'),
+                'description'           => $this->request->getPost('description'),
+                'asset_type'            => $this->request->getPost('asset_type'),
+                'asset_status'          => $this->request->getPost('asset_status'),
+                'id_owner'              => $this->request->getPost('asset_owner'),
+                'amount_asset'          => $this->request->getPost('asset_amount'),
+                'asset_image'        => $newName,
+                         
+            );
+            $this->MAM->createAsset($data);
+           
+            echo json_encode(array('status' => 'ok;', 'text' => ''));
+        } else {
+           $validation = $this->validation;
+            $error=$validation->getErrors();
+           
+            $dataname=$_POST;
+                  //print_r($error);
+            echo json_encode(array('status' => 'error;', 'text' => '', 'data'=>$error,'dataname'=>$dataname));
+        }
+    }
+
+   public function deleteAsset()
+    {
+
+         if (session()->id==null){
+            return false;
+        }
+        $img=$this->request->getPost('img');
+        $path_file='assets/images/item/'.$img;
+        if ($img!='car_default.jpg'||$img!='default_room.jpg'||$img!='zoom_default'){
+            if (file_exists($path_file)) {
+                    unlink($path_file);
+            }  
+        }
+
+        $id = $this->request->getPost('id_asset');
+        $this->MAM->deleteAsset($id);
+
+        echo json_encode(array('status' => 'ok;', 'text' => ''));
+
+    }
+
 
 }
 

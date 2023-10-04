@@ -82,4 +82,125 @@ class MyassetModel extends Model
 
         return $tbl_storage->countAllResults();
     }
+
+      public function rules()
+    {
+        return
+            [
+                'asset_name' =>
+                [
+                    'label'  => 'Nama Asset',
+                    'rules'  => 'required',
+                    'errors' => [
+                        'required' => ' {field} mohon diisi',
+                    ],
+                ],
+               
+                'description' =>
+                [
+                    'label'  => 'Description',
+                    'rules'  => 'required',
+                    'errors' => [
+                        'required' => ' {field} mohon diisi',
+                    ],
+                ],
+                
+                'asset_type'    =>
+                [
+                    'label'  => 'Tipe Asset',
+                    'rules'  => 'required',
+                    'errors' => [
+                        'required' => ' {field} mohon diisi',
+                    ],
+                ],
+                'asset_status'    =>
+                [
+                    'label'  => 'Status Asset',
+                    'rules'  => 'required',
+                    'errors' => [
+                        'required' => ' {field} mohon diisi',
+                    ],
+                ],
+                 'asset_owner'    =>
+                [
+                    'label'  => 'Pemilik Asset',
+                    'rules'  => 'required',
+                    'errors' => [
+                        'required' => ' {field} mohon diisi',
+                    ],
+                ],
+                 'asset_amount'    =>
+                [
+                    'label'  => 'Jumlah Asset',
+                    'rules'  => 'required',
+                    'errors' => [
+                        'required' => ' {field} mohon diisi',
+                    ],
+                ],
+                
+            ];
+    }
+
+            public function rulesEdit()
+    {
+        return
+            [
+                'nama' =>
+                [
+                    'label'  => 'Nama Pegawai',
+                    'rules'  => 'required|alpha_space',
+                    'errors' => [
+                        'required' => ' {field} mohon diisi',
+                        'alpha_space'=>'{field} tidak boleh mengandung angka dan karakter'
+                    ],
+                ],
+               
+                'wa' =>
+                [
+                    'label'  => 'Whatsapp Number',
+                    'rules'  => 'required',
+                    'errors' => [
+                        'required' => ' {field} mohon diisi',
+                    ],
+                ],
+                'email' =>
+                [
+                    'label'  => 'Email',
+                    'rules'  => 'required|valid_email',
+                    'errors' => [
+                        'required' => ' {field} mohon diisi',
+                        'valid_email'=> '{field} mohon diisi dengan email yang benar',
+                    ],
+                ],
+                'jabatan'    =>
+                [
+                    'label'  => 'Jabatan',
+                    'rules'  => 'required',
+                    'errors' => [
+                        'required' => ' {field} mohon diisi',
+                    ],
+                ],
+                'unit'    =>
+                [
+                    'label'  => 'Unit',
+                    'rules'  => 'required',
+                    'errors' => [
+                        'required' => ' {field} mohon diisi',
+                    ],
+                ],
+
+                
+            ];
+    }
+
+     public function createAsset($data)
+    {
+        $query = $this->db->table($this->table)->insert($data);
+        return $query;
+    }
+    public function deleteAsset($id)
+    {
+        $query = $this->db->table($this->table)->delete(array('id_asset' => $id));
+        return $query;
+    }
 }
