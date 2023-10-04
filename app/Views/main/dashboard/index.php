@@ -49,7 +49,7 @@
                                                  
                                                             
                                                     </div>
-                                                    <div class="col-md-4" >
+                                                    <div class="col-md-5" >
                                                  
                                                             <div class="card-title-group align-start mb-0" style="margin-top: 10px;">
                                                                 <div class="card-title">

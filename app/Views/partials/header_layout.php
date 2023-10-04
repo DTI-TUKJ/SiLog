@@ -14,6 +14,11 @@
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="<?php echo base_url('') ?>/assets/css/dashlite.css?ver=3.2.0">
     <link id="skin-red" rel="stylesheet" href="<?php echo base_url('') ?>/assets/css/skins/theme-red.css?ver=3.2.0">
+     <link rel="stylesheet" href="<?php echo base_url('') ?>/assets/extension/filepond/filepond.css">
+        <link rel="stylesheet" href="<?php echo base_url('') ?>/assets/css/filepond.css">
+        <link rel="stylesheet" href="<?php echo base_url('') ?>/assets/extension/toastify-js/src/toastify.css">
+        <link rel="stylesheet" href="<?php echo base_url('') ?>/assets/extension/filepond-plugin-image-preview/filepond-plugin-image-preview.css">
+         <link rel="stylesheet" href="<?php echo base_url('') ?>/assets/css/custom.css">
 
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
@@ -39,6 +44,57 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css"
         integrity="sha512-MQXduO8IQnJVq1qmySpN87QQkiR1bZHtorbJBD0tzy7/0U9+YIC93QWHeGTEoojMVHWWNkoCp8V6OzVSYrX0oQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+         <?php if  ($_SERVER['REQUEST_URI']=='/MyAsset') {?>
+         <style type="text/css">     
+            .dataTables_wrapper .dataTables_filter {
+                float: right;
+                position: relative;
+                right: 50px;
+            /*    right: 30px;*/
+            /*    text-align: right*/
+
+            }
+            .dataTables_wrapper .dataTables_filter  {
+                float: right;
+                position: relative;
+                right: 50px;
+            /*    right: 30px;*/
+            /*    text-align: right*/
+
+            }
+            .dataTables_wrapper .dataTables_paginate{
+              float: right;
+                position: relative;
+                right: 3px;
+                top: 5px;
+            }
+            .dataTables_wrapper .dataTables_length,
+                .dataTables_wrapper .dataTables_filter {
+                    margin-bottom: 10px;
+                }
+
+            .dataTables_wrapper .dataTables_filter input {
+                border: 1px solid #aaa;
+                border-radius: 3px;
+                padding: 5px;
+                background-color: transparent;
+                margin-left: 3px;
+
+            }
+            @media screen and (max-width: 640px) {
+
+                .dataTables_wrapper .dataTables_length,
+                .dataTables_wrapper .dataTables_filter {
+                    float: none;
+                    text-align: center
+                }
+
+                .dataTables_wrapper .dataTables_filter {
+                    margin-top: .5em
+                }
+            }
+         </style>
+     <?php  } ?>
 </head>
 
 <body class="nk-body bg-lighter no-touch nk-nio-theme ui-softy">
@@ -77,19 +133,29 @@
                                     </a>
                                     
                                 </li><!-- .nk-menu-item -->
+                                <?php if(session()->id!=null) { ?>
                                 <li class="nk-menu-item has-sub">
-                                    <a href="#" class="nk-menu-link">
+                                    <a href="<?php echo base_url('MyAsset') ?>" class="nk-menu-link">
                                         <span class="nk-menu-text">My Asset</span>
                                     </a>
                                     
                                 </li><!-- .nk-menu-item -->
+                                <?php  if (session()->type=='superadmin') {?>
                                 <li class="nk-menu-item has-sub">
                                     <a href="<?php echo base_url('User') ?>" class="nk-menu-link">
                                         <span class="nk-menu-text">Users </span>
                                     </a>
                                     
                                 </li><!-- .nk-menu-item -->
-                                <li class="nk-menu-item has-sub">
+                                 <?php }
+                              }  ?>
+                              <li class="nk-menu-item has-sub">
+                                    <a href="#>" class="nk-menu-link">
+                                        <span class="nk-menu-text">Loan History </span>
+                                    </a>
+                                    
+                                </li>
+                                <!-- <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-text">Components</span>
                                     </a>
@@ -99,10 +165,10 @@
                                                 <span class="nk-menu-text">Ui Elements</span>
                                             </a>
                                             
-                                        </li><!-- .nk-menu-item -->
+                                        </li>
                                         
-                                    </ul><!-- .nk-menu-sub -->
-                                </li><!-- .nk-menu-item -->
+                                    </ul>
+                                </li> -->
                             </ul><!-- .nk-menu -->
                         </div><!-- .nk-header-menu -->
                         <div class="nk-header-tools">

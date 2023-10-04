@@ -15,15 +15,16 @@ class Home extends BaseController
    
     }
     public function index()
-    {   $dataview=array(
+    { 
+    
+      $dataview=array(
                         "data_1"=>"content",
                         "data_2"=>array(
                                     "data_head"=>"header"
                                 )
                         );
 
-        // $tesdata=$this->TM->tesGetData();
-        // print_r($tesdata);
+
         return view('main/dashboard/index', $dataview);
     }
 }

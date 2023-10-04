@@ -1,0 +1,162 @@
+
+/*ini cutsom css*/
+.nk-menu-text-custom{
+	color: #fafafa;
+}
+
+.nk-menu-item .active-cus{
+	border-top-width: 4px;
+	border-top-style: solid;
+	border-top-color: #820000;
+	color: #820000;
+}
+
+.loader {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: inline-block;
+  border-top: 4px solid #858585;
+  border-right: 4px solid transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+.loader::after {
+  content: '';  
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border-left: 4px solid #FF3D00;
+  border-bottom: 4px solid transparent;
+  animation: rotation 0.5s linear infinite reverse;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} 
+  
+
+
+/*.loader {
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+	display: inline-block;
+	position: relative;
+	border: 3px solid;
+	border-color: #858585 #858585 transparent transparent;
+	box-sizing: border-box;
+	animation: rotation 1s linear infinite;
+	top: 13px;
+	left: 10px;
+}
+.loader::after,
+.loader::before {
+	content: '';  
+	box-sizing: border-box;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+	border: 3px solid;
+	border-color: transparent transparent #FF3D00 #FF3D00;
+	width: 27px;
+	height: 27px;
+	border-radius: 50%;
+	box-sizing: border-box;
+	animation: rotationBack 0.5s linear infinite;
+	transform-origin: center center;
+}
+.loader::before {
+	width: 18px;
+	height:18px;
+	border-color: #858585 #858585 transparent transparent;
+	animation: rotation 1.5s linear infinite;
+}*/
+
+.loader_excel {
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+	display: inline-block;
+	position: relative;
+	border: 3px solid;
+	border-color: #858585 #858585 transparent transparent;
+	box-sizing: border-box;
+	animation: rotation 1s linear infinite;
+	top: 0px;
+	left: 10px;
+}
+.loader_excel::after,
+.loader_excel::before {
+	content: '';  
+	box-sizing: border-box;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+	border: 3px solid;
+	border-color: transparent transparent #FF3D00 #FF3D00;
+	width: 27px;
+	height: 27px;
+	border-radius: 50%;
+	box-sizing: border-box;
+	animation: rotationBack 0.5s linear infinite;
+	transform-origin: center center;
+}
+.loader_excel::before {
+	width: 18px;
+	height:18px;
+	border-color: #858585 #858585 transparent transparent;
+	animation: rotation 1.5s linear infinite;
+}
+
+@keyframes rotation {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+} 
+@keyframes rotationBack {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(-360deg);
+	}
+}
+
+.dataTables_filter{
+/*	display: flex;*/
+	/*position: relative;
+     right: 0px;*/
+    
+   
+}
+
+@media (min-width: 1200px) {
+
+  .wide-lg {
+    max-width: 1500px !important;
+  }
+
+}
+
+.flatpickr-wrapper{
+	position: relative;
+	width: 100%;
+}
