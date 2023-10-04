@@ -17,7 +17,6 @@ class Home extends BaseController
     }
     public function index()
     { 
-
         return view('main/dashboard/index');
     }
 }
