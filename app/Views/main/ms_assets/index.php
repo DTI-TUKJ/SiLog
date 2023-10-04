@@ -476,12 +476,13 @@ function deletedata(id, image) {
 
 
              
-                var html =` <form id="frmEdit">
+                var html =` <form id="frmedit">
                       <div class="row g-4">
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label class="form-label" for="full-name-1">Asset Name</label>
                                 <div class="form-control-wrap">
+                                <input type="hidden" name="id_asset" value="${e.data['id_asset']}">
                                     <input type="text" class="form-control" id="full-name-1" name="asset_name" value="${e.data['asset_name']}" placeholder="Enter Name">
                                     <div id="asset_name-error-edit">
 
@@ -495,7 +496,7 @@ function deletedata(id, image) {
                                 <div class="form-control-wrap">
                                     <input type="text" class="form-control" id="email-address-1" name="description" value="${e.data['description']}" placeholder="Enter Description">
                                 </div>
-                                <div id="description-error">
+                                <div id="description-error-edit">
 
                                 </div>
                             </div>
@@ -508,7 +509,7 @@ function deletedata(id, image) {
                                        ${option}
                                     </select>
                                 </div>
-                                <div id="asset_type-error">
+                                <div id="asset_type-error-edit">
 
                                 </div>
                             </div>
@@ -523,7 +524,7 @@ function deletedata(id, image) {
 
                                     </select>
                                 </div>
-                                <div id="asset_status-error">
+                                <div id="asset_status-error-edit">
 
                                 </div>
                             </div>
@@ -537,7 +538,7 @@ function deletedata(id, image) {
                                         
                                     </select>
                                 </div>
-                                <div id="asset_owner-error">
+                                <div id="asset_owner-error-edit">
 
                                 </div>
                             </div>
@@ -548,7 +549,7 @@ function deletedata(id, image) {
                                 <div class="form-control-wrap">
                                     <input type="number" class="form-control" value="${e.data['amount_asset']}" name="asset_amount" id="WhatsApp" placeholder="Enter Amount">
                                 </div>
-                                <div id="asset_amount-error">
+                                <div id="asset_amount-error-edit">
 
                                 </div>
                             </div>
@@ -557,8 +558,12 @@ function deletedata(id, image) {
                             <div class="form-group">
                                 <label class="form-label" for="pay-amount-1">Asset Image (Optional)</label>
                                 <div class="form-control-wrap">
+                                 <input type="hidden" name="oldassetimg" value="${e.data['asset_image']}">
                                      <input type="file" class="FilePond-signature-edit-asset" accept="image/*">
-                                    <div id="asset_image-error">
+                                    <div id="asset_image-error-edit">
+
+                                    </div>
+                                    <div id="oldassetimg-error-edit">
 
                                     </div>
                                   
@@ -664,6 +669,75 @@ function deletedata(id, image) {
            
              $("#modaledit").modal('show');
           }
+      },
+      error :function(xhr, status, error) {
+       alert(xhr.responseText);
+    }
+
+ });
+}
+
+function editAsset()
+    {
+        var form_data = new FormData($('#frmedit')[0]);
+
+       $.ajax({
+         url:"<?php echo base_url('assetEdit') ?>",
+         global:false,
+         async:true,
+         type:'post',
+        processData: false,
+         contentType: false,
+         dataType:'json',
+         enctype: "multipart/form-data",
+         data: form_data,
+         beforeSend: function () {
+                    $('#buttonedit').hide()
+                    $('#loaderedit').show()
+                  },
+         success : function(e) {
+           if(e.status == 'ok;') 
+           {
+            $('#buttonedit').show()
+            $('#loaderedit').hide()
+             let timerInterval
+              Swal.fire({
+                icon: 'success',
+                title: ' Data has been Updated',
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+                didOpen: () => {
+                  timerInterval = setInterval(() => {
+
+                  }, 100)
+                },
+                willClose: () => {
+                  clearInterval(timerInterval)
+                }
+              }).then((result) => {
+                /* Read more about handling dismissals below */
+                if (result.dismiss === Swal.DismissReason.timer) {
+                  location.reload();
+                }
+              })
+          } 
+          else{ 
+             $('#buttonedit').show()
+            $('#loaderedit').hide()
+            var msgeror='';
+             $.each(e.dataname, function(key, value) {
+                document.getElementById(key+"-error-edit").innerHTML ="";
+              });
+
+            $.each(e.data, function(key, value) {
+             document.getElementById(key+"-error-edit").innerHTML = `<span class="badge badge-dim bg-danger">`+value+`
+                                                                </span>`;
+          });
+            $('#buttonedit').show()
+            $('#loaderedit').hide()
+            $("#modaledit").modal('show');
+         }
       },
       error :function(xhr, status, error) {
        alert(xhr.responseText);

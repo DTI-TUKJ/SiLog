@@ -140,54 +140,60 @@ class MyassetModel extends Model
             ];
     }
 
-            public function rulesEdit()
+    public function rulesEdit()
     {
         return
             [
-                'nama' =>
+                'asset_name' =>
                 [
-                    'label'  => 'Nama Pegawai',
-                    'rules'  => 'required|alpha_space',
+                    'label'  => 'Nama Asset',
+                    'rules'  => 'required',
                     'errors' => [
                         'required' => ' {field} mohon diisi',
-                        'alpha_space'=>'{field} tidak boleh mengandung angka dan karakter'
                     ],
                 ],
                
-                'wa' =>
+                'description' =>
                 [
-                    'label'  => 'Whatsapp Number',
+                    'label'  => 'Description',
                     'rules'  => 'required',
                     'errors' => [
                         'required' => ' {field} mohon diisi',
                     ],
                 ],
-                'email' =>
+                
+                'asset_type'    =>
                 [
-                    'label'  => 'Email',
-                    'rules'  => 'required|valid_email',
-                    'errors' => [
-                        'required' => ' {field} mohon diisi',
-                        'valid_email'=> '{field} mohon diisi dengan email yang benar',
-                    ],
-                ],
-                'jabatan'    =>
-                [
-                    'label'  => 'Jabatan',
+                    'label'  => 'Tipe Asset',
                     'rules'  => 'required',
                     'errors' => [
                         'required' => ' {field} mohon diisi',
                     ],
                 ],
-                'unit'    =>
+                'asset_status'    =>
                 [
-                    'label'  => 'Unit',
+                    'label'  => 'Status Asset',
                     'rules'  => 'required',
                     'errors' => [
                         'required' => ' {field} mohon diisi',
                     ],
                 ],
-
+                 'asset_owner'    =>
+                [
+                    'label'  => 'Pemilik Asset',
+                    'rules'  => 'required',
+                    'errors' => [
+                        'required' => ' {field} mohon diisi',
+                    ],
+                ],
+                 'asset_amount'    =>
+                [
+                    'label'  => 'Jumlah Asset',
+                    'rules'  => 'required',
+                    'errors' => [
+                        'required' => ' {field} mohon diisi',
+                    ],
+                ],
                 
             ];
     }
@@ -205,5 +211,10 @@ class MyassetModel extends Model
     public function getById($id_asset)
     {
         return $this->where(['id_asset' => $id_asset])->first();
+    }
+     public function updateAsset($data, $id)
+    {
+        $query = $this->db->table($this->table)->update($data, array('id_asset' => $id));
+        return $query;
     }
 }

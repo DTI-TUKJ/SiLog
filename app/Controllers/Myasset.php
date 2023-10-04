@@ -155,7 +155,7 @@ class Myasset extends BaseController
         }
         $img=$this->request->getPost('img');
         $path_file='assets/images/item/'.$img;
-        if ($img!='car_default.jpg'||$img!='default_room.jpg'||$img!='zoom_default'){
+        if ($img!='car_default.jpg'&&$img!='default_room.jpg'&&$img!='zoom_default.png'){
             if (file_exists($path_file)) {
                     unlink($path_file);
             }  
@@ -182,6 +182,108 @@ class Myasset extends BaseController
       //dd($datajbt);
        echo json_encode(array('status' => 'ok;', 'data'=>$datajbt, 'imgsize'=> $imgsize));
     }
+
+    public function editAsset()
+    {
+    
+    // $detail =$this->request->getPost('manager');
+    //     print_r($detail);
+    // if (!isset($detail)) {
+    //     echo "ada isi";
+    // }
+     if (session()->id==null){
+            return false;
+        }
+
+        $this->validation->setRules($this->MAM->rulesEdit());
+       $isDataValid = $this->validation->withRequest($this->request)->run();
+
+       $id=$this->request->getPost('id_asset');
+
+       if ($isDataValid) {
+        $data = array(
+                'asset_name'            => $this->request->getPost('asset_name'),
+                'description'           => $this->request->getPost('description'),
+                'asset_type'            => $this->request->getPost('asset_type'),
+                'asset_status'          => $this->request->getPost('asset_status'),
+                'id_owner'              => $this->request->getPost('asset_owner'),
+                'amount_asset'          => $this->request->getPost('asset_amount'),
+
+           
+        );
+        
+        $this->MAM->updateAsset($data, $id);
+     
+
+        $image = $this->request->getFile('asset_image');
+        $oldimage = $this->request->getPost('asset_image');
+        $old_img=$this->request->getPost('oldassetimg');
+             // if ($image->isValid()){
+             //    echo "valid";
+             // }else{
+             //    echo "gavalid";
+             // }
+
+         if (!isset($oldimage)) {
+               
+                   $directoryPath = 'assets/images/item/';
+
+                   if (!is_dir($directoryPath)) {
+                            mkdir($directoryPath, 0777, true); //Create directory recursively
+                          }
+
+                 if ($image->isValid() && !$image->hasMoved()) {
+             
+                    $newName = 'Assets_'.$this->request->getPost('asset_owner'). '_'.date('YmdHis').'.' . $image->getExtension();
+                     $path_oldimg = 'assets/images/item/'.$old_img;
+                     if ( $old_img!='car_default.jpg'&&$old_img!='default_room.jpg'&&$old_img!='zoom_default.png'){
+                        unlink($path_oldimg);
+                     }
+                    $image->move($directoryPath, $newName);
+                     $data = array(
+                        'asset_image' => $newName,
+                    );
+                    // // Move the uploaded file to the desired location
+                     //$image->move($directoryPath, $newName);
+                    
+                     $this->MAM->updateAsset($data, $id);
+                      //session()->set($data);
+                   
+                    }else{
+                        $path_oldimg = 'assets/images/item/'.$old_img;
+                         if ( $old_img!='car_default.jpg'&&$old_img!='default_room.jpg'&&$old_img!='zoom_default.png'){
+                            unlink($path_oldimg);
+                         }
+                         
+                         if ($this->request->getPost('asset_type')=='Ruangan'){
+                                $newName='default_room.jpg';
+                            }else if ($this->request->getPost('asset_type')=='Kendaraan'){
+                                 $newName='car_default.jpg';
+                            }else{
+                                 $newName='zoom_default.png';
+                            }
+
+                        $data = array(
+                            'asset_image' => $newName,
+                        );
+                        // // Move the uploaded file to the desired location
+                         //$image->move($directoryPath, $newName);
+                        
+                         $this->MAM->updateAsset($data, $id);
+                    } 
+               
+            }
+
+        echo json_encode(array('status' => 'ok;', 'text' => ''));
+        } else {
+            $validation = $this->validation;
+            $error=$validation->getErrors();
+            $dataname=$_POST;
+                  //print_r($error);
+            echo json_encode(array('status' => 'error;', 'text' => '', 'data'=>$error,'dataname'=>$dataname));
+        }
+    
+     }
 
 
 
