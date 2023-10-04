@@ -65,8 +65,8 @@ class Myasset extends BaseController
                 }
                 $row[]=$status;
                 $row[]=' <span>'.$val['amount_asset'].'</span>';
-                $row[]=' <span class="tb-amount">'.$val['type'].' </span>';
-                $row[]='<a href="#" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
+                $row[]=' <span class="tb-amount">'.$val['id_owner'].' </span>';
+                $row[]='<a class="btn btn-secondary" onclick="popupedit(\''.$val['id_asset'].'\')"><i class="fa-solid fa-pen-to-square"></i></a>
                         <a class="btn btn-danger" onclick="deletedata(\''.$val['id_asset'].'\',\''.$val['asset_image'].'\')"><i class="fa-solid fa-trash"></i></a>';
                 
                 $data[] = $row;
@@ -167,6 +167,23 @@ class Myasset extends BaseController
         echo json_encode(array('status' => 'ok;', 'text' => ''));
 
     }
+
+     public function modalEdit()
+    {
+        if (session()->id==null){
+            return false;
+        }
+
+      $id=$this->request->getPost('id');
+      $datajbt=$this->MAM->getById($id);
+      
+      $imgsize=filesize('assets/images/item/'.$datajbt['asset_image']);
+            // print_r($dataatasan); 
+      //dd($datajbt);
+       echo json_encode(array('status' => 'ok;', 'data'=>$datajbt, 'imgsize'=> $imgsize));
+    }
+
+
 
 
 }

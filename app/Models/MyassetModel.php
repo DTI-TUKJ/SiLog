@@ -9,7 +9,7 @@ class MyassetModel extends Model
 {
     protected $table = "ms_assets";
     protected $column_order = array(null,null,null, null, null,null);
-    protected $column_search = array('asset_name', 'type');
+    protected $column_search = array('asset_name', 'id_owner');
     protected $order = array('' => '');
     protected $request;
     protected $db;
@@ -54,11 +54,10 @@ class MyassetModel extends Model
             $this->dt->limit($this->request->getPost('length'), $this->request->getPost('start'));
         }
     
-            $this->dt->join('user', $this->table.'.id_owner=user.id');
             if(session()->type!='superadmin'){      
-             $this->dt->where('id_owner', session()->id);
+             $this->dt->where('id_owner', session()->type);
             }
-            $this->dt->orderBy('asset_name', 'DESC');
+            $this->dt->orderBy('asset_name', 'ASC');
        
         $query = $this->dt->get();
       
@@ -68,11 +67,11 @@ class MyassetModel extends Model
     public function count_filtered()
     {
         $this->_get_datatables_query();
-         $this->dt->join('user', $this->table.'.id_owner=user.id');
+        
             if(session()->type!='superadmin'){      
-             $this->dt->where('id_owner', session()->id);
+             $this->dt->where('id_owner', session()->type);
             }
-            $this->dt->orderBy('asset_name', 'DESC');
+            $this->dt->orderBy('asset_name', 'ASC');
 
         return $this->dt->countAllResults();
     }
@@ -202,5 +201,9 @@ class MyassetModel extends Model
     {
         $query = $this->db->table($this->table)->delete(array('id_asset' => $id));
         return $query;
+    }
+    public function getById($id_asset)
+    {
+        return $this->where(['id_asset' => $id_asset])->first();
     }
 }

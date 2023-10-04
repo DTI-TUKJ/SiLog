@@ -83,8 +83,6 @@
             </div>
             <div class="modal-body">
 
-              
-
                     <form id="frmtambah">
                       <div class="row g-4">
                         <div class="col-lg-6">
@@ -148,18 +146,13 @@
                                      <select class="form-select" id="asset_owner" name="asset_owner" <?= session()->type != 'superadmin'? 'readonly':'' ?>>
                                         <?php if (session()->type=='superadmin') {?>
 
-                                            <option value="">-Pilih Type-</option>
-                                             <?php foreach ($data_owner as  $val) { 
-                                                if ($val['type']!='superadmin') {
-                                                    ?>
-                                               
-
-                                             <option value="<?php echo $val['id'] ?>"><?php echo $val['type'] ?></option>
-                                                <?php  }
-                                                } 
-                                            }else{
+                                            <option value="">-Pilih Owner-</option>
+                                            <option value="admin purel">Admin Purel</option>
+                                            <option value="admin logistik">Admin Logistik</option>
+                                             
+                                            <?php  }else{
                                                 ?>
-                                                <option value="<?php echo session()->id ?>"><?php echo session()->type ?></option>
+                                                <option value="<?php echo session()->type ?>"><?php echo session()->type ?></option>
                                             <?php } ?>
                                         
                                     </select>
@@ -213,6 +206,24 @@
 </div>
 </div>
 
+<div class="modal fade " tabindex="-1" id="modaledit">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <em class="icon ni ni-cross"></em>
+            </a>
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Asset</h5>
+            </div>
+            <div class="modal-body" id="mainedit">
+
+                
+       
+        </div>  
+      
+    </div>
+</div>
+</div>
 <script type="text/javascript">
      function calldata() {
         $('#example').DataTable({
@@ -413,6 +424,252 @@ function deletedata(id, image) {
 
     }
 })
+}
+
+   function popupedit(id)
+    {
+
+       $.ajax({
+         url:"<?php echo base_url('modalEditAsset') ?>",
+         global:false,
+         async:true,
+         type:'post',
+         dataType:'json',
+         data:({
+                id : id,
+                }),
+         success : function(e) {
+           if(e.status == 'ok;') 
+           {
+
+             var option='';
+             var option2='';
+             var option3='';
+            
+
+
+
+            
+                option = `
+                    <option value="Ruangan" ${e.data['asset_type']=='Ruangan'?'selected':''}>Ruangan</option>
+                    <option value="Kendaraan" ${e.data['asset_type']=='Kendaraan'?'selected':''}>Kendaraan</option>
+                    <option value="Zoom" ${e.data['asset_type']=='Zoom'?'selected':''}>Zoom</option>
+                `;
+
+                 option2 = `
+                    <option value="Ready" ${e.data['asset_status']=='Ready'?'selected':''}>Ready</option>
+                    <option value="Maintenance" ${e.data['asset_status']=='Maintenance'?'selected':''}>Maintenance</option>
+                `;
+
+                var session='<?php echo session()->type ?>';
+                if (session=='superadmin'){
+                   option3 = `
+                    <option value="admin purel" ${e.data['id_owner']=='admin purel'? 'selected':''}>Admin Purel</option>
+                     <option value="admin logistik" ${e.data['id_owner']=='admin logistik'? 'selected':''}>Admin Logistik</option>
+                `; 
+                }else{
+                     option3 = `
+                    <option value="${session}" >${session}</option>
+                     
+                    `; 
+                }
+
+
+             
+                var html =` <form id="frmEdit">
+                      <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="full-name-1">Asset Name</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" id="full-name-1" name="asset_name" value="${e.data['asset_name']}" placeholder="Enter Name">
+                                    <div id="asset_name-error-edit">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="email-address-1">Description</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" id="email-address-1" name="description" value="${e.data['description']}" placeholder="Enter Description">
+                                </div>
+                                <div id="description-error">
+
+                                </div>
+                            </div>
+                        </div>
+                         <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="asset_type_select">Asset Type</label>
+                                <div class="form-control-wrap">
+                                     <select class="form-select" id="asset_type_select_edit" name="asset_type" onchange="">
+                                       ${option}
+                                    </select>
+                                </div>
+                                <div id="asset_type-error">
+
+                                </div>
+                            </div>
+                        </div>
+                         
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="asset_status">Asset Status</label>
+                                <div class="form-control-wrap">
+                                     <select class="form-select" id="asset_status_edit" name="asset_status" onchange="">
+                                         ${option2}
+
+                                    </select>
+                                </div>
+                                <div id="asset_status-error">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="asset_owner">Asset Owner</label>
+                                <div class="form-control-wrap">
+                                     <select class="form-select" id="asset_owner_edit" name="asset_owner">
+                                       ${option3}
+                                        
+                                    </select>
+                                </div>
+                                <div id="asset_owner-error">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="WhatsApp">Asset Amount</label>
+                                <div class="form-control-wrap">
+                                    <input type="number" class="form-control" value="${e.data['amount_asset']}" name="asset_amount" id="WhatsApp" placeholder="Enter Amount">
+                                </div>
+                                <div id="asset_amount-error">
+
+                                </div>
+                            </div>
+                        </div>
+                        
+                            <div class="form-group">
+                                <label class="form-label" for="pay-amount-1">Asset Image (Optional)</label>
+                                <div class="form-control-wrap">
+                                     <input type="file" class="FilePond-signature-edit-asset" accept="image/*">
+                                    <div id="asset_image-error">
+
+                                    </div>
+                                  
+                                </div>
+                               
+                            </div>
+                       
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-lg btn-primary" id="buttonedit" onclick="editAsset()">Save</button>
+                                <span class="loader" id="loaderedit" style="display: none;"></span>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                        `;
+                $('#mainedit').html(html);
+                
+                 $("#asset_type_select_edit").select2({
+                    dropdownParent: $("#modaledit"),
+                    minimumResultsForSearch: -1
+                  });
+                   $("#asset_status_edit").select2({
+                    dropdownParent: $("#modaledit"),
+                    minimumResultsForSearch: -1
+                  });
+                   $("#asset_owner_edit").select2({
+                    dropdownParent: $("#modaledit"),
+                    // minimumResultsForSearch: -1
+                  });
+                
+                const base_url='<?php echo base_url('') ?>'
+                signatureroot=base_url+'/assets/images/item/'+e.data['asset_image']
+          
+              
+                // console.log(ipadress)
+             
+                //var docroot =
+                var asset_img=e.data['asset_image']
+                var size =  e.imgsize
+                var signaturepath=''
+                if (asset_img!='car_default.jpg'&&asset_img!='zoom_default.png'&&asset_img!='default_room.jpg'){
+                    signaturepath=[{
+                        source:signatureroot,
+                        options:{
+                            type:'local',
+                            file:{
+                                name:asset_img,
+                                 size:size
+                            }
+                        }
+                    }]
+                }
+
+               console.log(signaturepath)
+
+
+            FilePond.registerPlugin(FilePondPluginFileValidateType);
+             FilePond.registerPlugin(FilePondPluginImagePreview);
+              FilePond.registerPlugin(FilePondPluginFileValidateSize);
+             FilePond.create(document.querySelector(".FilePond-signature-edit-asset"), {
+                  credits: null,
+                  allowImagePreview: true,
+                  allowMultiple: false,
+                  allowFileEncode: false,
+                  required: true,
+                  // allowRemove:false,
+                  name: 'asset_image',
+                  storeAsFile:true,
+                  labelIdle:  'Upload Image (jpg,png,jpeg)',
+                  acceptedFileTypes: ["image/png", "image/jpg", "image/jpeg"],
+                  fileValidateTypeDetectType: (source, type) =>
+                    new Promise((resolve, reject) => {
+                      // Do custom type detection here and return with promise
+                      resolve(type);
+                    }),
+                   files:signaturepath,
+                   server: {
+                    load: (source, load, error, progress, abort, headers) => {
+                   
+                        error('oh my goodness');
+
+                    
+                        progress(true, 0, 1024);
+                        var file='<?php echo base_url('assets/images/item/')  ?>';
+                    
+                        load(file);
+
+                        return {
+                            abort: () => {
+                          
+                                abort();
+                            },
+                        };
+                    },
+                },
+                  
+                });
+                  
+
+           
+             $("#modaledit").modal('show');
+          }
+      },
+      error :function(xhr, status, error) {
+       alert(xhr.responseText);
+    }
+
+ });
 }
 
 
