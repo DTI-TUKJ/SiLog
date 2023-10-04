@@ -19,6 +19,9 @@ class Admin extends BaseController
     }
     public function index()
     {   
+        if (session()->id!=null){
+            return redirect()->to(base_url(''));
+        }
         if (!isset($_POST['simpan'])) {
             $data = [
                 'titletab' => 'Mitra',
