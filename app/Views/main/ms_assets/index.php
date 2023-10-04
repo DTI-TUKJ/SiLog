@@ -41,7 +41,7 @@
                                                             </div>
                                                         </th> -->
                                                         <th class="nk-tb-col"><span class="sub-text">Asset Name</span></th>
-                                                       
+                                                       <th class="nk-tb-col"><span class="sub-text">Description</span></th>
                                                         <th class="nk-tb-col"><span class="sub-text">Asset Type</span></th>
                                                         <th class="nk-tb-col"><span class="sub-text">Status</span></th>
                                                         <th class="nk-tb-col"><span class="sub-text">Asset Amount</span></th>

@@ -56,6 +56,7 @@ class Myasset extends BaseController
                                                                  
                             </div>
                         </div>';
+                        $row[]='<span class="currency">'.$val['description'].'</span>';
                 $row[]='<span class="currency">'.$val['asset_type'].'</span>';
                 if($val['asset_status']=='Ready'){
 
@@ -254,7 +255,7 @@ class Myasset extends BaseController
                          if ( $old_img!='car_default.jpg'&&$old_img!='default_room.jpg'&&$old_img!='zoom_default.png'){
                             unlink($path_oldimg);
                          }
-                         
+
                          if ($this->request->getPost('asset_type')=='Ruangan'){
                                 $newName='default_room.jpg';
                             }else if ($this->request->getPost('asset_type')=='Kendaraan'){
