@@ -5,7 +5,7 @@
  <div class="nk-footer bg-white">
                 <div class="container-fluid">
                     <div class="nk-footer-wrap">
-                        <div class="nk-footer-copyright"> &copy; 2023 SiLog. Template by <a href="https://softnio.com" target="_blank">DTI</a>
+                        <div class="nk-footer-copyright"> &copy; 2023 SiLog. Template by <a href="<?php echo base_url('') ?>" target="_blank">DTI</a>
                         </div>
                     
                     </div>

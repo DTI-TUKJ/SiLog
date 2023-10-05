@@ -25,6 +25,7 @@ $routes->post('/addAsset', 'Myasset::insertAsset');
 $routes->post('/AssetDelete', 'Myasset::deleteAsset');
 $routes->post('/modalEditAsset', 'Myasset::modalEdit');
 $routes->post('/assetEdit', 'Myasset::editAsset');
+$routes->post('/showAsset', 'Myasset::show_asset');
 
 
 

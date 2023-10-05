@@ -217,4 +217,29 @@ class MyassetModel extends Model
         $query = $this->db->table($this->table)->update($data, array('id_asset' => $id));
         return $query;
     }
+     public function GetShowAssetCat($param,$paramByName)
+    {  
+            if($param=='All'){
+                $builder = $this->db->table($this->table);
+                $builder->select('*');
+                if (isset($paramByName)){
+                   $builder->like('asset_name', $paramByName); 
+                }
+                $query = $builder->get();
+                return $query->getResultArray();
+            }else{
+                $builder = $this->db->table($this->table);
+                $builder->where('asset_type', $param);
+                if (isset($paramByName)){
+                   $builder->like('asset_name',$paramByName); 
+                }
+                $query = $builder->get();
+                return $query->getResultArray();
+            }
+
+        
+        
+    }
+
+    
 }
