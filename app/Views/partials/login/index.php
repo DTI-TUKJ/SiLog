@@ -19,7 +19,7 @@
 
     <style>
         .bg-login {
-            background-image: url("<?php echo base_url('') ?>/assets/images/bg/bg_silog.jpg");
+            background-image: url("<?php echo base_url('') ?>/assets/images/bg/Gedung Kampus TUKJ.png");
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;

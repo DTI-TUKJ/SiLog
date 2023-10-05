@@ -225,6 +225,7 @@ class MyassetModel extends Model
                 if (isset($paramByName)){
                    $builder->like('asset_name', $paramByName); 
                 }
+                $builder->orderBy('id_asset','DESC');
                 $query = $builder->get();
                 return $query->getResultArray();
             }else{
@@ -233,6 +234,7 @@ class MyassetModel extends Model
                 if (isset($paramByName)){
                    $builder->like('asset_name',$paramByName); 
                 }
+                $builder->orderBy('id_asset','DESC');
                 $query = $builder->get();
                 return $query->getResultArray();
             }

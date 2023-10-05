@@ -382,7 +382,7 @@
                 function produk_pagination_available() {
                 $(function () {
                             var numberOfitem=$('.kontenproduk .subkonten ').length;
-                            var limitPerpage=3;
+                            var limitPerpage=6;
                             var totalPages=Math.ceil(numberOfitem/limitPerpage);
                             var paginationSize=5;
                             var currentPage;
