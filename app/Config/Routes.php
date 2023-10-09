@@ -13,7 +13,7 @@ $routes->setAutoRoute(true);
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
-//$routes->get('/Home', 'Home::index');
+
 $routes->post('/AdminSignin', 'Admin::index');
 $routes->get('/AdminSignin', 'Admin::index');
 $routes->get('/Logout', 'Admin::Logout');
@@ -26,6 +26,13 @@ $routes->post('/AssetDelete', 'Myasset::deleteAsset');
 $routes->post('/modalEditAsset', 'Myasset::modalEdit');
 $routes->post('/assetEdit', 'Myasset::editAsset');
 $routes->post('/showAsset', 'Myasset::show_asset');
+
+$routes->get('/DataLoan', 'Loan::index');
+$routes->post('/dataJsonLoan', 'Loan::dataJson');
+$routes->post('/checkSchedule', 'Loan::ScheduleCheck');
+$routes->post('/addLoan', 'Loan::addLoan');
+$routes->post('/loanDelete', 'Loan::deleteLoan');
+
 
 
 

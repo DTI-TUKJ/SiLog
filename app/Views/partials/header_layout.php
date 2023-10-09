@@ -44,7 +44,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css"
         integrity="sha512-MQXduO8IQnJVq1qmySpN87QQkiR1bZHtorbJBD0tzy7/0U9+YIC93QWHeGTEoojMVHWWNkoCp8V6OzVSYrX0oQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-         <?php if  ($_SERVER['REQUEST_URI']=='/MyAsset') {?>
+         <?php if  ($_SERVER['REQUEST_URI']!='/User') {?>
          <style type="text/css">     
             .dataTables_wrapper .dataTables_filter {
                 float: right;
@@ -137,6 +137,12 @@
                                 <li class="nk-menu-item has-sub">
                                     <a href="<?php echo base_url('MyAsset') ?>" class="nk-menu-link">
                                         <span class="nk-menu-text">My Asset</span>
+                                    </a>
+                                    
+                                </li>
+                                 <li class="nk-menu-item has-sub">
+                                    <a href="<?php echo base_url('DataLoan') ?>" class="nk-menu-link">
+                                        <span class="nk-menu-text">Loan</span>
                                     </a>
                                     
                                 </li><!-- .nk-menu-item -->

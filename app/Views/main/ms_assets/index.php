@@ -51,6 +51,8 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+
+                                                    
                                                       <!--  <td class="nk-tb-col nk-tb-col-check">
                                                             <div class="custom-control custom-control-sm custom-checkbox notext">
                                                                 <input type="checkbox" class="custom-control-input" id="uid1">
@@ -63,7 +65,11 @@
                                                             </ul> -->
                                                    
                                                 </tbody>
+
                                             </table>
+                                          <!--   <div class="row g-gs" id="loader_container" style="justify-content: center;">
+                                                        <span class="loader_front" id="loader_front" style="margin-top:5%;"></span>
+                                            </div> -->
                                         </div>
                                     </div>
             </div>
@@ -226,9 +232,10 @@
 </div>
 <script type="text/javascript">
      function calldata() {
+         
         $('#example').DataTable({
         scrollX:true,
-        "processing":false,
+        "processing":true,
         "serverSide":true,
         "order":false,
         "lengthMenu": [30, 60, 90, 120], 
@@ -236,6 +243,10 @@
         "ajax" : {
             url : '<?php echo base_url('callDataJson') ?>',
             type: "POST",
+            // success : function(e) {
+            //         // $('#loader_front').hide()
+            //         // $('#loader_container').hide()
+            // },
             // data : function(data){
             //     // data.periode =document.getElementById('bulan').value;
             // }
@@ -245,8 +256,14 @@
             "targets":'_all',
             "orderable":false,
             // render: $.fn.dataTable.render.html()
-        }]
+        }],
+        "language": 
+        {          
+        "processing": "<span class=\"loader_front\"></span>",
+        }
      });
+
+        
     }
 
      function reloadtable() {

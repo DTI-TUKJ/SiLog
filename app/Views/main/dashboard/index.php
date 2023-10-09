@@ -8,7 +8,7 @@
                             <div class="nk-block-head nk-block-head-sm">
                                 <div class="nk-block-between">
                                     <div class="nk-block-head-content">
-                                        <h3 class="nk-block-title page-title">Asset in Use</h3>
+                                        <h3 class="nk-block-title page-title">Asset Status</h3>
                                         <div class="nk-block-des text-soft">
                                             <p>Hubung admin untuk info asset</p>
                                         </div> 
@@ -133,9 +133,13 @@
                                 </div>
                             </div><!-- .nk-block-head -->
                             <div class="nk-block">
+                                <div class="row g-gs" id="loader_container" style="justify-content: center;">
+                                    <span class="loader_front" id="loader_front" style="margin-top:5%;display: none;"></span>
+                                </div>
                                 <div class="row g-gs kontenproduk"  id="kontenproduk" style="justify-content: center;">
                               
-                                   
+                                    <!-- <span class="loader_front" id="loader_front" style="margin-top:5%;display: none;"></span> -->
+                                 
                                 </div>
                                 <nav class="mt-4 pagination-wrap" id="pagination-wrap">
                                   
@@ -157,12 +161,18 @@
 
                  $('#s_cat_available').on('change', function() {
                       var paramName = document.getElementById('search_available').value;
+                      $('#loader_container').show()
+                       document.getElementById("kontenproduk").innerHTML = "";
+                        document.getElementById("pagination-wrap").innerHTML = "";
                       showproduk(this.value, 'onchange',paramName )
                 });
          const source = document.getElementById('search_available');
 
 
           const inputHandler = function(e) {
+                        $('#loader_container').show()
+                       document.getElementById("kontenproduk").innerHTML = "";
+                        document.getElementById("pagination-wrap").innerHTML = "";
               //showproduk(e.target.value);
                         var type=document.getElementById('s_cat_available').value;
                         // console.log(type)
@@ -177,9 +187,15 @@
                                search : type,
 
                               }),
+                              beforeSend: function () {
+                                    $('#loader_front').show()
+                                   // $('.subkonten').hide()
+                              },
                               success : function(e) {
                                   var html ='';
-
+                                    $('#loader_front').hide()
+                                    $('#loader_container').hide()
+                                    // $('.subkonten').show()
                                     if (e.data.length!=0){
                                     $.each(e.data, function(key, value) {
                                       // console.log(`ini${value.amount_asset}`)
@@ -283,9 +299,15 @@
                      search : search,
                      searchByName:paramName
                     }),
+                     beforeSend: function () {
+                                    
+                                    $('#loader_front').show()
+                                    
+                              },
                     success : function(e) {
                         var html ='';
-
+                             $('#loader_front').hide()
+                             $('#loader_container').hide()
                          if (e.data.length!=0){
                           $.each(e.data, function(key, value) {
                             // console.log(`ini${value.amount_asset}`)
@@ -297,7 +319,7 @@
                              //  var disabled ='disabled';
                              // }
                              html +=`
-                                        <div class="col-md-4 subkonten" style="cursor: pointer;">
+                                        <div class="col-md-4 subkonten" id="subkonten">
                                                 <div class="card card-bordered card-full">
                                                     <div class="card-inner">
                                                         <div class="row g-gs">
@@ -320,22 +342,8 @@
                                                                         </span>
                                                                         
                                                                     </div>
-                                                                    <div class="invest-data">
-                                                                        <div class="invest-data-amount g-2">
-                                                                            <div class="invest-data-history">
-                                                                                <div class="title">Asset Owner</div>
-                                                                                <div class="amount">${value.id_owner}</div>
-                                                                            </div>
-                                                                            <div class="invest-data-history">
-                                                                                <div class="title">Available Unit</div>
-                                                                                <div class="amount">${value.amount_asset}</span></div>
-                                                                            </div>
-
-                                                                        </div>
-
-                                                                      
-                                                                    </div> 
-                                                                    <div class="invest-data mt-1">
+                                                                    
+                                                                    <div class="invest-data ">
                                                                         <div class="invest-data-amount g-2">
                                                                             <div class="invest-data-history">
                                                                                 <div class="title">Description</div>
@@ -345,6 +353,24 @@
                                                                         </div>
                                                                       
                                                                     </div>   
+                                                                    
+                                                                     <div class="invest-data mt-1">
+                                                                        <div class="invest-data-amount g-2">
+                                                                            
+                                                                            <div class="invest-data-history">
+                                                                                <div class="title">Available Unit</div>
+                                                                                <div class="amount">${value.amount_asset}</span></div>
+                                                                            </div>
+                                                                            <div class="invest-data-history" >
+                                                                                
+                                                                                <div class="amount mt-3" style="margin-left:15%">
+                                                                                <a href="#" class="btn btn-round btn-sm btn-info">Check Schedule</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                      
+                                                                    </div>
                                                             </div>
                                                         </div>
                                                        

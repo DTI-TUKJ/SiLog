@@ -243,5 +243,15 @@ class MyassetModel extends Model
         
     }
 
+    public function getAssetByOwner(){
+        $builder = $this->db->table($this->table);
+        if (session()->type!='superadmin'){
+
+        $builder->where('id_owner', session()->type);
+        }
+        $query = $builder->get();
+        return $query->getResultArray();
+    }
+
     
 }
