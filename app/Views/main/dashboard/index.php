@@ -38,60 +38,11 @@
                                 </div>
                             </div><!-- .nk-block-head -->
                             <div class="nk-block">
+                                <div class="row g-gs" id="loader_container_status" style="justify-content: center;">
+                                    <span class="loader_front" id="loader_front_status" style="margin-top:5%;display: none;"></span>
+                                </div>
                                 <div class="row g-gs kontenproduk_loan"  id="kontenproduk_loan" style="justify-content: center;">
-                                    <div class="col-md-4 subkonten_loan">
-                                         <div class="card card-bordered card-full">
-                                            <div class="card-inner" style="justify-content:center;display: flex;">
-                                                <span>There's no asset in Use</span>
-                                               
-                                            </div>
-                                        </div><!-- .card -->
-                                    </div><!-- .col -->
-                                <?php for ($i=0; $i <6 ; $i++) { 
-                                        // code...
-                                ?>
-                                <!--     <div class="col-md-4 subkonten_loan">
-                                         <div class="card card-bordered card-full">
-                                            <div class="card-inner">
-                                                <div class="row g-gs">
-                                                    <div class="col-md-3">
-                                                      <div class="image-item ">
-                                                          <img class="image-content" src="<?php// echo base_url('').'/assets/images/item/example.jpg' ?>" alt="" srcset="" class="profile-img" style="width: 110px;height: 100px;object-fit: cover;margin: 0 auto;">
-                                                          </div>
-                                                    </div>
-                                                    <div class="col-md-9" >
-                                                 
-                                                            <div class="card-title-group align-start mb-0" style="margin-top: 5px;">
-                                                                <div class="card-title">
-                                                                    <h6 class="subtitle">Asset Name <?php //echo $i ?></h6>
-                                                                </div>
-                                                              
-                                                            </div>
-                                                            <div class="card-amount">
-                                                                <span class="amount" style="font-size:20px">Mobil Avanza
-                                                                </span>
-                                                                
-                                                            </div>
-                                                          
-                                                            <div class="invest-data mt-1">
-                                                                <div class="invest-data-amount g-2">
-                                                                    
-                                                                    <div class="invest-data-history">
-                                                                        <div class="title">Status</div>
-                                                                        <div class="amount">In Use until <b> 4.00 PM  </b> </div>
-                                                                    </div>
-
-                                                                </div>
-                                                                
-                                                              
-                                                            </div>   
-                                                    </div>
-                                                </div>
-                                               
-                                            </div>
-                                        </div>
-                                    </div> -->
-                               <?php } ?>
+                              
                                   
                                 </div>
                                  <nav class="mt-4 pagination-wrap_loan" id="pagination-wrap_loan">
@@ -150,13 +101,43 @@
                 </div>
             </div>
 
+
+<div class="modal fade " role="dialog" aria-hidden="true" id="modalcheck">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <em class="icon ni ni-cross"></em>
+            </a>
+            <div class="modal-header">
+                <h5 class="modal-title">Check Schedule</h5>
+            </div>
+            <div class="modal-body" id="maincheck">
+
+
+        </div>
+
+    </div>
+</div>
+</div>
+
+
             <script type="text/javascript">
                  $(document).ready(function(){
                   var param=document.getElementById('s_cat_available').value;
+                  var param_status=document.getElementById('s_cat_loan').value;
                   // console.log(param)
-                  showproduk(param)
-                  produk_pagination_loan();
-                  
+                  showproduk(param);
+                  showprodukstatus(param_status);
+                   setInterval(function () {
+                        var param_status_new=document.getElementById('s_cat_loan').options[document.getElementById('s_cat_loan').selectedIndex].value
+                        var param_new=document.getElementById('s_cat_available').options[document.getElementById('s_cat_available').selectedIndex].value
+                        var paramName_new = document.getElementById('search_available').value;
+                        var paramName_status = document.getElementById('search_loan').value;
+                        console.log(paramName_new)
+                        console.log(paramName_status)
+                        showprodukstatus(param_status_new,'onsearch',paramName_status );
+                         showproduk(param_new, 'onsearch',paramName_new );
+                   }, 5000)
                 })
 
                  $('#s_cat_available').on('change', function() {
@@ -166,7 +147,16 @@
                         document.getElementById("pagination-wrap").innerHTML = "";
                       showproduk(this.value, 'onchange',paramName )
                 });
+
+                $('#s_cat_loan').on('change', function() {
+                      var paramName = document.getElementById('search_loan').value;
+                      $('#loader_container_status').show()
+                       document.getElementById("kontenproduk_loan").innerHTML = "";
+                        document.getElementById("pagination-wrap_loan").innerHTML = "";
+                      showprodukstatus(this.value, 'onchange',paramName )
+                });
          const source = document.getElementById('search_available');
+         const source_status = document.getElementById('search_loan');
 
 
           const inputHandler = function(e) {
@@ -224,31 +214,34 @@
                                                                         </span>
                                                                         
                                                                     </div>
-                                                                    <div class="invest-data">
-                                                                        <div class="invest-data-amount g-2">
-                                                                            <div class="invest-data-history">
-                                                                                <div class="title">Asset Owner</div>
-                                                                                <div class="amount">${value.id_owner}</div>
-                                                                            </div>
-                                                                            <div class="invest-data-history">
-                                                                                <div class="title">Available Unit</div>
-                                                                                <div class="amount">${value.amount_asset}</span></div>
-                                                                            </div>
-
-                                                                        </div>
-
-                                                                      
-                                                                    </div> 
+                                                                  
                                                                     <div class="invest-data mt-1">
                                                                         <div class="invest-data-amount g-2">
                                                                             <div class="invest-data-history">
                                                                                 <div class="title">Description</div>
-                                                                                <div class="amount">${value.description} dinas</div>
+                                                                                <div class="amount">${value.description}</div>
                                                                             </div>
                                                                        
                                                                         </div>
                                                                       
-                                                                    </div>   
+                                                                    </div> 
+                                                                    <div class="invest-data mt-1">
+                                                                        <div class="invest-data-amount g-2">
+                                                                            
+                                                                            <div class="invest-data-history">
+                                                                                <div class="title">Unit Amount</div>
+                                                                                <div class="amount">${value.amount_asset}</span></div>
+                                                                            </div>
+                                                                            <div class="invest-data-history" >
+                                                                                
+                                                                                <div class="amount mt-3" style="margin-left:15%">
+                                                                                <a class="btn btn-round btn-sm btn-info"  onclick="modalcheck('${value.id_asset}')">Check Schedule</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                      
+                                                                    </div>
                                                             </div>
                                                         </div>
                                                        
@@ -284,11 +277,223 @@
                             })
                 }
 
+          const inputHandlerLoan = function(e) {
+                        $('#loader_container_status').show()
+                       document.getElementById("kontenproduk_loan").innerHTML = "";
+                        document.getElementById("pagination-wrap_loan").innerHTML = "";
+              //showproduk(e.target.value);
+                        var type=document.getElementById('s_cat_loan').value;
+                        // console.log(type)
+                        $.ajax({
+                              url:"<?php echo base_url('showAssetStatus') ?>",
+                              global:false,
+                              async:true,
+                              type:'post',
+                              dataType:'json',
+                              data: ({
+                               searchByName : e.target.value,
+                               search : type,
+
+                              }),
+                              beforeSend: function () {
+                                    $('#loader_front_status').show()
+                                   // $('.subkonten').hide()
+                              },
+                              success : function(e) {
+                                  var html ='';
+                                    $('#loader_front_status').hide()
+                                    $('#loader_container_status').hide()
+                                    // $('.subkonten').show()
+                                    if (e.data.length!=0){
+                                     var datenow=new Date('<?php echo date('Y-m-d H:i:s') ?>')
+                                       
+                                      $.each(e.data, function(key, value) {
+                                         var date_start=new Date(value['tanggal_pinjam'])
+                                         var date_end=new Date(value['tanggal_kembali'])
+                                         if (datenow>=date_start){
+                                         status=`<span class=" text-success">In Use  </span> until <b>${formatDate(date_end)}</b>`
+                                         }else{
+                                            status=`<span class="text-warning">Scheduled on</span><p ><b>${formatDate(date_start)} - ${formatDate(date_end)}</b></p>`
+                                         }
+                                         html +=`
+                                                
+                                                    <div class="col-md-4 subkonten_loan" id="subkonten_loan" style="cursor:pointer">
+                                                            <div class="card card-bordered card-full  shadow-cus">
+                                                                <div class="card-inner shadow-cus">
+                                                                    <div class="row g-gs">
+                                                                        <div class="col-md-3">
+                                                                            <div class="image-item ">
+                                                                              <img class="image-content" src="<?php echo base_url('').'/assets/images/item/' ?>${value.asset_image}" alt="" srcset="" class="profile-img" style="width: 110px;height: 100px;object-fit: cover;margin: 0 auto;">
+                                                                              </div>
+                                                                                
+                                                                        </div>
+                                                                        <div class="col-md-9" >
+                                                                     
+                                                                                <div class="card-title-group align-start mb-0" style="margin-top: 10px;">
+                                                                                    <div class="card-title">
+                                                                                        <h6 class="subtitle">Asset Name</h6>
+                                                                                    </div>
+                                                                                  
+                                                                                </div>
+                                                                                <div class="card-amount">
+                                                                                    <span class="amount" style="font-size:20px">${value.asset_name}
+                                                                                    </span>
+                                                                                    
+                                                                                </div>
+                                                                                
+                                                                                <div class="invest-data ">
+                                                                                    <div class="invest-data-amount g-2">
+                                                                                        <div class="invest-data-history">
+                                                                                            <div class="title">status</div>
+                                                                                            <div class="amount">${status}</div>
+                                                                                        </div>
+                                                                                   
+                                                                                    </div>
+                                                                                  
+                                                                                </div>   
+                                                                                
+                                                                                 
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div><!-- .card -->
+                                                        </div><!-- .col -->
+
+                                              `;
+                                      });
+                                    }else{
+                                        html +=` <div class="col-md-4 subkonten">
+                                         <div class="card card-bordered card-full">
+                                            <div class="card-inner" style="justify-content:center;display: flex;">
+                                                <span>There's no Available Asset</span>
+                                               
+                                            </div>
+                                        </div><!-- .card -->
+                                    </div>`
+                                    }  
+                                     $('#kontenproduk_loan').html(html);
+
+                                     document.getElementById("pagination-wrap_loan").innerHTML = "";
+                                     produk_pagination_loan();
+  
+                                  
+                              },
+                              error :function(xhr, status, error) {
+                               alert(xhr.responseText);
+                              }
+
+                            })
+                }
+                      
           source.addEventListener('input', inputHandler);
           source.addEventListener('propertychange', inputHandler);
+          source_status.addEventListener('input', inputHandlerLoan);
+          source_status.addEventListener('propertychange', inputHandlerLoan);
 
+        function showprodukstatus(search, select='', paramName=null){
+            var status='';
+                  $.ajax({
+                    url:"<?php echo base_url('showAssetStatus') ?>",
+                    global:false,
+                    async:true,
+                    type:'post',
+                    dataType:'json',
+                    data: ({
+                     search : search,
+                     searchByName:paramName
+                    }),
+                     beforeSend: function () {
+                                    
+                                    $('#loader_front_status').show()
+                                    
+                              },
+                    success : function(e) {
+                        var html ='';
+                             $('#loader_front_status').hide()
+                             $('#loader_container_status').hide()
+                         if (e.data.length!=0){
+                            var datenow=new Date('<?php echo date('Y-m-d H:i:s') ?>')
+                           
+                          $.each(e.data, function(key, value) {
+                             var date_start=new Date(value['tanggal_pinjam'])
+                             var date_end=new Date(value['tanggal_kembali'])
+                             if (datenow>=date_start){
+                             status=`<span class=" text-success">In Use  </span> until <b>${formatDate(date_end)}</b>`
+                             }else{
+                                status=`<span class="text-warning">Scheduled on</span><p ><b>${formatDate(date_start)} - ${formatDate(date_end)}</b></p>`
+                             }
+                             html +=`
+                                    
+                                        <div class="col-md-4 subkonten_loan" id="subkonten_loan" style="cursor:pointer">
+                                                <div class="card card-bordered card-full  shadow-cus">
+                                                    <div class="card-inner">
+                                                        <div class="row g-gs">
+                                                            <div class="col-md-3">
+                                                                <div class="image-item ">
+                                                                  <img class="image-content" src="<?php echo base_url('').'/assets/images/item/' ?>${value.asset_image}" alt="" srcset="" class="profile-img" style="width: 110px;height: 100px;object-fit: cover;margin: 0 auto;">
+                                                                  </div>
+                                                                    
+                                                            </div>
+                                                            <div class="col-md-9" >
+                                                         
+                                                                    <div class="card-title-group align-start mb-0" style="margin-top: 10px;">
+                                                                        <div class="card-title">
+                                                                            <h6 class="subtitle">Asset Name</h6>
+                                                                        </div>
+                                                                      
+                                                                    </div>
+                                                                    <div class="card-amount">
+                                                                        <span class="amount" style="font-size:20px">${value.asset_name}
+                                                                        </span>
+                                                                        
+                                                                    </div>
+                                                                    
+                                                                    <div class="invest-data ">
+                                                                        <div class="invest-data-amount g-2">
+                                                                            <div class="invest-data-history">
+                                                                                <div class="title">Status</div>
+                                                                                <div class="amount">${status}</div>
+                                                                            </div>
+                                                                       
+                                                                        </div>
+                                                                      
+                                                                    </div>   
+                                                                    
+                                                                     
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- .card -->
+                                            </div><!-- .col -->
 
-            function showproduk(search, select='', paramName=null){
+                                  `;
+                          });
+                        }else{
+                            html +=` <div class="col-md-4 subkonten_loan">
+                                         <div class="card card-bordered card-full">
+                                            <div class="card-inner" style="justify-content:center;display: flex;">
+                                                <span>There's no Available Asset</span>
+                                               
+                                            </div>
+                                        </div><!-- .card -->
+                                    </div>`
+                        }
+
+                           $('#kontenproduk_loan').html(html);
+                            document.getElementById("pagination-wrap_loan").innerHTML = "";
+                            produk_pagination_loan();
+                            
+                        
+                    },
+                    error :function(xhr, status, error) {
+                     alert(xhr.responseText);
+                    }
+
+                  })
+
+                }
+
+        function showproduk(search, select='', paramName=null){
                   $.ajax({
                     url:"<?php echo base_url('showAsset') ?>",
                     global:false,
@@ -310,14 +515,7 @@
                              $('#loader_container').hide()
                          if (e.data.length!=0){
                           $.each(e.data, function(key, value) {
-                            // console.log(`ini${value.amount_asset}`)
-                             // if (value.amount_asset>0){
-                             //  var label = 'bg-label-success';
-                             //  var disabled ='';
-                             // }else{
-                             //   var label = 'bg-label-danger';
-                             //  var disabled ='disabled';
-                             // }
+                          
                              html +=`
                                         <div class="col-md-4 subkonten" id="subkonten">
                                                 <div class="card card-bordered card-full">
@@ -347,7 +545,7 @@
                                                                         <div class="invest-data-amount g-2">
                                                                             <div class="invest-data-history">
                                                                                 <div class="title">Description</div>
-                                                                                <div class="amount">${value.description} dinas</div>
+                                                                                <div class="amount">${value.description}</div>
                                                                             </div>
                                                                        
                                                                         </div>
@@ -358,22 +556,19 @@
                                                                         <div class="invest-data-amount g-2">
                                                                             
                                                                             <div class="invest-data-history">
-                                                                                <div class="title">Available Unit</div>
+                                                                                <div class="title">Unit Amount</div>
                                                                                 <div class="amount">${value.amount_asset}</span></div>
                                                                             </div>
                                                                             <div class="invest-data-history" >
                                                                                 
                                                                                 <div class="amount mt-3" style="margin-left:15%">
-                                                                                <a href="#" class="btn btn-round btn-sm btn-info">Check Schedule</a>
+                                                                                <a class="btn btn-round btn-sm btn-info" onclick="modalcheck('${value.id_asset}')">Check Schedule</a>
                                                                                 </div>
                                                                             </div>
-                                                                        </div>
-
-                                                                      
+                                                                        </div>   
                                                                     </div>
                                                             </div>
                                                         </div>
-                                                       
                                                     </div>
                                                 </div><!-- .card -->
                                             </div><!-- .col -->
@@ -381,7 +576,7 @@
                                   `;
                           });
                         }else{
-                            html +=` <div class="col-md-4 subkonten_loan">
+                            html +=` <div class="col-md-4 subkonten">
                                          <div class="card card-bordered card-full">
                                             <div class="card-inner" style="justify-content:center;display: flex;">
                                                 <span>There's no Available Asset</span>
@@ -403,9 +598,9 @@
 
                   })
 
-                }
+        }
 
-                function produk_pagination_available() {
+        function produk_pagination_available() {
                 $(function () {
                             var numberOfitem=$('.kontenproduk .subkonten ').length;
                             var limitPerpage=6;
@@ -459,7 +654,7 @@
                         });
             }
 
-            function produk_pagination_loan() {
+        function produk_pagination_loan() {
                 $(function () {
                             var numberOfitem=$('.kontenproduk_loan .subkonten_loan ').length;
                             var limitPerpage=3;
@@ -513,7 +708,7 @@
                         });
             }
 
-            function getPageList(totalPages, page, maxLength){
+        function getPageList(totalPages, page, maxLength){
                   function range(start, end){
                     return Array.from(Array(end - start + 1), (_, i) => i + start);
                   }
@@ -537,7 +732,150 @@
                 
                   return range(1, sideWidth).concat(0, range(page - leftWidth, page + rightWidth), 0, range(totalPages - sideWidth + 1, totalPages));
                 }
-            </script>
+
+        function formatDate(date) {
+              var day = date.getDate().toString().padStart(2, '0');
+              var month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based, so add 1
+              var year = date.getFullYear();
+              var hours = date.getHours().toString().padStart(2, '0');
+              var minutes = date.getMinutes().toString().padStart(2, '0');
+              var seconds = date.getSeconds().toString().padStart(2, '0');
+
+              return `${month}/${day}/${year}  ${hours}:${minutes}`;
+            }
+
+        function modalcheck(id){
+            var html = `
+                        <form id="frmcheck">
+                              <div class="row g-4">
+
+                                <div class="form-group">
+                                       
+                                        
+                                        <label class="form-label" for="flatpickr-range">Loan Date</label>
+                                        <div class="form-control-wrap">
+                                            <input type="hidden" name="asset_name" value="${id}">
+                                            <input type="text" class="form-control" id="flatpickr-range" name="loan_date" value="<?php echo set_value('loan_date') ?>" placeholder="Enter Date loan">
+                                            <div id="loan_date-error">
+
+                                            </div>
+                                            <div id="asset_name-error">
+
+                                            </div>
+                                        </div>
+                                        
+                                </div>
+                                
+                          
+
+
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-lg btn-primary" id="buttonsave" onclick="CheckSchedule()">Check</button>
+                                        <span class="loader" id="loader" style="display: none;"></span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                     `
+                     $('#maincheck').html(html);
+                     flatpickr('#flatpickr-range', {
+                        // dateFormat: "F j, Y", 
+                        // maxDate:'<?php echo date('Y-m-d', strtotime('+1 days', strtotime(date('Y-m-d')))) ?>',
+                        minDate:'<?php echo date('Y-m-d') ?>',
+                        mode: 'range',
+                        static:true,
+                        enableTime: true,
+                        time_24hr:true,
+                        dateFormat: "d M Y H:i",
+                        //  plugins: [
+                        //     new minMaxTimePlugin({
+                        //         table: {
+                        //             '<?php echo date('Y-m-d') ?>':minmaxTime,
+                        //         }
+                        //     })
+                        // ]
+
+                    })
+
+                    $("#modalcheck").modal('show');
+        }
+
+    function CheckSchedule(){
+       var html='';
+       var option='';
+        var form_data = new FormData($('#frmcheck')[0]);
+               $.ajax({
+                 url:"<?php echo base_url('checkSchedule') ?>",
+                 global: false,
+                async: true,
+                type: 'post',
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                enctype: "multipart/form-data",
+                data: form_data,
+                beforeSend: function () {
+                    $('#buttonsave').hide()
+                    $('#loader').show()
+                  },
+                 success : function(e) {
+                   if(e.status == 'ok;') 
+                   {  if (e.status_check!='unavailable'){
+                        $('#buttonsave').show()
+                         $('#loader').hide()
+                        let timerInterval
+                        Swal.fire({
+                          title: 'Schedule Available',
+                          icon: 'success',
+                          showCancelButton: true,
+                          confirmButtonColor: '#3085d6',
+                          cancelButtonColor: '#d33',
+                          confirmButtonText: 'Contact Admin'
+                        }).then((result) => {
+                           window.location.href = "https://wa.me/6282125405178";
+                        })
+                    }else{
+                         $('#buttonsave').show()
+                        $('#loader').hide()
+                        Swal.fire({
+                          icon: 'error',
+                          title: 'Schedule Unavailable',
+                        })
+
+
+                    }
+                  } 
+                  else{ 
+                   // console.log(e.dataname);
+                     $('#buttonsave').show()
+                         $('#loader').hide()
+                      $.each(e.dataname, function(key, value) {
+                        document.getElementById(key+"-error").innerHTML ="";
+                      });
+                    $.each(e.data, function(key, value) {
+                     
+                      
+                     document.getElementById(key+"-error").innerHTML = `<span class="badge badge-dim bg-danger" style="">`+value+`
+                                                                        </span>`;
+                  });
+                       // document.getElementById("signature_m-error").innerHTML ="";
+                       
+                    $('#buttonsave').show()
+                    $('#loader').hide()
+                    $("#modaltambah").modal('show');
+                 }
+              },
+              error :function(xhr, status, error) {
+               alert(xhr.responseText);
+            }
+
+         });
+    }
+
+        
+    </script>
 
 <?= $this->endSection() ?>
 

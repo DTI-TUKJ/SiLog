@@ -210,7 +210,7 @@
                 // disabled:true
               });
 
-    flatpickr('#flatpickr-range', {
+        flatpickr('#flatpickr-range', {
             // dateFormat: "F j, Y", 
             // maxDate:'<?php echo date('Y-m-d', strtotime('+1 days', strtotime(date('Y-m-d')))) ?>',
             minDate:'<?php echo date('Y-m-d') ?>',
@@ -374,11 +374,15 @@ function CheckSchedule(){
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form-group">
+                                                 <input type="hidden" name="max_req" value="${e.data.max_req}">
                                                     <label class="form-label" for="amount_loan">Amount Loan</label>
                                                     <div class="form-control-wrap">
                                                         <input type="number" class="form-control" value="1" name="amount_loan" id="amount_loan" placeholder="Enter Amount" >
                                                     </div>
                                                     <div id="amount_loan-error">
+
+                                                    </div>
+                                                    <div id="max_req-error">
 
                                                     </div>
                                                 </div>
@@ -565,6 +569,81 @@ function addLoan()
     }
 
  });
+}
+
+function upStatusLoan(id,action){
+
+   if (action=='finish'){
+     var titlealert='Yakin ingin akhiri Pinjaman ?'
+     var textalert='Data pinjaman akan berakhir'
+     var msgsuccess='Loan has been Ended';
+   }else if(action=='accept'){
+     var titlealert='Yakin ingin menerima Pinjaman ?'
+     var textalert='Data pinjaman akan Diterima'
+     var msgsuccess='Loan has been Accepted';
+   }else{
+     var titlealert='Yakin ingin menolak Pinjaman ?'
+     var textalert='Data pinjaman akan di tolak'
+     var msgsuccess='Loan has been rejected'; 
+   }
+
+  Swal.fire({
+      title: titlealert,
+      text: textalert,
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: 'Yes!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+         url:"<?php echo base_url('statusLoanUp') ?>",
+         global:false,
+         async:true,
+         type:'post',
+         dataType:'json',
+         data: ({
+            id_loan:id,
+            action : action
+        }),
+         success : function(e) {
+
+
+             if(e.status == 'ok;') 
+             {
+
+              let timerInterval
+              Swal.fire({
+                icon: 'success',
+                title: msgsuccess,
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+                didOpen: () => {
+                  timerInterval = setInterval(() => {
+
+                  }, 100)
+                },
+                willClose: () => {
+                  clearInterval(timerInterval)
+                }
+              }).then((result) => {
+                /* Read more about handling dismissals below */
+                if (result.dismiss === Swal.DismissReason.timer) {
+                  location.reload();
+                }
+              })
+
+          } 
+      },
+      error :function(xhr, status, error) {
+          alert(xhr.responseText);
+      }
+
+  });
+
+
+    }
+ })
 }
 
 

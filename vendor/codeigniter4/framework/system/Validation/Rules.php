@@ -66,12 +66,13 @@ class Rules
         return is_numeric($str) && $str > $min;
     }
 
+
     /**
      * Equal to or Greater than
      */
     public function greater_than_equal_to(?string $str, string $min): bool
     {
-        return is_numeric($str) && $str >= $min;
+        return is_numeric($str) && $str <= $min;
     }
 
     /**

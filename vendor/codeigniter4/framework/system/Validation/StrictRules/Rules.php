@@ -85,6 +85,9 @@ class Rules
 
         return $this->nonStrictRules->greater_than($str, $min);
     }
+    
+
+
 
     /**
      * Equal to or Greater than

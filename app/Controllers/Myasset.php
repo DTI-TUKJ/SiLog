@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use \App\Models\MyassetModel;
 use App\Models\LoginModel;
-
+use App\Models\LoanModel;
 class Myasset extends BaseController
 {
     public function __construct()
@@ -17,6 +17,7 @@ class Myasset extends BaseController
         $this->email = \Config\Services::email();
         $this->MAM = new MyassetModel($this->req);
         $this->LM = new LoginModel();
+        $this->LNM = new LoanModel($this->req);
  
    
     }
@@ -292,6 +293,14 @@ class Myasset extends BaseController
         echo json_encode(array('status' => 'ok;', 'text' => '', 'data'=>$data));
         
     }
+
+     public function show_asset_status(){
+        $data =$this->LNM->GetShowAssetStatus($this->request->getPost('search'), $this->request->getPost('searchByName'));
+      
+        echo json_encode(array('status' => 'ok;', 'text' => '', 'data'=>$data));
+        
+    }
+
 
 
 

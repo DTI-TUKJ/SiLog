@@ -69,14 +69,24 @@ class Loan extends BaseController
                 if($val['status']==1){
 
                   $status=' <span class="tb-status text-success">Accepted</span>';
-                }else{
+                }else if($val['status']==0){
                     $status=' <span class="tb-status text-warning">Pending</span>';
+                }else if($val['status']==3){
+                     $status=' <span class="tb-status text-info">Finish</span>';
+                }else{
+                     $status=' <span class="tb-status text-info">Rejected</span>';
                 }
                 $row[]=$status;
-                    $btnaccdis='';
-                    $val['status']==1?$btnaccdis='disabled':'';
-                    $btnacc='<a class="btn btn-sm btn-success '.$btnaccdis.'"  onclick="">Accept</a>';
-                
+                    $btnacc='';
+                    if ($val['status']==1){
+                        if (date('Y-m-d H:i:s')>=$val['tanggal_pinjam']){
+
+                           $btnacc='<a class="btn btn-sm btn-warning "  onclick="upStatusLoan(\''.$val['id_loan'].'\',\'finish\')">End Loan</a>';
+                        }
+                    }else if ($val['status']==0){
+                           $btnacc='<a class="btn btn-sm btn-success "  onclick="upStatusLoan(\''.$val['id_loan'].'\',\'accept\')">Accept</a><a class="btn btn-sm btn-danger "  onclick="upStatusLoan(\''.$val['id_loan'].'\',\'reject\')">Reject</a>';
+                    }
+                  
 
                 $row[]=$btnacc.'
                         <a class="btn btn-danger" onclick="deletedata(\''.$val['id_loan'].'\')"><i class="fa-solid fa-trash"></i></a>';
@@ -95,14 +105,13 @@ class Loan extends BaseController
 
     public function addLoan()
     {    
-    // detail =$this->request->getPost('manager');
-        // print_r($detail);
+    
 
-    if (session()->id==null){
+        if (session()->id==null){
             return false;
         }
 
-    
+        $max_req=$this->request->getPost('max_req');
         
         $this->validation->setRules([
           
@@ -132,12 +141,15 @@ class Loan extends BaseController
                 'rules'=>'required',
                 'errors'=>[
                        'required'=>'Kontak Belum diisi',
+
                 ]
             ],
               'amount_loan' =>[
-                'rules'=>'required',
+                'rules'=>'required|greater_than_equal_to['.$max_req.']',
+                // rules greater_than_equal_to sudah dirubah defaultnya
                 'errors'=>[
                        'required'=>'jumlah loan Belum diisi',
+                        'greater_than_equal_to'=>'Jumlah pinjaman lebih dari unit yang tersedia'
                 ]
             ],
 
@@ -182,7 +194,7 @@ class Loan extends BaseController
         }
     }
 
-   public function deleteLoan()
+    public function deleteLoan()
     {
 
          if (session()->id==null){
@@ -196,7 +208,7 @@ class Loan extends BaseController
 
     }
 
-     public function modalEdit()
+    public function modalEdit()
     {
         if (session()->id==null){
             return false;
@@ -241,8 +253,11 @@ class Loan extends BaseController
 
         if ($isDataValid) {
              $id_asset=$this->request->getPost('asset_name');
+             $dataasset=$this->MAM->getByIdRow($id_asset);
+             //print_r($dataasset);
+             //die();
              $date_loan= explode(' to ', $this->request->getPost('loan_date'));
-
+             
              $date_start=date('Y-m-d H:i:s', strtotime($date_loan[0]));
              $date_end=date('Y-m-d H:i:s', strtotime($date_loan[1]));
              $check_asset =$this->LM->checkScheduleAvailable($id_asset, $date_start, $date_end);
@@ -250,12 +265,29 @@ class Loan extends BaseController
                 $data=array(
                         'id_asset'=>$id_asset,
                         'date_loan'=> $this->request->getPost('loan_date'),
-                        'data_asset'=>$this->MAM->getAssetByOwner()
+                        'data_asset'=>$this->MAM->getAssetByOwner(),
+                        'max_req'=>$dataasset['amount_asset']
                         );
                echo json_encode(array('status' => 'ok;', 'text' => '', 'data'=>$data));
              }else{
-                $data=null;
-                 echo json_encode(array('status' => 'ok;','status_check'=>'unavailable', 'text' => '', 'data'=>$data));
+
+                $in_loan=0;
+                foreach ($check_asset as $value) {
+                    $in_loan += $value['amount_loan'];
+                }
+                $max_req=$dataasset['amount_asset']-$in_loan;
+                if ($max_req>0){
+                   $data=array(
+                        'id_asset'=>$id_asset,
+                        'date_loan'=> $this->request->getPost('loan_date'),
+                        'data_asset'=>$this->MAM->getAssetByOwner(),
+                        'max_req'=>$max_req
+                        );
+                    echo json_encode(array('status' => 'ok;', 'text' => '', 'data'=>$data)); 
+                }else{
+                    echo json_encode(array('status' => 'ok;','status_check'=>'unavailable', 'text' => '', 'data'=>null));
+                }
+                
              }
 
         }else{
@@ -272,11 +304,34 @@ class Loan extends BaseController
          
         
         //echo json_encode(array('status' => 'ok;', 'text' => '', 'data'=>$data));
-        
     }
 
+     public function updateStatusLoan()
+    {
 
+         if (session()->id==null){
+            return false;
+        }
+       
+        $id = $this->request->getPost('id_loan');
+        $action= $this->request->getPost('action');
+        
+        if ($action=='finish'){
+            $st=3;
+        }else if ($action=='accept'){
+            $st=1;
+        }else{
+            $st=2;
+        }
 
+        $data = array(
+                'status'  => $st,
+
+        );
+        $this->LM->upStatusLoan($data,$id);
+
+        echo json_encode(array('status' => 'ok;', 'text' => ''));
+    }
 
 }
 

@@ -212,6 +212,17 @@ class MyassetModel extends Model
     {
         return $this->where(['id_asset' => $id_asset])->first();
     }
+
+     public function getByIdRow($id_asset)
+    {   
+         $builder = $this->db->table($this->table);
+         $builder->select('*');
+         
+         $builder->where('id_asset',$id_asset);
+         $query = $builder->get();
+         return $query->getRowArray();
+        
+    }
      public function updateAsset($data, $id)
     {
         $query = $this->db->table($this->table)->update($data, array('id_asset' => $id));
@@ -242,6 +253,8 @@ class MyassetModel extends Model
         
         
     }
+
+
 
     public function getAssetByOwner(){
         $builder = $this->db->table($this->table);

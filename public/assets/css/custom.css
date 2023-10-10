@@ -12,6 +12,15 @@ top: 15% !important;
  
 }
 
+.shadow-cus:hover{
+box-shadow: -2px 1px 13px 1px rgba(188,188,188,0.75);
+-webkit-box-shadow: -2px 1px 13px 1px rgba(188,188,188,0.75);
+-moz-box-shadow: -2px 1px 13px 1px rgba(188,188,188,0.75);
+
+transition: box-shadow 0.4s ease 0s;
+}
+
+
 .nk-menu-item .active-cus{
 	border-top-width: 4px;
 	border-top-style: solid;

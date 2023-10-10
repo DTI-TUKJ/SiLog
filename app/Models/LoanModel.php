@@ -99,9 +99,9 @@ class LoanModel extends Model
     {
         return $this->where(['id_asset' => $id_asset])->first();
     }
-     public function updateAsset($data, $id)
+     public function upStatusLoan($data, $id)
     {
-        $query = $this->db->table($this->table)->update($data, array('id_asset' => $id));
+        $query = $this->db->table($this->table)->update($data, array('id_loan' => $id));
         return $query;
     }
      public function checkScheduleAvailable($id_asset,$date_start, $date_end)
@@ -111,9 +111,39 @@ class LoanModel extends Model
                         ('$date_end'BETWEEN l.tanggal_pinjam  and l.tanggal_kembali))
                         or ((l.tanggal_pinjam  BETWEEN '$date_start' and '$date_end' )
                              and(l.tanggal_kembali  BETWEEN '$date_start' and '$date_end')) )  
-                        and l.id_asset_loan =$id_asset";
+                        and l.id_asset_loan =$id_asset and l.status!=2";
        
         return $this->db->query($sql)->getResultArray();
+
+        
+        
+    }
+
+    public function GetShowAssetStatus($param,$paramByName)
+    {  
+            if($param=='All'){
+                $builder = $this->db->table($this->table);
+                $builder->select('*');
+                $builder->join('ms_assets', $this->table.'.id_asset_loan=ms_assets.id_asset');
+                $builder->where('status', '1');
+                if (isset($paramByName)){
+                   $builder->like('asset_name', $paramByName); 
+                }
+                $builder->orderBy('id_asset','DESC');
+                $query = $builder->get();
+                return $query->getResultArray();
+            }else{
+                $builder = $this->db->table($this->table);
+                $builder->join('ms_assets', $this->table.'.id_asset_loan=ms_assets.id_asset');
+                $builder->where('asset_type', $param);
+                 $builder->where('status', '1');
+                if (isset($paramByName)){
+                   $builder->like('asset_name',$paramByName); 
+                }
+                $builder->orderBy('id_asset','DESC');
+                $query = $builder->get();
+                return $query->getResultArray();
+            }
 
         
         
