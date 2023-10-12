@@ -57,7 +57,7 @@ class LoanModel extends Model
             if(session()->type!='superadmin'){      
              $this->dt->where('id_owner', session()->type);
             }
-            $this->dt->orderBy('name', 'ASC');
+            $this->dt->orderBy('id_loan', 'DESC');
        
         $query = $this->dt->get();
       
@@ -72,7 +72,7 @@ class LoanModel extends Model
             if(session()->type!='superadmin'){      
              $this->dt->where('id_owner', session()->type);
             }
-            $this->dt->orderBy('name', 'ASC');
+            $this->dt->orderBy('id_loan', 'DESC');
 
         return $this->dt->countAllResults();
     }

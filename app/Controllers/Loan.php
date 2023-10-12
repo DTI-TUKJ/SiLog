@@ -46,6 +46,7 @@ class Loan extends BaseController
 
                 $row[]=' <span class="tb-amount">'.$val['nip'].' </span>';
                 $row[]=' <span class="tb-amount">'.$val['name'].' </span>';
+                $row[]=' <span class="currency">'.$val['activity'].' </span>';
                 $row[]='<span class="currency">'.$val['unit'].'</span>';
 
 
@@ -178,7 +179,8 @@ class Loan extends BaseController
                 'status'          => 1,
                 'no_telepon'        => $this->request->getPost('contact'),
                 'amount_loan'       => $this->request->getPost('amount_loan'),
-                'id_asset_loan'   =>$this->request->getPost('id_asset')
+                'id_asset_loan'   =>$this->request->getPost('id_asset'),
+                'activity'        => $this->request->getPost('activity'),
                          
             );
             $this->LM->createLoan($data);
@@ -318,16 +320,23 @@ class Loan extends BaseController
         
         if ($action=='finish'){
             $st=3;
+             $data = array(
+                'status'  => $st,
+                'tanggal_masuk'=>date('Y-m-d H:i:s')
+            );
         }else if ($action=='accept'){
             $st=1;
+             $data = array(
+                'status'  => $st,
+                );
         }else{
             $st=2;
+            $data = array(
+                'status'  => $st,
+             );
         }
 
-        $data = array(
-                'status'  => $st,
-
-        );
+       
         $this->LM->upStatusLoan($data,$id);
 
         echo json_encode(array('status' => 'ok;', 'text' => ''));

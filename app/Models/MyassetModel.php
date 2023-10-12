@@ -233,7 +233,7 @@ class MyassetModel extends Model
             if($param=='All'){
                 $builder = $this->db->table($this->table);
                 $builder->select('*');
-                if (isset($paramByName)){
+                if (isset($paramByName) && $paramByName!='' && $paramByName!=null){
                    $builder->like('asset_name', $paramByName); 
                 }
                 $builder->orderBy('id_asset','DESC');
@@ -242,7 +242,7 @@ class MyassetModel extends Model
             }else{
                 $builder = $this->db->table($this->table);
                 $builder->where('asset_type', $param);
-                if (isset($paramByName)){
+                if (isset($paramByName) && $paramByName!='' && $paramByName!=null){
                    $builder->like('asset_name',$paramByName); 
                 }
                 $builder->orderBy('id_asset','DESC');

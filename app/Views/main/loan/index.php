@@ -42,6 +42,7 @@
                                                         </th> -->
                                                         <th class="nk-tb-col"><span class="sub-text">Nip</span></th>
                                                        <th class="nk-tb-col"><span class="sub-text">Name</span></th>
+                                                        <th class="nk-tb-col"><span class="sub-text">Activity</span></th>
                                                         <th class="nk-tb-col"><span class="sub-text">Unit</span></th>
                                                         <th class="nk-tb-col"><span class="sub-text">Asset Name</span></th>
                                                         <th class="nk-tb-col"><span class="sub-text">Loan Amount</span></th>
@@ -339,6 +340,7 @@ function CheckSchedule(){
                                                     </div>
                                                 </div>
                                             </div>
+                                     
                                              <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label class="form-label" for="name_loaner">Name</label>
@@ -357,6 +359,17 @@ function CheckSchedule(){
                                                         <input type="text" class="form-control" value="" name="unit" id="unit" placeholder="Enter Unit" >
                                                     </div>
                                                     <div id="unit-error">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="activity">Activity Name</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control" value="" name="activity" id="activity" placeholder="Enter Activity" >
+                                                    </div>
+                                                    <div id="activity-error">
 
                                                     </div>
                                                 </div>

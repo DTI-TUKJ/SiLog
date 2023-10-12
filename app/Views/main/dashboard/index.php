@@ -19,6 +19,7 @@
                                             <div class="toggle-expand-content" data-content="pageMenu">
                                                 <ul class="nk-block-tools g-3">
                                                     <li> 
+                                                        
                                                         <input type="text" class="form-control"  name="search_loan" id="search_loan" placeholder="Search Asset in loan">
                                                     </li>
                                                     <li>
@@ -65,6 +66,7 @@
                                             <div class="toggle-expand-content" data-content="pageMenu">
                                                 <ul class="nk-block-tools g-3">
                                                       <li> 
+                                                        
                                                         <input type="text" class="form-control"  name="search_available" id="search_available" placeholder="Search Available Asset">
                                                     </li>
                                                     <li>
@@ -120,6 +122,80 @@
 </div>
 </div>
 
+<div class="modal fade " role="dialog" aria-hidden="true" id="modaldetail">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <em class="icon ni ni-cross"></em>
+            </a>
+            <div class="modal-header">
+                <h5 class="modal-title">Detail Schedule</h5>
+            </div>
+            <div class="modal-body pt-0" id="maindetail">
+               <div class="tab-pane " id="overview">
+                  <div class="invest-ov gy-2 pb-1 pt-1">
+                      <div class="subtitle mb-0 pb-0">Activity Name</div>
+                      <div class="invest-ov-details">
+                          <div class="invest-ov-info">
+                              <div class="amount">Rapat Dti</div>
+                          </div>
+                    
+                       </div>
+                     
+                   </div>
+                   <div class="invest-ov gy-2 pb-1 pt-1">
+                      <div class="subtitle mb-0 pb-0">Schedule Activity</div>
+                      <div class="invest-ov-details">
+                          <div class="invest-ov-info">
+                              <div class="amount"> <span class="badge badge-dim badge-md bg-info">USD</span> - <span class="badge badge-dim badge-md bg-info">USD</span></div>
+                         
+                          </div>
+                    
+                       </div>
+                     
+                   </div>
+                   <div class="invest-ov gy-2 pb-1 pt-1">
+                      <div class="subtitle mb-0 pb-0">PIC Name</div>
+                      <div class="invest-ov-details">
+                          <div class="invest-ov-info">
+                              <div class="amount">49,395.395 <span class="currency currency-usd">USD</span></div>
+                         
+                          </div>
+                    
+                       </div>
+                     
+                   </div>
+                   <div class="invest-ov gy-2 pb-1 pt-1">
+                      <div class="subtitle mb-0 pb-0">Unit</div>
+                      <div class="invest-ov-details">
+                          <div class="invest-ov-info">
+                              <div class="amount">49,395.395 <span class="currency currency-usd">USD</span></div>
+                         
+                          </div>
+                    
+                       </div>
+                     
+                   </div>
+                   <div class="invest-ov gy-2 pb-1 pt-1">
+                      <div class="subtitle mb-0 pb-0">PIC contact</div>
+                      <div class="invest-ov-details">
+                          <div class="invest-ov-info">
+                              <div class="amount">49,395.395 <a href="#" class="btn btn-dim btn-success"><i class="icon fa-brands fa-whatsapp"></i></a></div>
+                         
+                          </div>
+                    
+                       </div>
+                     
+                   </div>
+                   
+               </div>
+
+        </div>
+
+    </div>
+</div>
+</div>
+
 
             <script type="text/javascript">
                  $(document).ready(function(){
@@ -128,24 +204,33 @@
                   // console.log(param)
                   showproduk(param);
                   showprodukstatus(param_status);
-                   setInterval(function () {
+                  
+                })
+
+                  let autorelod = setInterval(function () {
                         var param_status_new=document.getElementById('s_cat_loan').options[document.getElementById('s_cat_loan').selectedIndex].value
                         var param_new=document.getElementById('s_cat_available').options[document.getElementById('s_cat_available').selectedIndex].value
                         var paramName_new = document.getElementById('search_available').value;
                         var paramName_status = document.getElementById('search_loan').value;
-                        console.log(paramName_new)
-                        console.log(paramName_status)
-                        showprodukstatus(param_status_new,'onsearch',paramName_status );
-                         showproduk(param_new, 'onsearch',paramName_new );
+                        
+                        
+                         var page_active = parseInt($('.pagination-wrap li.current-page.active').text())
+                         var page_active_loan = parseInt($('.pagination-wrap_loan li.current-page.active').text())
+                        console.log(page_active);
+
+                        showprodukstatus(param_status_new,page_active_loan,paramName_status,'onreload' );
+                        //showproduk(param_new, page_active ,paramName_new );
                    }, 5000)
-                })
+
+
+             
 
                  $('#s_cat_available').on('change', function() {
                       var paramName = document.getElementById('search_available').value;
                       $('#loader_container').show()
                        document.getElementById("kontenproduk").innerHTML = "";
                         document.getElementById("pagination-wrap").innerHTML = "";
-                      showproduk(this.value, 'onchange',paramName )
+                      showproduk(this.value, 1,paramName )
                 });
 
                 $('#s_cat_loan').on('change', function() {
@@ -153,7 +238,7 @@
                       $('#loader_container_status').show()
                        document.getElementById("kontenproduk_loan").innerHTML = "";
                         document.getElementById("pagination-wrap_loan").innerHTML = "";
-                      showprodukstatus(this.value, 'onchange',paramName )
+                      showprodukstatus(this.value, 1,paramName )
                 });
          const source = document.getElementById('search_available');
          const source_status = document.getElementById('search_loan');
@@ -161,8 +246,10 @@
 
           const inputHandler = function(e) {
                         $('#loader_container').show()
+                        var page_active = parseInt($('.pagination-wrap li.current-page.active').text())
                        document.getElementById("kontenproduk").innerHTML = "";
                         document.getElementById("pagination-wrap").innerHTML = "";
+
               //showproduk(e.target.value);
                         var type=document.getElementById('s_cat_available').value;
                         // console.log(type)
@@ -262,9 +349,9 @@
                                     </div>`
                                     }  
                                      $('#kontenproduk').html(html);
-
+                                       //document.getElementById("kontenproduk_loan").innerHTML = "";
                                      document.getElementById("pagination-wrap").innerHTML = "";
-                                     produk_pagination_available();
+                                     produk_pagination_available(page_active);
                                     
 
                                       
@@ -279,8 +366,11 @@
 
           const inputHandlerLoan = function(e) {
                         $('#loader_container_status').show()
+                          var page_active_loan = parseInt($('.pagination-wrap_loan li.current-page.active').text())
                        document.getElementById("kontenproduk_loan").innerHTML = "";
-                        document.getElementById("pagination-wrap_loan").innerHTML = "";
+                       document.getElementById("pagination-wrap_loan").innerHTML = "";
+                        
+                       
               //showproduk(e.target.value);
                         var type=document.getElementById('s_cat_loan').value;
                         // console.log(type)
@@ -370,11 +460,12 @@
                                             </div>
                                         </div><!-- .card -->
                                     </div>`
-                                    }  
+                                    } 
+                                   // console.log(html)  
                                      $('#kontenproduk_loan').html(html);
 
                                      document.getElementById("pagination-wrap_loan").innerHTML = "";
-                                     produk_pagination_loan();
+                                     produk_pagination_loan(page_active_loan);
   
                                   
                               },
@@ -390,7 +481,7 @@
           source_status.addEventListener('input', inputHandlerLoan);
           source_status.addEventListener('propertychange', inputHandlerLoan);
 
-        function showprodukstatus(search, select='', paramName=null){
+        function showprodukstatus(search, select=1, paramName=null,action=null){
             var status='';
                   $.ajax({
                     url:"<?php echo base_url('showAssetStatus') ?>",
@@ -403,14 +494,19 @@
                      searchByName:paramName
                     }),
                      beforeSend: function () {
+                                    if (action==null){
+                                        $('#loader_front_status').show()
+                                    }
                                     
-                                    $('#loader_front_status').show()
                                     
                               },
                     success : function(e) {
                         var html ='';
-                             $('#loader_front_status').hide()
+                          if (action==null){
+                            $('#loader_front_status').hide()
                              $('#loader_container_status').hide()
+                          }
+                             
                          if (e.data.length!=0){
                             var datenow=new Date('<?php echo date('Y-m-d H:i:s') ?>')
                            
@@ -424,7 +520,7 @@
                              }
                              html +=`
                                     
-                                        <div class="col-md-4 subkonten_loan" id="subkonten_loan" style="cursor:pointer">
+                                        <div class="col-md-4 subkonten_loan" id="subkonten_loan" style="cursor:pointer" onclick="detail_loan()">
                                                 <div class="card card-bordered card-full  shadow-cus">
                                                     <div class="card-inner">
                                                         <div class="row g-gs">
@@ -481,7 +577,7 @@
 
                            $('#kontenproduk_loan').html(html);
                             document.getElementById("pagination-wrap_loan").innerHTML = "";
-                            produk_pagination_loan();
+                            produk_pagination_loan(select);
                             
                         
                     },
@@ -492,8 +588,11 @@
                   })
 
                 }
+        function detail_loan(){
+           $('#modaldetail').modal('show')
+        }
 
-        function showproduk(search, select='', paramName=null){
+        function showproduk(search, select=1, paramName=null){
                   $.ajax({
                     url:"<?php echo base_url('showAsset') ?>",
                     global:false,
@@ -587,8 +686,11 @@
                         }
 
                            $('#kontenproduk').html(html);
+                    
                             document.getElementById("pagination-wrap").innerHTML = "";
-                            produk_pagination_available();
+                            produk_pagination_available(select);
+                            
+
                             
                         
                     },
@@ -600,7 +702,7 @@
 
         }
 
-        function produk_pagination_available() {
+        function produk_pagination_available(pageShow) {
                 $(function () {
                             var numberOfitem=$('.kontenproduk .subkonten ').length;
                             var limitPerpage=6;
@@ -639,22 +741,28 @@
                                     ).addClass("pagination justify-content-center"));
 
                             $(".kontenproduk").show();
-                            showPage_available(1); 
+                            if(pageShow==''){
+                                pageShow=1;
+                            }
+                            showPage_available(pageShow); 
                             $(document).on("click", ".pagination-wrap li.current-page:not(.active)", function(){
+                               // clearInterval(autorelod)
                                 return showPage_available(+$(this).text());
                               });
                             
                               $(".next").on("click", function(){
+                                
                                 return showPage_available(currentPage + 1);
                               });
                             
                               $(".prev").on("click", function(){
+                               
                                 return showPage_available(currentPage - 1);
                               });      
                         });
             }
 
-        function produk_pagination_loan() {
+        function produk_pagination_loan(pageShow) {
                 $(function () {
                             var numberOfitem=$('.kontenproduk_loan .subkonten_loan ').length;
                             var limitPerpage=3;
@@ -693,7 +801,11 @@
                                 ).addClass("pagination justify-content-center"));
 
                             $(".kontenproduk_loan").show();
-                            showPage_loan(1); 
+                             if(pageShow==''){
+                                pageShow=1;
+                            }
+                            showPage_loan(pageShow); 
+
                             $(document).on("click", ".pagination-wrap_loan li.current-page:not(.active)", function(){
                                 return showPage_loan(+$(this).text());
                               });
@@ -716,7 +828,7 @@
                   var sideWidth = maxLength < 9 ? 1 : 2;
                   var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
                   var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
-                  console.log(sideWidth);
+                  //console.log(sideWidth);
                 
                   if(totalPages <= maxLength){
                     return range(1, totalPages);
@@ -747,7 +859,7 @@
         function modalcheck(id){
             var html = `
                         <form id="frmcheck">
-                              <div class="row g-4">
+                              <div class="row g-0">
 
                                 <div class="form-group">
                                        
@@ -766,8 +878,6 @@
                                         
                                 </div>
                                 
-                          
-
 
                                 <div class="col-12">
                                     <div class="form-group">
@@ -834,7 +944,9 @@
                           cancelButtonColor: '#d33',
                           confirmButtonText: 'Contact Admin'
                         }).then((result) => {
+                            if (result.isConfirmed) {
                            window.location.href = "https://wa.me/6282125405178";
+                            }
                         })
                     }else{
                          $('#buttonsave').show()
