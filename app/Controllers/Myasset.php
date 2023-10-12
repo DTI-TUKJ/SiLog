@@ -288,6 +288,8 @@ class Myasset extends BaseController
      }
 
     public function show_asset(){
+        
+
         $data =$this->MAM->GetShowAssetCat($this->request->getPost('search'), $this->request->getPost('searchByName'));
       
         echo json_encode(array('status' => 'ok;', 'text' => '', 'data'=>$data));
@@ -295,7 +297,17 @@ class Myasset extends BaseController
     }
 
      public function show_asset_status(){
+   
         $data =$this->LNM->GetShowAssetStatus($this->request->getPost('search'), $this->request->getPost('searchByName'));
+      
+        echo json_encode(array('status' => 'ok;', 'text' => '', 'data'=>$data));
+        
+    }
+
+      public function loan_detail(){
+        
+
+        $data =$this->LNM->get_detail($this->request->getPost('id_loan'));
       
         echo json_encode(array('status' => 'ok;', 'text' => '', 'data'=>$data));
         

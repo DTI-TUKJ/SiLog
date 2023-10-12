@@ -132,64 +132,7 @@
                 <h5 class="modal-title">Detail Schedule</h5>
             </div>
             <div class="modal-body pt-0" id="maindetail">
-               <div class="tab-pane " id="overview">
-                  <div class="invest-ov gy-2 pb-1 pt-1">
-                      <div class="subtitle mb-0 pb-0">Activity Name</div>
-                      <div class="invest-ov-details">
-                          <div class="invest-ov-info">
-                              <div class="amount">Rapat Dti</div>
-                          </div>
-                    
-                       </div>
-                     
-                   </div>
-                   <div class="invest-ov gy-2 pb-1 pt-1">
-                      <div class="subtitle mb-0 pb-0">Schedule Activity</div>
-                      <div class="invest-ov-details">
-                          <div class="invest-ov-info">
-                              <div class="amount"> <span class="badge badge-dim badge-md bg-info">USD</span> - <span class="badge badge-dim badge-md bg-info">USD</span></div>
-                         
-                          </div>
-                    
-                       </div>
-                     
-                   </div>
-                   <div class="invest-ov gy-2 pb-1 pt-1">
-                      <div class="subtitle mb-0 pb-0">PIC Name</div>
-                      <div class="invest-ov-details">
-                          <div class="invest-ov-info">
-                              <div class="amount">49,395.395 <span class="currency currency-usd">USD</span></div>
-                         
-                          </div>
-                    
-                       </div>
-                     
-                   </div>
-                   <div class="invest-ov gy-2 pb-1 pt-1">
-                      <div class="subtitle mb-0 pb-0">Unit</div>
-                      <div class="invest-ov-details">
-                          <div class="invest-ov-info">
-                              <div class="amount">49,395.395 <span class="currency currency-usd">USD</span></div>
-                         
-                          </div>
-                    
-                       </div>
-                     
-                   </div>
-                   <div class="invest-ov gy-2 pb-1 pt-1">
-                      <div class="subtitle mb-0 pb-0">PIC contact</div>
-                      <div class="invest-ov-details">
-                          <div class="invest-ov-info">
-                              <div class="amount">49,395.395 <a href="#" class="btn btn-dim btn-success"><i class="icon fa-brands fa-whatsapp"></i></a></div>
-                         
-                          </div>
-                    
-                       </div>
-                     
-                   </div>
-                   
-               </div>
-
+             
         </div>
 
     </div>
@@ -520,7 +463,7 @@
                              }
                              html +=`
                                     
-                                        <div class="col-md-4 subkonten_loan" id="subkonten_loan" style="cursor:pointer" onclick="detail_loan()">
+                                        <div class="col-md-4 subkonten_loan" id="subkonten_loan" style="cursor:pointer" onclick="detail_loan(${value.id_loan})">
                                                 <div class="card card-bordered card-full  shadow-cus">
                                                     <div class="card-inner">
                                                         <div class="row g-gs">
@@ -588,8 +531,94 @@
                   })
 
                 }
-        function detail_loan(){
-           $('#modaldetail').modal('show')
+        function detail_loan(id){
+            var html=''
+            $.ajax({
+                    url:"<?php echo base_url('detailLoan') ?>",
+                    global:false,
+                    async:true,
+                    type:'post',
+                    dataType:'json',
+                    data: ({
+                     id_loan : id,
+                   
+                    }),
+                    success : function(e) {
+                                
+                             var date_start=new Date(e.data.tanggal_pinjam)
+                             var date_end=new Date(e.data.tanggal_kembali)
+                          
+                             html +=`  <div class="tab-pane " id="overview">
+                                          <div class="invest-ov gy-2 pb-1 pt-1">
+                                              <div class="subtitle mb-0 pb-0">Activity Name</div>
+                                              <div class="invest-ov-details">
+                                                  <div class="invest-ov-info">
+                                                      <div class="amount">${e.data.activity}</div>
+                                                  </div>
+                                            
+                                               </div>
+                                             
+                                           </div>
+                                           <div class="invest-ov gy-2 pb-1 pt-1">
+                                              <div class="subtitle mb-0 pb-0">Schedule Activity</div>
+                                              <div class="invest-ov-details">
+                                                  <div class="invest-ov-info">
+                                                      <div class="amount"> <span class="badge badge-dim badge-md bg-info">${formatDate(date_start)}</span> - <span class="badge badge-dim badge-md bg-info">${formatDate(date_end)}</span></div>
+                                                 
+                                                  </div>
+                                            
+                                               </div>
+                                             
+                                           </div>
+                                           <div class="invest-ov gy-2 pb-1 pt-1">
+                                              <div class="subtitle mb-0 pb-0">PIC Name</div>
+                                              <div class="invest-ov-details">
+                                                  <div class="invest-ov-info">
+                                                      <div class="amount">${e.data.name}</div>
+                                                 
+                                                  </div>
+                                            
+                                               </div>
+                                             
+                                           </div>
+                                           <div class="invest-ov gy-2 pb-1 pt-1">
+                                              <div class="subtitle mb-0 pb-0">Unit</div>
+                                              <div class="invest-ov-details">
+                                                  <div class="invest-ov-info">
+                                                      <div class="amount">${e.data.unit}</div>
+                                                 
+                                                  </div>
+                                            
+                                               </div>
+                                             
+                                           </div>
+                                           <div class="invest-ov gy-2 pb-1 pt-1">
+                                              <div class="subtitle mb-0 pb-0">PIC contact</div>
+                                              <div class="invest-ov-details">
+                                                  <div class="invest-ov-info">
+                                                      <div class="amount">${e.data.no_telepon}<a href="https://wa.me/${convertphonenumber(e.data.no_telepon)}" class="btn btn-dim btn-success"><i class="icon fa-brands fa-whatsapp"></i></a></div>
+                                                 
+                                                  </div>
+                                            
+                                               </div>
+                                             
+                                           </div>
+                                           
+                                       </div>
+                                     `;
+                         
+                    
+
+                           $('#maindetail').html(html);
+                           $('#modaldetail').modal('show');
+                    
+                        
+                    },
+                    error :function(xhr, status, error) {
+                     alert(xhr.responseText);
+                    }
+
+                  })
         }
 
         function showproduk(search, select=1, paramName=null){
@@ -984,6 +1013,18 @@
             }
 
          });
+    }
+
+    function convertphonenumber(phoneNumber) {
+      // Hapus karakter non-digit dari nomor telepon (seperti spasi, tanda "-", atau karakter lainnya)
+      phoneNumber = phoneNumber.replace(/\D/g, '');
+
+      // Periksa apakah nomor telepon sudah dimulai dengan '62'. Jika belum, tambahkan '62' di depan nomor.
+      if (!phoneNumber.startsWith('62')) {
+        phoneNumber = '62' + phoneNumber;
+      }
+
+      return phoneNumber;
     }
 
         
