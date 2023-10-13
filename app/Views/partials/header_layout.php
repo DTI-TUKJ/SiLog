@@ -44,7 +44,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css"
         integrity="sha512-MQXduO8IQnJVq1qmySpN87QQkiR1bZHtorbJBD0tzy7/0U9+YIC93QWHeGTEoojMVHWWNkoCp8V6OzVSYrX0oQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-         <?php if  ($_SERVER['REQUEST_URI']!='/User') {?>
+         <?php if  ($_SERVER['REQUEST_URI']!='/User' && $_SERVER['REQUEST_URI']!='/loanHistory') {?>
          <style type="text/css">     
             .dataTables_wrapper .dataTables_filter {
                 float: right;

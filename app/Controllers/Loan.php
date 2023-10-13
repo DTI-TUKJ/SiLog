@@ -88,7 +88,8 @@ class Loan extends BaseController
                            $btnacc='<a class="btn btn-sm btn-warning "  onclick="upStatusLoan(\''.$val['id_loan'].'\',\'finish\')">End Loan</a>';
                         }
                     }else if ($val['status']==0){
-                           $btnacc='<a class="btn btn-sm btn-success "  onclick="upStatusLoan(\''.$val['id_loan'].'\',\'accept\')">Accept</a><a class="btn btn-sm btn-danger "  onclick="upStatusLoan(\''.$val['id_loan'].'\',\'reject\')">Reject</a>';
+                               $btnacc='<a class="btn btn-sm btn-success " title="Accept"  onclick="upStatusLoan(\''.$val['id_loan'].'\',\'accept\')"><i class="icon fa-solid fa-check"></i></a>
+                                    <a class="btn btn-sm btn-danger " title="Reject" onclick="upStatusLoan(\''.$val['id_loan'].'\',\'reject\')"><i class="icon fa-solid fa-xmark"></i></a>';
                     }
                   
 
