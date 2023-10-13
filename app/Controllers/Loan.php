@@ -65,7 +65,10 @@ class Loan extends BaseController
                 $row[]='<span class="currency">'.$val['amount_loan'].'</span>';
                 $row[]=' <span class="tb-amount">'.date('d/m/Y - H:i',strtotime($val['tanggal_pinjam'])).' </span>';
                 $row[]=' <span class="tb-amount">'.date('d/m/Y - H:i',strtotime($val['tanggal_kembali'])).' </span>';
-                $row[]=' <span class="tb-amount">'.(!isset($val['tanggal_masuk']))?'-':$val['tanggal_masuk'].' </span>';
+
+                (!isset($val['tanggal_masuk']))?$date_in = '-':$date_in=date('d/m/Y - H:i',strtotime($val['tanggal_masuk']));
+
+                $row[]=' <span class="tb-amount">'.$date_in.' </span>';
 
                 if($val['status']==1){
 

@@ -35,7 +35,7 @@ $routes->post('/checkSchedule', 'Loan::ScheduleCheck');
 $routes->post('/addLoan', 'Loan::addLoan');
 $routes->post('/loanDelete', 'Loan::deleteLoan');
 $routes->post('/statusLoanUp', 'Loan::updateStatusLoan');
-
+$routes->post('/detailLoan', 'Myasset::loan_detail');
 
 
 

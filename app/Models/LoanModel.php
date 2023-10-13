@@ -154,5 +154,19 @@ class LoanModel extends Model
         return $this->db->query($sql)->getResultArray();
     }
 
+    public function get_detail($param)
+    {  
+         
+                $builder = $this->db->table($this->table);
+                $builder->select('*');
+                $builder->join('ms_assets', $this->table.'.id_asset_loan=ms_assets.id_asset');
+                $builder->where('id_loan', $param);
+                $query = $builder->get();
+                return $query->getRowArray();
+          
+        
+        
+    }
+
     
 }
