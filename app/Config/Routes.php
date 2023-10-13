@@ -29,6 +29,7 @@ $routes->post('/showAsset', 'Myasset::show_asset');
 $routes->post('/showAssetStatus', 'Myasset::show_asset_status');
 
 $routes->get('/DataLoan', 'Loan::index');
+$routes->get('/loanHistory', 'Loan::history');
 $routes->post('/dataJsonLoan', 'Loan::dataJson');
 $routes->post('/checkSchedule', 'Loan::ScheduleCheck');
 $routes->post('/addLoan', 'Loan::addLoan');

@@ -144,9 +144,14 @@ class LoanModel extends Model
                 $query = $builder->get();
                 return $query->getResultArray();
             }
+    }
 
-        
-        
+    public function loanHistory()
+    {
+        $sql="SELECT * FROM loan l join ms_assets ma on l.id_asset_loan =ma.id_asset
+                where l.status=3";
+       
+        return $this->db->query($sql)->getResultArray();
     }
 
     

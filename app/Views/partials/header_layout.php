@@ -156,7 +156,7 @@
                                  <?php }
                               }  ?>
                               <li class="nk-menu-item has-sub">
-                                    <a href="#>" class="nk-menu-link">
+                                    <a href="<?php echo base_url('loanHistory') ?>" class="nk-menu-link">
                                         <span class="nk-menu-text">Loan History </span>
                                     </a>
                                     

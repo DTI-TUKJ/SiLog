@@ -342,6 +342,15 @@ class Loan extends BaseController
         echo json_encode(array('status' => 'ok;', 'text' => ''));
     }
 
+    public function history()
+    {
+        $data = [
+            'title' => 'Loan History',
+            'data' => $this->LM->loanHistory()
+        ];
+        return view('main/loan/history',$data);
+    }
+
 }
 
 ?>
