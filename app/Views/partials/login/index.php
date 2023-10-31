@@ -90,7 +90,7 @@
                                     <div class="nk-block-head-content" style="display:flex;justify-content: center;">
 
 
-                                        <img class="logo-dark logo-img logo-img-lg" style="width: 150px;" src="<?php echo base_url('') ?>/images/logo-TelU.png" srcset="<?php base_url('') ?>/images/logo-TelU.png 2x" alt="logo-dark">
+                                        <img class="logo-dark logo-img logo-img-lg" src="<?php echo base_url('') ?>/images/logo_silo.png" srcset="<?php base_url('') ?>/images/logo_silo.png 2x" alt="logo-dark">
 
                                     </div>
                                 </div>

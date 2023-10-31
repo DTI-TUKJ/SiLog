@@ -121,7 +121,7 @@ class LoanModel extends Model
 
     public function GetShowAssetStatus($param,$paramByName)
     {  
-            if($param=='All'){
+            if($param=='All' || $param==''){
                 $builder = $this->db->table($this->table);
                 $builder->select('*');
                 $builder->join('ms_assets', $this->table.'.id_asset_loan=ms_assets.id_asset');
@@ -133,6 +133,7 @@ class LoanModel extends Model
                 $query = $builder->get();
                 return $query->getResultArray();
             }else{
+               
                 $builder = $this->db->table($this->table);
                 $builder->join('ms_assets', $this->table.'.id_asset_loan=ms_assets.id_asset');
                 $builder->where('asset_type', $param);

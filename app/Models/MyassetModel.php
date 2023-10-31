@@ -230,7 +230,7 @@ class MyassetModel extends Model
     }
      public function GetShowAssetCat($param,$paramByName)
     {  
-            if($param=='All'){
+            if($param=='All' || $param==''){
                 $builder = $this->db->table($this->table);
                 $builder->select('*');
                 if (isset($paramByName) && $paramByName!='' && $paramByName!=null){
@@ -240,6 +240,7 @@ class MyassetModel extends Model
                 $query = $builder->get();
                 return $query->getResultArray();
             }else{
+               
                 $builder = $this->db->table($this->table);
                 $builder->where('asset_type', $param);
                 if (isset($paramByName) && $paramByName!='' && $paramByName!=null){

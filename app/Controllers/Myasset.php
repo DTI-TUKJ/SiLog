@@ -291,7 +291,6 @@ class Myasset extends BaseController
         
 
         $data =$this->MAM->GetShowAssetCat($this->request->getPost('search'), $this->request->getPost('searchByName'));
-      
         echo json_encode(array('status' => 'ok;', 'text' => '', 'data'=>$data));
         
     }

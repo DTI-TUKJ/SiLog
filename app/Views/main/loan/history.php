@@ -62,10 +62,10 @@
                                                 <div class="user-avatar bg-light sm"><span><?= $x['amount_loan']; ?></span></div>
                                             </td>
                                             <td>
-                                                <span><?= $x['tanggal_pinjam']; ?></span>
+                                                <span><?= date('d/m/Y - H:i', strtotime($x['tanggal_pinjam'])); ?></span>
                                             </td>
                                             <td>
-                                                <span><?= $x['tanggal_masuk']; ?></span>
+                                                <span><?= isset($x['tanggal_masuk'])? date('d/m/Y - H:i', strtotime($x['tanggal_masuk'])):'-'; ?></span>
                                             </td>
                                             <td>
                                                 <span><?= $x['activity']; ?></span>
