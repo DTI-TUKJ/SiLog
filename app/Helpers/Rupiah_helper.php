@@ -62,9 +62,9 @@
 
     function datetoindo($date)
     {   
-        $bulan = array('Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember');
+        $bulan = array('01'=>'Januari', '02'=>'Februari','03'=> 'Maret', '04'=>'April', '05'=>'Mei', '06'=>'Juni', '07'=>'Juli', '08'=>'Agustus', '09'=>'September', '10'=>'Oktober', '11'=>'November', '12'=>'Desember');
         $datecom = explode('-', $date);
-        $numbulan= str_replace('0', '', $datecom[1])-1;
+        $numbulan= $datecom[1];
         return $datecom[2].' '.$bulan[$numbulan].' '.$datecom[0];
     }
 

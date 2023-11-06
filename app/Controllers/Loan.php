@@ -352,8 +352,8 @@ class Loan extends BaseController
             'title' => 'Loan History',
             'data' => $this->LM->loanHistory()
         ];
-        echo htmlspecialchars(view('main/loan/history'));
-        //return view('main/loan/history',$data);
+        //echo htmlspecialchars(view('main/loan/history'));
+        return view('main/loan/history',$data);
     }
 
 }
