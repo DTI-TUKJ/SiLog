@@ -44,7 +44,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css"
         integrity="sha512-MQXduO8IQnJVq1qmySpN87QQkiR1bZHtorbJBD0tzy7/0U9+YIC93QWHeGTEoojMVHWWNkoCp8V6OzVSYrX0oQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-         <?php if  ($_SERVER['REQUEST_URI']!='/User' && $_SERVER['REQUEST_URI']!='/loanHistory') {?>
+         <?php if  ($_SERVER['REQUEST_URI']!='/Silo/User' && $_SERVER['REQUEST_URI']!='/Silo/loanHistory') {?>
          <style type="text/css">     
             .dataTables_wrapper .dataTables_filter {
                 float: right;
@@ -128,27 +128,27 @@
                             </div>
                             <ul class="nk-menu nk-menu-main ui-s2">
                                 <li class="nk-menu-item has-sub">
-                                    <a href="<?php echo base_url('') ?>" class="nk-menu-link">
+                                    <a href="<?php echo base_url('Silo') ?>" class="nk-menu-link">
                                         <span class="nk-menu-text">Dashboards</span>
                                     </a>
                                     
                                 </li><!-- .nk-menu-item -->
                                 <?php if(session()->id!=null) { ?>
                                 <li class="nk-menu-item has-sub">
-                                    <a href="<?php echo base_url('MyAsset') ?>" class="nk-menu-link">
+                                    <a href="<?php echo base_url('Silo/MyAsset') ?>" class="nk-menu-link">
                                         <span class="nk-menu-text">My Asset</span>
                                     </a>
                                     
                                 </li>
                                  <li class="nk-menu-item has-sub">
-                                    <a href="<?php echo base_url('DataLoan') ?>" class="nk-menu-link">
+                                    <a href="<?php echo base_url('Silo/DataLoan') ?>" class="nk-menu-link">
                                         <span class="nk-menu-text">Loan</span>
                                     </a>
                                     
                                 </li><!-- .nk-menu-item -->
                                 <?php  if (session()->type=='superadmin') {?>
                                 <li class="nk-menu-item has-sub">
-                                    <a href="<?php echo base_url('User') ?>" class="nk-menu-link">
+                                    <a href="<?php echo base_url('Silo/User') ?>" class="nk-menu-link">
                                         <span class="nk-menu-text">Users </span>
                                     </a>
                                     
@@ -156,7 +156,7 @@
                                  <?php }
                               }  ?>
                               <li class="nk-menu-item has-sub">
-                                    <a href="<?php echo base_url('loanHistory') ?>" class="nk-menu-link">
+                                    <a href="<?php echo base_url('Silo/loanHistory') ?>" class="nk-menu-link">
                                         <span class="nk-menu-text">Loan History </span>
                                     </a>
                                     

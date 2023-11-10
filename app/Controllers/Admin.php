@@ -67,7 +67,7 @@ class Admin extends BaseController
             if ($isDataValid && $cekusername && $cekpasword) {
                 session()->set($getuser);
                 //print_r(session()->get());
-                return redirect()->to(base_url(''));
+                return redirect()->to(base_url('Silo'));
             } else {
 
                 $data['validation'] = $this->validation;
@@ -82,7 +82,7 @@ class Admin extends BaseController
      public function Logout()
     {
         session()->destroy();
-        return redirect()->to(base_url(''));
+        return redirect()->to(base_url('Silo'));
     }
       
 }

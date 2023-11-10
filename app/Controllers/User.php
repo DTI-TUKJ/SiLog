@@ -74,7 +74,7 @@ class User extends BaseController
                 'errorUserType' => '<div class="validate text-danger"><strong>' . $validation->getError('userType') . '</strong></div>',
             ];
             session()->setFlashdata($pesan);
-            return redirect()->to('User');
+            return redirect()->to('Silo/User');
         }else {
             // dd('success');
             $this->LM->insert([
@@ -87,7 +87,7 @@ class User extends BaseController
                 'sukses' => '<div class="alert alert-primary">User berhasil ditambahkan...</div>'
             ];
             session()->setFlashdata($pesan);
-            return redirect()->to('User');
+            return redirect()->to('Silo/User');
         }
     }
 }

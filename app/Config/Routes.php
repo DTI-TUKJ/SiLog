@@ -12,14 +12,14 @@ $routes->setAutoRoute(true);
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
+$routes->get('/Silo', 'Home::index');
 
 $routes->post('/AdminSignin', 'Admin::index');
-$routes->get('/AdminSignin', 'Admin::index');
+$routes->get('/Silo/AdminSignin', 'Admin::index');
 $routes->get('/Logout', 'Admin::Logout');
-$routes->get('/User', 'User::index');
-$routes->get('/User', 'User::index');
-$routes->get('/MyAsset', 'Myasset::index');
+$routes->get('/Silo/User', 'User::index');
+$routes->get('/Silo/User', 'User::index');
+$routes->get('/Silo/MyAsset', 'Myasset::index');
 $routes->post('/callDataJson', 'Myasset::dataJson');
 $routes->post('/addAsset', 'Myasset::insertAsset');
 $routes->post('/AssetDelete', 'Myasset::deleteAsset');
@@ -28,8 +28,8 @@ $routes->post('/assetEdit', 'Myasset::editAsset');
 $routes->post('/showAsset', 'Myasset::show_asset');
 $routes->post('/showAssetStatus', 'Myasset::show_asset_status');
 
-$routes->get('/DataLoan', 'Loan::index');
-$routes->get('/loanHistory', 'Loan::history');
+$routes->get('/Silo/DataLoan', 'Loan::index');
+$routes->get('/Silo/loanHistory', 'Loan::history');
 $routes->post('/dataJsonLoan', 'Loan::dataJson');
 $routes->post('/checkSchedule', 'Loan::ScheduleCheck');
 $routes->post('/addLoan', 'Loan::addLoan');
