@@ -14,8 +14,10 @@ $routes->setAutoRoute(true);
  */
 $routes->get('/Silo', 'Home::index');
 
-$routes->post('/AdminSignin', 'Admin::index');
+$routes->post('/Silo/AdminSignin', 'Admin::index');
+$routes->post('/Silo/Signin', 'Admin::pgwSignin');
 $routes->get('/Silo/AdminSignin', 'Admin::index');
+$routes->get('/Silo/Signin', 'Admin::pgwSignin');
 $routes->get('/Logout', 'Admin::Logout');
 $routes->get('/Silo/User', 'User::index');
 $routes->get('/Silo/User', 'User::index');

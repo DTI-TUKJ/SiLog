@@ -1,6 +1,6 @@
 # Disable directory browsing
 Options -Indexes
-
+Header append X-Frame-Options: "SAMEORIGIN"
 # ----------------------------------------------------------------------
 # Rewrite engine
 # ----------------------------------------------------------------------

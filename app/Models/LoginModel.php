@@ -14,13 +14,27 @@ class LoginModel extends Model
     {
         $builder = $this->db->table($this->table);
         $builder->select('*');
-        // $builder->join('master_pegawai', 'users.id_pgw_user=master_pegawai.id_pegawai', 'left');
+       $builder->join('employe_master', 'user.Admin_name=employe_master.id');
+        // $builder->join('ms_unit', 'master_pegawai.id_unit_pgw=ms_unit.kode_unit', 'left');
+        $builder->where('username', $username);
+        $builder->orderBy('user.id', 'ASC');
+        $query = $builder->get();
+        return $query->getRowArray();
+    
+    }
+
+      public function getDataSession($username)
+    {
+        $builder = $this->db->table($this->table);
+        $builder->select('employe_master.*, user.type');
+       $builder->join('employe_master', 'user.Admin_name=employe_master.id');
         // $builder->join('ms_unit', 'master_pegawai.id_unit_pgw=ms_unit.kode_unit', 'left');
         $builder->where('username', $username);
         $builder->orderBy('user.id', 'ASC');
         $query = $builder->get();
         return $query->getRowArray();
     }
+
 
     //  public function getUsersByUsername($username)
     // {

@@ -308,6 +308,25 @@
 </div>
 </div>
 
+<div class="modal fade " tabindex="-1" id="modalAdd">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <em class="icon ni ni-cross"></em>
+            </a>
+            <div class="modal-header">
+                <h5 class="modal-title">Request Loan</h5>
+            </div>
+            <div class="modal-body" id="mainAdd">
+
+                
+       
+        </div>  
+      
+    </div>
+</div>
+</div>
+
 
             <script type="text/javascript">
                  $(document).ready(function(){
@@ -459,12 +478,14 @@
                                                                                 <div class="title">Unit Amount</div>
                                                                                 <div class="amount">${value.amount_asset}</span></div>
                                                                             </div>
+                                                                            <?php if (session()->type=='pegawai') {?>
                                                                             <div class="invest-data-history" >
                                                                                 
                                                                                 <div class="amount mt-3" style="margin-left:15%">
-                                                                                <a class="btn btn-round btn-sm btn-primary"  onclick="modalcheck('${value.id_asset}')">Check Schedule</a>
+                                                                                <a class="btn btn-round btn-sm btn-primary"  onclick="modalcheck('${value.id_asset}','${value.no_tlp}','${value.email}')">Check Schedule</a>
                                                                                 </div>
                                                                             </div>
+                                                                            <?php } ?>
                                                                         </div>
 
                                                                       
@@ -553,7 +574,11 @@
                                          if (datenow>=date_start){
                                          status=`<span class=" text-success">In Use  </span> until <b>${formatDate(date_end)}</b>`
                                          }else{
-                                            status=`<span class="text-warning">Scheduled on</span><p ><b>${formatDate(date_start)} - ${formatDate(date_end)}</b></p>`
+                                            if(value.status!=0){
+                                                 status=`<span class="text-warning">Scheduled on</span><p ><b>${formatDate(date_start)} - ${formatDate(date_end)}</b></p>`
+                                            }else{
+                                                 status=`<span class="text-warning">In My Request</span><p ></p>`
+                                            }
                                          }
                                          html +=`
                                                 
@@ -661,10 +686,15 @@
                           $.each(e.data, function(key, value) {
                              var date_start=new Date(value['tanggal_pinjam'])
                              var date_end=new Date(value['tanggal_kembali'])
-                             if (datenow>=date_start){
+                             if (datenow>=date_start && value.status==1 ){
                              status=`<span class=" text-success">In Use  </span> until <b>${formatDate(date_end)}</b>`
                              }else{
-                                status=`<span class="text-warning">Scheduled on</span><p ><b>${formatDate(date_start)} - ${formatDate(date_end)}</b></p>`
+                                if(value.status!=0){
+                                     status=`<span class="text-warning">Scheduled on</span><p ><b>${formatDate(date_start)} - ${formatDate(date_end)}</b></p>`
+                                }else{
+                                     status=`<span class="text-warning">In My Request</span><p ></p>`
+                                }
+                               
                              }
                              html +=`
                                     
@@ -779,7 +809,7 @@
                                               <div class="subtitle mb-0 pb-0">PIC Name</div>
                                               <div class="invest-ov-details">
                                                   <div class="invest-ov-info">
-                                                      <div class="amount">${e.data.name}</div>
+                                                      <div class="amount">${e.data.name} ( ${e.data.nip} )</div>
                                                  
                                                   </div>
                                             
@@ -894,12 +924,14 @@
                                                                                 <div class="title">Unit Amount</div>
                                                                                 <div class="amount">${value.amount_asset}</span></div>
                                                                             </div>
+                                                                            <?php if (session()->type=='pegawai') {?>
                                                                             <div class="invest-data-history" >
                                                                                 
                                                                                 <div class="amount mt-3" style="margin-left:15%">
-                                                                                <a class="btn btn-round btn-sm btn-primary" onclick="modalcheck('${value.id_asset}')">Check Schedule</a>
+                                                                                <a class="btn btn-round btn-sm btn-primary" onclick="modalcheck('${value.id_asset}', '${value.no_tlp}','${value.email}')">Check Schedule</a>
                                                                                 </div>
                                                                             </div>
+                                                                        <?php } ?>
                                                                         </div>   
                                                                     </div>
                                                             </div>
@@ -943,7 +975,7 @@
                             var limitPerpage=9;
                             var totalPages=Math.ceil(numberOfitem/limitPerpage);
                             var paginationSize=5;
-                            var currentPage;
+                            var currentPage; 
 
                             function showPage_available(whichPage) {
                                 if(whichPage<1 || whichPage>totalPages) return false;
@@ -1091,7 +1123,7 @@
               return `${month}/${day}/${year}  ${hours}:${minutes}`;
             }
 
-        function modalcheck(id){
+        function modalcheck(id,no_tlp,email){
             var html = `
                         <form id="frmcheck">
                               <div class="row g-0">
@@ -1116,7 +1148,7 @@
 
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-lg btn-primary" id="buttonsave" onclick="CheckSchedule()">Check</button>
+                                        <button type="button" class="btn btn-lg btn-primary" id="buttonsave" onclick="CheckSchedule('${no_tlp}','${email}')">Check</button>
                                         <span class="loader" id="loader" style="display: none;"></span>
 
                                     </div>
@@ -1147,7 +1179,7 @@
                     $("#modalcheck").modal('show');
         }
 
-    function CheckSchedule(){
+    function CheckSchedule(adminnum,email){
        var html='';
        var option='';
         var form_data = new FormData($('#frmcheck')[0]);
@@ -1177,11 +1209,96 @@
                           showCancelButton: true,
                           confirmButtonColor: '#3085d6',
                           cancelButtonColor: '#d33',
-                          confirmButtonText: 'Contact Admin'
+                          confirmButtonText: 'Next'
                         }).then((result) => {
-                            if (result.isConfirmed) {
-                           window.location.href = "https://wa.me/6282125405178";
-                            }
+                           if (result.isConfirmed) {
+                               $.each(e.data.data_asset, function(key, value) {
+                                    if(value.id_asset==e.data.id_asset){
+                                        option+=` <option value="${value.id_asset}">${value.asset_name}</option>`
+                                    }
+                                });
+
+                               html +=`
+                                        <form id="frmAdd">
+                                          <div class="row g-4"  >
+                                         
+                                             <input type="hidden" name="id_asset" value="${e.data.id_asset}">
+                                             <input type="hidden" name="email" value="${email}">
+                                            
+                                             <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="asset_name_add">Asset Name</label>
+                                                    <div class="form-control-wrap">
+                                                         <select class="form-select" id="asset_name_add" name="asset_name_add" disabled>
+                                                           ${option}
+                                                        </select>
+                                                    </div>
+                                                    <div id="asset_name_add-error">
+
+                                                    </div>
+                                                     <div id="id_asset-error">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="WhatsApp">Loan Date</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control" value="${e.data.date_loan}" name="loan_date" id="WhatsApp" placeholder="Enter Amount" style="background-color:#F5F6FA;"  readonly>
+                                                    </div>
+                                                    <div id="loan_date-error">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                       
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="activity">Activity Name</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control" value="" name="activity" id="activity" placeholder="Enter Activity" >
+                                                    </div>
+                                                    <div id="activity-error">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                 <input type="hidden" name="max_req" value="${e.data.max_req}">
+                                                    <label class="form-label" for="amount_loan">Amount Loan</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="number" class="form-control" value="1" name="amount_loan" id="amount_loan" placeholder="Enter Amount" >
+                                                    </div>
+                                                    <div id="amount_loan-error">
+
+                                                    </div>
+                                                    <div id="max_req-error">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                          
+                                           
+
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <button type="button" class="btn btn-lg btn-primary" id="buttonAddLoan" onclick="addLoan()">Save</button>
+                                                    <span class="loader" id="loaderAddLoan" style="display: none;"></span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                               `
+                                $('#mainAdd').html(html);
+                                $("#modaltambah").modal('hide');
+                                $("#modalAdd").modal('show');
+                          }
                         })
                     }else{
                          $('#buttonsave').show()
@@ -1232,6 +1349,75 @@
 
       return phoneNumber;
     }
+
+    function addLoan()
+    {
+        var form_data = new FormData($('#frmAdd')[0]);
+
+       $.ajax({
+         url:"<?php echo base_url('addLoan') ?>",
+         global:false,
+         async:true,
+         type:'post',
+        processData: false,
+         contentType: false,
+         dataType:'json',
+         enctype: "multipart/form-data",
+         data: form_data,
+         beforeSend: function () {
+                    $('#buttonAddLoan').hide()
+                    $('#loaderAddLoan').show()
+                  },
+         success : function(e) {
+           if(e.status == 'ok;') 
+           {
+            $('#buttonAddLoan').show()
+            $('#loaderAddLoan').hide()
+             let timerInterval
+              Swal.fire({
+                icon: 'success',
+                title: ' Data has been Updated',
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+                didOpen: () => {
+                  timerInterval = setInterval(() => {
+
+                  }, 100)
+                },
+                willClose: () => {
+                  clearInterval(timerInterval)
+                }
+              }).then((result) => {
+                /* Read more about handling dismissals below */
+                if (result.dismiss === Swal.DismissReason.timer) {
+                  location.reload();
+                }
+              })
+          } 
+          else{ 
+             $('#buttonAddLoan').show()
+            $('#loaderAddLoan').hide()
+            var msgeror='';
+             $.each(e.dataname, function(key, value) {
+                document.getElementById(key+"-error").innerHTML ="";
+              });
+
+            $.each(e.data, function(key, value) {
+             document.getElementById(key+"-error").innerHTML = `<span class="badge badge-dim bg-danger">`+value+`
+                                                                </span>`;
+          });
+            $('#buttonAddLoan').show()
+            $('#loaderAddLoan').hide()
+            $("#modalAdd").modal('show');
+         }
+      },
+      error :function(xhr, status, error) {
+       alert(xhr.responseText);
+    }
+
+ });
+}
 
         
     </script>

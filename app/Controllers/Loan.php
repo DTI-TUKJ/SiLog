@@ -16,14 +16,15 @@ class Loan extends BaseController
         $this->req = \Config\Services::request();
         $this->email = \Config\Services::email();
         $this->MAM = new MyassetModel($this->req);
-       $this->LM = new LoanModel($this->req);
+        $this->LM = new LoanModel($this->req);
+
    
     }
 
     public function index()
     {
-            if (session()->id==null){
-                return redirect()->to(base_url(''));
+            if (session()->id==null || session()->type=='pegawai'){
+                return redirect()->to(base_url('Silo'));
             }
              $data=array(
                         "data_asset"=>$this->MAM->getAssetByOwner(),
@@ -78,7 +79,7 @@ class Loan extends BaseController
                 }else if($val['status']==3){
                      $status=' <span class="tb-status text-info">Finish</span>';
                 }else{
-                     $status=' <span class="tb-status text-info">Rejected</span>';
+                     $status=' <span class="tb-status text-danger">Rejected</span>';
                 }
                 $row[]=$status;
                     $btnacc='';
@@ -112,56 +113,84 @@ class Loan extends BaseController
     {    
     
 
-        if (session()->id==null){
+        if (session()->nip_emp==null){
             return false;
         }
 
         $max_req=$this->request->getPost('max_req');
-        
-        $this->validation->setRules([
-          
-            'nip'=>[
-                 'rules'=>'required',
-                 'errors'=>[
-                        'required'=>'Nip Belum diisi',
-
+        if (session()->type=='pegawai'){
+            $this->validation->setRules([
+              
+                      'amount_loan' =>[
+                        'rules'=>'required|greater_than_equal_to['.$max_req.']',
+                        // rules greater_than_equal_to sudah dirubah defaultnya
+                        'errors'=>[
+                               'required'=>'jumlah loan Belum diisi',
+                                'greater_than_equal_to'=>'Jumlah pinjaman lebih dari unit yang tersedia'
+                        ],
+                        
                     ],
+                    'activity'=>[
+                         'rules'=>'required',
+                         'errors'=>[
+                                'required'=>'Aktivitas Belum diisi',
+                            ],
 
-                ],
-             'name_loaner'=>[
-                 'rules'=>'required',
-                 'errors'=>[
-                        'required'=>'Nama Peminjam Belum diisi',
+                        ],
+
+                ]);
+        }else{
+                $this->validation->setRules([
+                  
+                    'nip'=>[
+                         'rules'=>'required',
+                         'errors'=>[
+                                'required'=>'Nip Belum diisi',
+
+                            ],
+
+                        ],
+                     'name_loaner'=>[
+                         'rules'=>'required',
+                         'errors'=>[
+                                'required'=>'Nama Peminjam Belum diisi',
+                            ],
+
+                        ],
+
+                    'unit' =>[
+                        'rules'=>'required',
+                        'errors'=>[
+                               'required'=>'Unit Belum diisi',
+                        ]
                     ],
+                     'contact' =>[
+                        'rules'=>'required',
+                        'errors'=>[
+                               'required'=>'Kontak Belum diisi',
 
-                ],
+                        ]
+                    ],
+                      'amount_loan' =>[
+                        'rules'=>'required|greater_than_equal_to['.$max_req.']',
+                        // rules greater_than_equal_to sudah dirubah defaultnya
+                        'errors'=>[
+                               'required'=>'jumlah loan Belum diisi',
+                                'greater_than_equal_to'=>'Jumlah pinjaman lebih dari unit yang tersedia'
+                        ]
+                    ],
+                    'activity'=>[
+                         'rules'=>'required',
+                         'errors'=>[
+                                'required'=>'Aktivitas Belum diisi',
+                            ],
 
-            'unit' =>[
-                'rules'=>'required',
-                'errors'=>[
-                       'required'=>'Unit Belum diisi',
-                ]
-            ],
-             'contact' =>[
-                'rules'=>'required',
-                'errors'=>[
-                       'required'=>'Kontak Belum diisi',
-
-                ]
-            ],
-              'amount_loan' =>[
-                'rules'=>'required|greater_than_equal_to['.$max_req.']',
-                // rules greater_than_equal_to sudah dirubah defaultnya
-                'errors'=>[
-                       'required'=>'jumlah loan Belum diisi',
-                        'greater_than_equal_to'=>'Jumlah pinjaman lebih dari unit yang tersedia'
-                ]
-            ],
+                        ],
 
 
 
-        ]);
-
+                ]);
+        }
         $isDataValid = $this->validation->withRequest($this->request)->run();
          
 
@@ -175,21 +204,25 @@ class Loan extends BaseController
              $date_end=date('Y-m-d H:i:s', strtotime($date_loan[1]));
 
             $data = array(
-                'nip'            => $this->request->getPost('nip'),
-                'name'           => $this->request->getPost('name_loaner'),
-                'unit'            => $this->request->getPost('unit'),
+                'nip'            => session()->type=='pegawai'? session()->nip_emp :$this->request->getPost('nip'),
+                'name'           => session()->type=='pegawai'? session()->name_emp :$this->request->getPost('name_loaner'),
+                'unit'            => session()->type=='pegawai'? '' :$this->request->getPost('unit'),
                 'tanggal_pinjam'   => $date_start,
                 'tanggal_kembali'   =>$date_end,
-                'status'          => 1,
-                'no_telepon'        => $this->request->getPost('contact'),
+                'status'          => session()->type=='pegawai'? 0 :1,
+                'no_telepon'        => session()->type=='pegawai'? session()->no_tlp :$this->request->getPost('contact'),
                 'amount_loan'       => $this->request->getPost('amount_loan'),
                 'id_asset_loan'   =>$this->request->getPost('id_asset'),
                 'activity'        => $this->request->getPost('activity'),
                          
             );
             $this->LM->createLoan($data);
-           
-            echo json_encode(array('status' => 'ok;', 'text' => ''));
+            if (session()->type=='pegawai'){
+                $namapeminjam = $data['name'].' ( '.$data['nip'].') ';
+                $this->sendEmailRequest($namapeminjam, $this->request->getPost('email'));
+            }
+           //print_r($data);
+           echo json_encode(array('status' => 'ok;', 'text' => ''));
         } else {
            $validation = $this->validation;
             $error=$validation->getErrors();
@@ -348,12 +381,43 @@ class Loan extends BaseController
 
     public function history()
     {
+         if (session()->nip_emp==null){
+                return redirect()->to(base_url('Silo/Signin'));
+            }
+
         $data = [
             'title' => 'Loan History',
             'data' => $this->LM->loanHistory()
         ];
         //echo htmlspecialchars(view('main/loan/history'));
         return view('main/loan/history',$data);
+    }
+
+    protected function sendEmailRequest($namapeminjam,$email)
+    {
+
+        $this->email->setFrom('dtitelujkt@gmail.com', 'Silo');
+        $this->email->setTo($email);
+        $this->email->setSubject('Incoming Loan Request');
+
+        $filename = 'images/logo_silo.png';
+        $this->email->attach($filename);
+
+        $data=array(
+             'cid' =>  $this->email->setAttachmentCID($filename),
+             'name_loaner'=>$namapeminjam,
+            );
+
+         //print_r($data);
+        $this->email->setMessage(view('main/mail/request_mail', $data));
+
+        if (!$this->email->send()) {
+            // echo "gagal";
+            return false;
+        } else {
+           // echo "berhasil";
+            return true;
+        }
     }
 
 }

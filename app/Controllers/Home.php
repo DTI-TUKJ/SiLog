@@ -12,11 +12,25 @@ class Home extends BaseController
         // $this->validation =  \Config\Services::validation();
         $this->TM = new TestingModel();
         $this->LM = new LoginModel();
+       // helper('cookie');
+
+       //  set_cookie('my_cookie', 'nilai_cookie', 3600, '', '', false, true);
      
    
     }
     public function index()
     { 
+       // print_r(session()->get());
+         if (session()->nip_emp==null){
+                return redirect()->to(base_url('Silo/Signin'));
+            }
         return view('main/dashboard/index_new');
     }
+
+    public function email()
+    {
+        return view('main/mail/request_mail');
+    }
+
+ 
 }

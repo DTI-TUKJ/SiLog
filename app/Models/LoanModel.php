@@ -129,8 +129,25 @@ class LoanModel extends Model
                 if (isset($paramByName)){
                    $builder->like('asset_name', $paramByName); 
                 }
+                // $builder->join('user', 'ms_assets.id_owner=user.type');
+                // $builder->join('employe_master', 'user.Admin_name=employe_master.id');
                 $builder->orderBy('id_asset','DESC');
-                $query = $builder->get();
+                
+
+                $builder2 = $this->db->table($this->table);
+                $builder2->select('*');
+                $builder2->join('ms_assets', $this->table.'.id_asset_loan=ms_assets.id_asset');
+                $builder2->where('status', '0');
+                 $builder2->where($this->table.'.nip', session()->nip_emp);
+                if (isset($paramByName)){
+                   $builder2->like('asset_name', $paramByName); 
+                }
+                // $builder2->join('user', 'ms_assets.id_owner=user.type');
+                // $builder2->join('employe_master', 'user.Admin_name=employe_master.id');
+                $builder2->orderBy('id_asset','DESC');
+                
+                $builder2->union($builder);
+                $query = $builder2->get();
                 return $query->getResultArray();
             }else{
                
@@ -141,8 +158,27 @@ class LoanModel extends Model
                 if (isset($paramByName)){
                    $builder->like('asset_name',$paramByName); 
                 }
+                // $builder->join('user', 'ms_assets.id_owner=user.type');
+                // $builder->join('employe_master', 'user.Admin_name=employe_master.id');
                 $builder->orderBy('id_asset','DESC');
-                $query = $builder->get();
+
+
+                $builder2 = $this->db->table($this->table);
+                $builder2->select('*');
+                $builder2->join('ms_assets', $this->table.'.id_asset_loan=ms_assets.id_asset');
+                $builder2->where('status', '0');
+                 $builder2->where($this->table.'.nip', session()->nip_emp);
+                if (isset($paramByName)){
+                   $builder2->like('asset_name', $paramByName); 
+                }
+                // $builder2->join('user', 'ms_assets.id_owner=user.type');
+                // $builder2->join('employe_master', 'user.Admin_name=employe_master.id');
+                $builder2->orderBy('id_asset','DESC');
+                
+                $builder2->union($builder);
+
+
+                $query = $builder2->get();
                 return $query->getResultArray();
             }
     }

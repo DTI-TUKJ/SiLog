@@ -24,8 +24,8 @@ class Myasset extends BaseController
 
     public function index()
     {
-            if (session()->id==null){
-                return redirect()->to(base_url(''));
+            if (session()->id==null || session()->type=='pegawai'){
+                return redirect()->to(base_url('Silo'));
             }
              $data=array(
                         "data_owner"=>$this->LM->findAll(),

@@ -2,6 +2,9 @@
 <html lang="zxx" class="js">
 
 <head>
+    <?php 
+        header("X-Frame-Options: DENY");
+     ?>
     <base href="../">
     <meta charset="utf-8">
     <meta name="author" content="Softnio">
@@ -133,7 +136,7 @@
                                     </a>
                                     
                                 </li><!-- .nk-menu-item -->
-                                <?php if(session()->id!=null) { ?>
+                                <?php if(session()->type!='pegawai') { ?>
                                 <li class="nk-menu-item has-sub">
                                     <a href="<?php echo base_url('Silo/MyAsset') ?>" class="nk-menu-link">
                                         <span class="nk-menu-text">My Asset</span>
@@ -218,7 +221,7 @@
                                         </div> -->
                                     </div>
                                 </li>
-                               <?php if(isset(session()->Admin_name)) {?>
+                               <?php if(isset(session()->name_emp)) {?>
                                 <li class="dropdown user-dropdown">
                                     <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
                                         <div class="user-toggle">
@@ -227,8 +230,8 @@
                                             </div>
                                         </div>
                                          <div class="user-info d-none d-xl-block" style="padding-left:10px">
-                                                <div class="user-status" style="color:white;"><?php echo session()->Admin_name ?></div>
-                                                <div class="user-name dropdown-indicator" style="color: #fafafa;"><?php echo session()->type ?></div>
+                                                <div class="user-status" style="color:white;"><?php echo session()->name_emp ?></div>
+                                                <div class="user-name dropdown-indicator" style="color: #fafafa;"><?php echo session()->position ?></div>
                                             </div>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-md dropdown-menu-end dropdown-menu-s1 is-light">
@@ -238,7 +241,7 @@
                                                     <span>AB</span>
                                                 </div>
                                                 <div class="user-info">
-                                                    <span class="lead-text"><?php echo session()->Admin_name ?></span>
+                                                    <span class="lead-text"><?php echo session()->name_emp ?></span>
                                                     <!-- <span class="sub-text">sofyan@gmail.com</span> -->
                                                 </div>
                                               <!--   <div class="user-action">

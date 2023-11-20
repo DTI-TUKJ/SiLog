@@ -63,7 +63,7 @@
                 <?php //print_r(session()->get()) 
                 ?>
                 <div class="nk-content bg-login">
-                    <div class="nk-block nk-block-middle nk-auth-body  wide-xs">
+                    <div class="nk-block nk-block-middle   wide-xs" >
                         <!-- <div style="display:flex;justify-content:  center;gap: 15px;">
                             <div class="brand-logo pb-4 text-center logo-mobile-login mr-5p ">
                                 <a class="logo-link" style="margin-top:23px">
@@ -84,8 +84,8 @@
                                 </a>
                             </div>
                         </div> -->
-                        <div class="card card-bordered">
-                            <div class="card-inner card-inner-lg cs-box-shadow">
+                        <div class="card card-bordered" style="height: 100vh;">
+                            <div class="card-inner card-inner-lg cs-box-shadow "  style=" margin-top: 20%; box-shadow: none;">
                                 <div class="nk-block-head">
                                     <div class="nk-block-head-content" style="display:flex;justify-content: center;">
 
@@ -125,7 +125,13 @@
                                 }
                                 ?>
 
-                                <?php echo form_open('AdminSignin', 'class="form-border"') ?>
+                                <?php
+                                if ($_SERVER['REQUEST_URI']=='/Silo/AdminSignin' || $_SERVER['REQUEST_URI']=='/index.php/Silo/AdminSignin'){
+                                    echo form_open('Silo/AdminSignin', 'class="form-border"') ;
+                                }else{
+                                    echo form_open('Silo/Signin', 'class="form-border"') ;
+                                }
+                                ?>
                                 <div class="form-group">
                                     <div class="form-label-group">
                                         <label class="form-label" for="default-01"> Username</label>

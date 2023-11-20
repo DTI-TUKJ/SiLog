@@ -236,6 +236,8 @@ class MyassetModel extends Model
                 if (isset($paramByName) && $paramByName!='' && $paramByName!=null){
                    $builder->like('asset_name', $paramByName); 
                 }
+                $builder->join('user', 'ms_assets.id_owner=user.type');
+                $builder->join('employe_master', 'user.Admin_name=employe_master.id');
                 $builder->orderBy('id_asset','DESC');
                 $query = $builder->get();
                 return $query->getResultArray();
@@ -246,6 +248,8 @@ class MyassetModel extends Model
                 if (isset($paramByName) && $paramByName!='' && $paramByName!=null){
                    $builder->like('asset_name',$paramByName); 
                 }
+                $builder->join('user', 'ms_assets.id_owner=user.type');
+                $builder->join('employe_master', 'user.Admin_name=employe_master.id');
                 $builder->orderBy('id_asset','DESC');
                 $query = $builder->get();
                 return $query->getResultArray();
@@ -259,7 +263,7 @@ class MyassetModel extends Model
 
     public function getAssetByOwner(){
         $builder = $this->db->table($this->table);
-        if (session()->type!='superadmin'){
+        if (session()->type!='superadmin' && session()->type!='pegawai'){
 
         $builder->where('id_owner', session()->type);
         }
