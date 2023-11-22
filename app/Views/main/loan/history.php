@@ -56,7 +56,7 @@
                                                 <span><?= $x['nip']; ?></span>
                                             </td>
                                             <td>
-                                                <div class="user-avatar sq bg-danger"><span><?= $x['unit']; ?></span></div>
+                                                <div class="user-avatar sq bg-danger"><span><?= singkatan($x['unit']); ?></span></div>
                                             </td>
                                             <td>
                                                 <div class="user-avatar bg-light sm"><span><?= $x['amount_loan']; ?></span></div>

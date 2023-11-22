@@ -29,7 +29,7 @@ class Home extends BaseController
 
     public function email()
     {
-        return view('main/mail/request_mail');
+        return view('main/mail/rejected_email');
     }
 
  

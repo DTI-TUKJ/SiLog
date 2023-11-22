@@ -161,6 +161,16 @@
     </div>
 </div>
 </div>
+
+<div class="modal fade " tabindex="-1" id="modalLoader">
+    <div class="modal-dialog modal-sm"  role="document">
+        <div class="modal-content" style="background: transparent; box-shadow: none;">
+            <div class="row g-gs" id="loader_container_loan" style="justify-content: center;">
+            <span class="loader_front" id="loader_front_loan" ></span>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
      function calldata() {
          
@@ -584,7 +594,7 @@ function addLoan()
  });
 }
 
-function upStatusLoan(id,action){
+function upStatusLoan(id,action, email){
 
    if (action=='finish'){
      var titlealert='Yakin ingin akhiri Pinjaman ?'
@@ -616,11 +626,16 @@ function upStatusLoan(id,action){
          dataType:'json',
          data: ({
             id_loan:id,
-            action : action
+            action : action,
+            email:email
         }),
-         success : function(e) {
-
-
+        beforeSend: function () {
+                                    
+                           $("#modalLoader").modal('show');
+                                    
+                    },
+        success : function(e) {
+             $("#modalLoader").modal('hide');
              if(e.status == 'ok;') 
              {
 

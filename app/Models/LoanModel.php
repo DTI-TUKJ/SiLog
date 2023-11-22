@@ -54,6 +54,7 @@ class LoanModel extends Model
             $this->dt->limit($this->request->getPost('length'), $this->request->getPost('start'));
         }
             $this->dt->join('ms_assets', $this->table.'.id_asset_loan=ms_assets.id_asset');
+            $this->dt->join('employe_master', $this->table.'.nip=employe_master.nip_emp');
             if(session()->type!='superadmin'){      
              $this->dt->where('id_owner', session()->type);
             }
@@ -69,6 +70,7 @@ class LoanModel extends Model
         $this->_get_datatables_query();
         
             $this->dt->join('ms_assets', $this->table.'.id_asset_loan=ms_assets.id_asset');
+            $this->dt->join('employe_master', $this->table.'.nip=employe_master.nip_emp');
             if(session()->type!='superadmin'){      
              $this->dt->where('id_owner', session()->type);
             }

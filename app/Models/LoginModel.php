@@ -34,6 +34,27 @@ class LoginModel extends Model
         $query = $builder->get();
         return $query->getRowArray();
     }
+         public function Chekdata($nip)
+    {
+        $builder = $this->db->table('employe_master');
+        $builder->select('*');
+
+        $builder->where('nip_emp', $nip);
+        $query = $builder->get();
+        return $query->getResultArray();
+    }
+
+     public function addEmployee($data)
+    {
+        $query = $this->db->table('employe_master')->insert($data);
+        return $query;
+    }
+
+    public function updateEmployee($data, $id)
+    {
+        $query = $this->db->table('employe_master')->update($data, array('nip_emp' => $id));
+        return $query;
+    }
 
 
     //  public function getUsersByUsername($username)

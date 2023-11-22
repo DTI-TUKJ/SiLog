@@ -154,12 +154,19 @@ class Admin extends BaseController
                  $dataEmp=array(
                     'nip_emp'=> $profile->numberid,
                     'name_emp'=>$profile->fullname,
-                    'unit_emp'=>'',
+                    'unit_emp'=>$position[0]->worklocationparent,
                     'email'=>$email,
                     'position'=>'Pegawai',
                     'no_tlp'=>isset($wa)?$wa:$phone,
-                    'type'=>'pegawai'
+                    
                  );
+                 $checkData=$this->LM->Chekdata($profile->numberid);
+                 if(count($checkData)==0){
+                    $this->LM->addEmployee($dataEmp);
+                 }else{
+                    $this->LM->updateEmployee($dataEmp,$profile->numberid );
+                 }
+                 $dataEmp['type']='pegawai';
                  session()->set($dataEmp);
                 //print_r(session()->get());
                 return redirect()->to(base_url('Silo'));

@@ -89,8 +89,8 @@ class Loan extends BaseController
                            $btnacc='<a class="btn btn-sm btn-warning "  onclick="upStatusLoan(\''.$val['id_loan'].'\',\'finish\')">End Loan</a>';
                         }
                     }else if ($val['status']==0){
-                               $btnacc='<a class="btn btn-sm btn-success " title="Accept"  onclick="upStatusLoan(\''.$val['id_loan'].'\',\'accept\')"><i class="icon fa-solid fa-check"></i></a>
-                                    <a class="btn btn-sm btn-danger " title="Reject" onclick="upStatusLoan(\''.$val['id_loan'].'\',\'reject\')"><i class="icon fa-solid fa-xmark"></i></a>';
+                               $btnacc='<a class="btn btn-sm btn-success " title="Accept"  onclick="upStatusLoan(\''.$val['id_loan'].'\',\'accept\', \''.$val['email'].'\')"><i class="icon fa-solid fa-check"></i></a>
+                                    <a class="btn btn-sm btn-danger " title="Reject" onclick="upStatusLoan(\''.$val['id_loan'].'\',\'reject\', \''.$val['email'].'\')"><i class="icon fa-solid fa-xmark"></i></a>';
                     }
                   
 
@@ -206,7 +206,7 @@ class Loan extends BaseController
             $data = array(
                 'nip'            => session()->type=='pegawai'? session()->nip_emp :$this->request->getPost('nip'),
                 'name'           => session()->type=='pegawai'? session()->name_emp :$this->request->getPost('name_loaner'),
-                'unit'            => session()->type=='pegawai'? '' :$this->request->getPost('unit'),
+                'unit'            => session()->type=='pegawai'? session()->unit_emp :$this->request->getPost('unit'),
                 'tanggal_pinjam'   => $date_start,
                 'tanggal_kembali'   =>$date_end,
                 'status'          => session()->type=='pegawai'? 0 :1,
@@ -219,7 +219,7 @@ class Loan extends BaseController
             $this->LM->createLoan($data);
             if (session()->type=='pegawai'){
                 $namapeminjam = $data['name'].' ( '.$data['nip'].') ';
-                $this->sendEmailRequest($namapeminjam, $this->request->getPost('email'));
+                $this->sendEmailRequest($namapeminjam, $this->request->getPost('email'),'addloan');
             }
            //print_r($data);
            echo json_encode(array('status' => 'ok;', 'text' => ''));
@@ -352,8 +352,9 @@ class Loan extends BaseController
             return false;
         }
        
-        $id = $this->request->getPost('id_loan');
-        $action= $this->request->getPost('action');
+        $id     = $this->request->getPost('id_loan');
+        $action = $this->request->getPost('action');
+        $email  = $this->request->getPost('email');
         
         if ($action=='finish'){
             $st=3;
@@ -373,9 +374,13 @@ class Loan extends BaseController
              );
         }
 
-       
-        $this->LM->upStatusLoan($data,$id);
 
+       
+         $this->LM->upStatusLoan($data,$id);
+        if ($action!='finish'){
+         $this->sendEmailRequest('',  $email, $action );
+        }
+     
         echo json_encode(array('status' => 'ok;', 'text' => ''));
     }
 
@@ -393,12 +398,20 @@ class Loan extends BaseController
         return view('main/loan/history',$data);
     }
 
-    protected function sendEmailRequest($namapeminjam,$email)
+    protected function sendEmailRequest($namapeminjam,$email, $act)
     {
-
+     
         $this->email->setFrom('dtitelujkt@gmail.com', 'Silo');
         $this->email->setTo($email);
-        $this->email->setSubject('Incoming Loan Request');
+        if ($act=='addloan'){
+             $subject= 'Incoming Loan Request';
+         }else if($act=='accept'){
+             $subject= 'Status Loan Request';
+         }else{
+             $subject= 'Status Loan Request';
+         }
+
+        $this->email->setSubject($subject);
 
         $filename = 'images/logo_silo.png';
         $this->email->attach($filename);
@@ -409,7 +422,14 @@ class Loan extends BaseController
             );
 
          //print_r($data);
-        $this->email->setMessage(view('main/mail/request_mail', $data));
+        if ($act=='addloan'){
+             $this->email->setMessage(view('main/mail/request_mail', $data));
+         }else if($act=='accept'){
+             $this->email->setMessage(view('main/mail/accepted_email', $data));
+         }else{
+             $this->email->setMessage(view('main/mail/rejected_email', $data));
+         }
+       
 
         if (!$this->email->send()) {
             // echo "gagal";

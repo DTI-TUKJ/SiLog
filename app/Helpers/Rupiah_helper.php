@@ -54,10 +54,15 @@
     function singkatan($var){
         $explodevar = explode(" ", $var);
         $arraypush=array();
-        for ($i=0; $i <count($explodevar) ; $i++) { 
-          array_push($arraypush, substr($explodevar[$i], 0,1));
+        if (count($explodevar)>1){
+            for ($i=0; $i <count($explodevar) ; $i++) { 
+              array_push($arraypush, substr($explodevar[$i], 0,1));
+            }
+            return strtoupper(implode("", $arraypush));
+        }else{
+            return $var;
         }
-        return strtoupper(implode("", $arraypush));
+        
     }
 
     function datetoindo($date)

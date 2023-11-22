@@ -231,7 +231,7 @@
                                         </div>
                                          <div class="user-info d-none d-xl-block" style="padding-left:10px">
                                                 <div class="user-status" style="color:white;"><?php echo session()->name_emp ?></div>
-                                                <div class="user-name dropdown-indicator" style="color: #fafafa;"><?php echo session()->position ?></div>
+                                                <div class="user-name dropdown-indicator" style="color: #fafafa;"><?php echo str_replace('BAGIAN','',str_replace(' KAMPUS JAKARTA', '', session()->unit_emp)) ?></div>
                                             </div>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-md dropdown-menu-end dropdown-menu-s1 is-light">
