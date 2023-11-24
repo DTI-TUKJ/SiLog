@@ -9,23 +9,10 @@
                 <div class="nk-block-head nk-block-head-sm">
                     <div class="nk-block-between">
                         <div class="nk-block-head-content">
-                            <h3 class="nk-block-title page-title">Data Loan</h3>
+                            <h3 class="nk-block-title page-title">My Loan</h3>
        
                         </div><!-- .nk-block-head-content -->
-                        <div class="nk-block-head-content">
-                            <div class="toggle-wrap nk-block-tools-toggle">
-                                <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
-                                <div class="toggle-expand-content" data-content="pageMenu">
-                                    <ul class="nk-block-tools g-3">
-                                        <li class="nk-block-tools-opt">
-                                            <div class="drodown">
-                                                <a href="" title="tambah data" class="dropdown-toggle btn btn-icon btn-primary" data-bs-toggle="modal" data-bs-target="#modaltambah"><em class="icon ni ni-plus"></em></a>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div><!-- .toggle-wrap -->
-                        </div><!-- .nk-block-head-content -->
+                       
                     </div><!-- .nk-block-between -->
                 </div><!-- .nk-block-head -->
                 <div class="card card-bordered card-preview">
@@ -40,15 +27,12 @@
                                                                 <label class="custom-control-label" for="uid"></label>
                                                             </div>
                                                         </th> -->
-                                                        <th class="nk-tb-col"><span class="sub-text">Nip</span></th>
-                                                        <th class="nk-tb-col"><span class="sub-text">Name</span></th>
+                                                        <th class="nk-tb-col"><span class="sub-text">ID</span></th>
                                                         <th class="nk-tb-col"><span class="sub-text">Activity</span></th>
-                                                        <th class="nk-tb-col"><span class="sub-text">Unit</span></th>
                                                         <th class="nk-tb-col"><span class="sub-text">Asset Name</span></th>
                                                         <th class="nk-tb-col"><span class="sub-text">Loan Amount</span></th>
                                                         <th class="nk-tb-col"><span class="sub-text">Loan Date start</span></th>
                                                         <th class="nk-tb-col"><span class="sub-text">Loan Date End</span></th>
-                                                        <th class="nk-tb-col"><span class="sub-text">Date in</span></th>
                                                         <th class="nk-tb-col"><span class="sub-text">status</span></th>
                                                         <th class="nk-tb-col ">action
                                                         </th>
@@ -97,23 +81,7 @@
                       <div class="row g-4">
 
                          <div class="form-group">
-                                <label class="form-label " for="asset_name">Choose Item</label>
-                                <div class="form-control-wrap">
-                                     <select class="form-select" id="asset_name" name="asset_name" >
-                                        <option value="">-Pilih Asset-</option>
-                                        <?php foreach ($data_asset as  $val){?>
-
-
-                                            <option value="<?php echo $val['id_asset'] ?>"><?php echo $val['asset_name'] ?></option>
-                                           
-                                             
-                                            <?php } ?>
-                                        
-                                    </select>
-                                </div>
-                                <div id="asset_name-error">
-
-                                </div>
+                             
                                 <label class="form-label mt-3" for="full-name-1">Loan Date</label>
                                 <div class="form-control-wrap">
                                     <input type="text" class="form-control" id="flatpickr-range" name="loan_date" value="<?php echo set_value('loan_date') ?>" placeholder="Enter Date loan">
@@ -182,7 +150,7 @@
         "lengthMenu": [30, 60, 90, 120], 
         "pageLength": 30,
         "ajax" : {
-            url : '<?php echo base_url('dataJsonLoan') ?>',
+            url : '<?php echo base_url('dataJsonMyLoan') ?>',
             type: "POST",
             // success : function(e) {
             //         // $('#loader_front').hide()
@@ -594,8 +562,8 @@ function addLoan()
  });
 }
 
-function upStatusLoan(id,action, email,notlp){
-
+function upStatusLoan(id,action, email, notlp){
+    
    if (action=='finish'){
      var titlealert='Yakin ingin akhiri Pinjaman ?'
      var textalert='Data pinjaman akan berakhir'
@@ -632,11 +600,11 @@ function upStatusLoan(id,action, email,notlp){
         }),
         beforeSend: function () {
                                     
-                           $("#modalLoader").modal('show');
+                           // $("#modalLoader").modal('show');
                                     
                     },
         success : function(e) {
-             $("#modalLoader").modal('hide');
+             // $("#modalLoader").modal('hide');
              if(e.status == 'ok;') 
              {
 

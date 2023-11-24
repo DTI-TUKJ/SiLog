@@ -1224,6 +1224,7 @@
                                          
                                              <input type="hidden" name="id_asset" value="${e.data.id_asset}">
                                              <input type="hidden" name="email" value="${email}">
+                                             <input type="hidden" name="no_tlp" value="${adminnum}">
                                             
                                              <div class="col-lg-6">
                                                 <div class="form-group">

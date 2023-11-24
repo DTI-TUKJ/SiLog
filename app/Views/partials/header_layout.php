@@ -158,6 +158,15 @@
                                 </li><!-- .nk-menu-item -->
                                  <?php }
                               }  ?>
+
+                               <?php if(session()->type=='pegawai') { ?>
+                                <li class="nk-menu-item has-sub">
+                                    <a href="<?php echo base_url('Silo/MyLoan') ?>" class="nk-menu-link">
+                                        <span class="nk-menu-text">My Loan </span>
+                                    </a>
+                                    
+                                </li>
+                               <?php }  ?>
                               <li class="nk-menu-item has-sub">
                                     <a href="<?php echo base_url('Silo/loanHistory') ?>" class="nk-menu-link">
                                         <span class="nk-menu-text">Loan History </span>
@@ -182,45 +191,7 @@
                         </div><!-- .nk-header-menu -->
                         <div class="nk-header-tools">
                             <ul class="nk-quick-nav">
-                                <li class="dropdown chats-dropdown">
-                                    <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
-                                        <div class="icon-status icon-status-na"><i class="icon fa-solid fa-bell"></i></div>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-xl dropdown-menu-end">
-                                        <div class="dropdown-head">
-                                            <span class="sub-title nk-dropdown-title">Recent Chats</span>
-                                            <a href="#">Setting</a>
-                                        </div>
-                                        <div class="dropdown-body">
-                                            <ul class="chat-list">
-                                                <li class="chat-item">
-                                                    <a class="chat-link" href="html/apps-chats.html">
-                                                        <div class="chat-media user-avatar">
-                                                            <span>IH</span>
-                                                            <span class="status dot dot-lg dot-gray"></span>
-                                                        </div>
-                                                        <div class="chat-info">
-                                                            <div class="chat-from">
-                                                                <div class="name">Iliash Hossain</div>
-                                                                <span class="time">Now</span>
-                                                            </div>
-                                                            <div class="chat-context">
-                                                                <div class="text">You: Please confrim if you got my last messages.</div>
-                                                                <div class="status delivered">
-                                                                    <em class="icon ni ni-check-circle-fill"></em>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </li>
- 
-                                            </ul>
-                                        </div>
-                                      <!--   <div class="dropdown-foot center">
-                                            <a href="html/apps-chats.html">View All</a>
-                                        </div> -->
-                                    </div>
-                                </li>
+                     
                                <?php if(isset(session()->name_emp)) {?>
                                 <li class="dropdown user-dropdown">
                                     <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">

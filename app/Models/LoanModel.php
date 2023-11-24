@@ -113,7 +113,11 @@ class LoanModel extends Model
                         ('$date_end'BETWEEN l.tanggal_pinjam  and l.tanggal_kembali))
                         or ((l.tanggal_pinjam  BETWEEN '$date_start' and '$date_end' )
                              and(l.tanggal_kembali  BETWEEN '$date_start' and '$date_end')) )  
-                        and l.id_asset_loan =$id_asset and l.status!=2";
+                        and l.id_asset_loan =$id_asset and l.status!=2
+                union 
+                SELECT * FROM loan l join ms_assets ma on l.id_asset_loan =ma.id_asset
+                WHERE NOW() > l.tanggal_kembali and l.tanggal_masuk IS NULL and l.status=1;
+                ";
        
         return $this->db->query($sql)->getResultArray();
 

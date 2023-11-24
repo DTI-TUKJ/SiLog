@@ -11,7 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="shortcut icon" href="<?php echo base_url('') ?>/images/logo_telkom_university.png">
     <!-- Page Title  -->
-    <title>SiLog | Sistem Logistik</title>
+    <title>SiLo | Sistem Informasi Logistik</title>
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="<?php echo base_url('') ?>/assets/css/dashlite.css?ver=3.2.0">
     <link id="skin-default" rel="stylesheet" href="<?php echo base_url('') ?>/assets/css/theme.css?ver=3.2.0">

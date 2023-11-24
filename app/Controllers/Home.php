@@ -31,6 +31,5 @@ class Home extends BaseController
     {
         return view('main/mail/rejected_email');
     }
-
  
 }

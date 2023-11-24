@@ -1,0 +1,1 @@
+<p> here is request from {nama}, Please check on your silo account to accept/reject &nbsp request or you can click url in bellow</p>

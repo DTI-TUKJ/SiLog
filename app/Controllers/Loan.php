@@ -48,7 +48,7 @@ class Loan extends BaseController
                 $row[]=' <span class="tb-amount">'.$val['nip'].' </span>';
                 $row[]=' <span class="tb-amount">'.$val['name'].' </span>';
                 $row[]=' <span class="currency">'.$val['activity'].' </span>';
-                $row[]='<span class="currency">'.$val['unit'].'</span>';
+                $row[]='<span class="currency">'.singkatan(str_replace('BAGIAN','',str_replace(' KAMPUS JAKARTA', '', $val['unit'] ))).'</span>';
 
 
                 $ur_img= base_url('').'/assets/images/item/'.$val['asset_image'];
@@ -89,8 +89,8 @@ class Loan extends BaseController
                            $btnacc='<a class="btn btn-sm btn-warning "  onclick="upStatusLoan(\''.$val['id_loan'].'\',\'finish\')">End Loan</a>';
                         }
                     }else if ($val['status']==0){
-                               $btnacc='<a class="btn btn-sm btn-success " title="Accept"  onclick="upStatusLoan(\''.$val['id_loan'].'\',\'accept\', \''.$val['email'].'\')"><i class="icon fa-solid fa-check"></i></a>
-                                    <a class="btn btn-sm btn-danger " title="Reject" onclick="upStatusLoan(\''.$val['id_loan'].'\',\'reject\', \''.$val['email'].'\')"><i class="icon fa-solid fa-xmark"></i></a>';
+                               $btnacc='<a class="btn btn-sm btn-success " title="Accept"  onclick="upStatusLoan(\''.$val['id_loan'].'\',\'accept\', \''.$val['email'].'\',\''.$val['no_telepon'].'\')"><i class="icon fa-solid fa-check"></i></a>
+                                    <a class="btn btn-sm btn-danger " title="Reject" onclick="upStatusLoan(\''.$val['id_loan'].'\',\'reject\', \''.$val['email'].'\',\''.$val['no_telepon'].'\')"><i class="icon fa-solid fa-xmark"></i></a>';
                     }
                   
 
@@ -219,7 +219,10 @@ class Loan extends BaseController
             $this->LM->createLoan($data);
             if (session()->type=='pegawai'){
                 $namapeminjam = $data['name'].' ( '.$data['nip'].') ';
-                $this->sendEmailRequest($namapeminjam, $this->request->getPost('email'),'addloan');
+                if(!$this->SendWaReq($namapeminjam, $this->request->getPost('no_tlp'),'addloan')){
+                    $this->sendEmailRequest($namapeminjam, $this->request->getPost('email'),'addloan');
+                }
+             
             }
            //print_r($data);
            echo json_encode(array('status' => 'ok;', 'text' => ''));
@@ -338,23 +341,19 @@ class Loan extends BaseController
         
         }
 
-       
-        //print_r($date_loan);
-         
-        
-        //echo json_encode(array('status' => 'ok;', 'text' => '', 'data'=>$data));
     }
 
      public function updateStatusLoan()
     {
 
-         if (session()->id==null){
+         if (session()->nip_emp==null){
             return false;
         }
        
         $id     = $this->request->getPost('id_loan');
         $action = $this->request->getPost('action');
         $email  = $this->request->getPost('email');
+         $wa  = $this->request->getPost('no_tlp');
         
         if ($action=='finish'){
             $st=3;
@@ -378,7 +377,10 @@ class Loan extends BaseController
        
          $this->LM->upStatusLoan($data,$id);
         if ($action!='finish'){
-         $this->sendEmailRequest('',  $email, $action );
+            if(!$this->SendWaReq('',$wa, $action)){
+                 $this->sendEmailRequest('',  $email, $action );
+            }
+        
         }
      
         echo json_encode(array('status' => 'ok;', 'text' => ''));
@@ -439,6 +441,61 @@ class Loan extends BaseController
             return true;
         }
     }
+
+    protected function SendWaReq($nama, $num,$act)
+    {
+
+        if ($act=='addloan'){
+         $data=array(
+            "api_key" => "S5lpTgiaUFhigWCLyUYNfcZwyGfZb0",
+             "sender" => "6281319800200",
+             "number" => convert_num($num),
+             "message" => 
+"[SILO]
+
+You Receive a Loan Request
+
+There is request from ".$nama.", Please check on your silo account to accept/reject request or you can visit url bellow
+
+dti-jkt.telkomuniversity.ac.id/Silo
+
+Notifikasi Silo" ); 
+         }else if($act=='accept'){
+              $data=array(
+            "api_key" => "S5lpTgiaUFhigWCLyUYNfcZwyGfZb0",
+             "sender" => "6281319800200",
+             "number" => convert_num($num),
+             "message" => 
+"[SILO]
+
+Loan Request has been Accepted
+
+There is Loan request has been accepted, Please check on your silo account or you can visit url bellow.
+
+dti-jkt.telkomuniversity.ac.id/Silo
+
+Notifikasi Silo" ); 
+         }else{
+              $data=array(
+            "api_key" => "S5lpTgiaUFhigWCLyUYNfcZwyGfZb0",
+             "sender" => "6281319800200",
+             "number" => convert_num($num),
+             "message" => 
+"[SILO]
+
+Loan Request has been Rejected
+
+There is Loan request has been Rejected, Please check on your silo account or you can visit url bellow.
+
+dti-jkt.telkomuniversity.ac.id/Silo
+
+Notifikasi Silo" ); 
+         }
+            
+       
+        return NotifReqWa($data);
+    }
+
 
 }
 
