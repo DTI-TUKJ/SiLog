@@ -363,7 +363,7 @@
                         }else if(cat=='zoom'){
                             cat='Zoom';
                         }
-
+                         console.log(cat);
                         (viewName=='Available')?showproduk(cat, tabName):showprodukstatus(cat, tabName);
                 }
 
@@ -435,7 +435,14 @@
                                     if (e.data.length!=0){
                                     $.each(e.data, function(key, value) {
                                       // console.log(`ini${value.amount_asset}`)
-                                     
+                                          var labelCap='Capacity';
+
+                                            if(value.asset_type=='Kendaraan'){
+                                                labelCap='Seat Capacity'
+                                            }else if(value.asset_type=='Zoom' || value.asset_type=='Ruangan'){
+                                                labelCap='Participant Capacity'
+                                            }
+
                                        html +=`
                                         <div class="col-md-4 subkonten" style="cursor: pointer;">
                                                 <div class="card card-bordered card-full">
@@ -475,13 +482,13 @@
                                                                         <div class="invest-data-amount g-2">
                                                                             
                                                                             <div class="invest-data-history">
-                                                                                <div class="title">Unit Amount</div>
-                                                                                <div class="amount">${value.amount_asset}</span></div>
+                                                                                <div class="title">${labelCap}</div>
+                                                                                <div class="amount">${value.capacity}</span></div>
                                                                             </div>
                                                                             <?php if (session()->type=='pegawai') {?>
-                                                                            <div class="invest-data-history" >
+                                                                            <div class="invest-data-history" style="display:flex; justify-content:right" >
                                                                                 
-                                                                                <div class="amount mt-3" style="margin-left:15%">
+                                                                                <div class="amount mt-3" style="">
                                                                                 <a class="btn btn-round btn-sm btn-primary"  onclick="modalcheck('${value.id_asset}','${value.no_tlp}','${value.email}')">Check Schedule</a>
                                                                                 </div>
                                                                             </div>
@@ -692,7 +699,7 @@
                                 if(value.status!=0){
                                      status=`<span class="text-warning">Scheduled on</span><p ><b>${formatDate(date_start)} - ${formatDate(date_end)}</b></p>`
                                 }else{
-                                     status=`<span class="text-warning">In My Request</span><p ></p>`
+                                     status=`<span class="text-warning">Requested in</span><p ><b>${formatDate(date_start)} - ${formatDate(date_end)}</b></p>`
                                 }
                                
                              }
@@ -880,7 +887,13 @@
                              $('#loader_container'+tabName).hide()
                          if (e.data.length!=0){
                           $.each(e.data, function(key, value) {
-                          
+                                var labelCap='Capacity';
+
+                                if(value.asset_type=='Kendaraan'){
+                                    labelCap='Seat Capacity'
+                                }else if(value.asset_type=='Zoom' || value.asset_type=='Ruangan'){
+                                    labelCap='Participant Capacity'
+                                }
                              html +=`
                                         <div class="col-md-4 subkonten" id="subkonten">
                                                 <div class="card card-bordered card-full">
@@ -921,13 +934,13 @@
                                                                         <div class="invest-data-amount g-2">
                                                                             
                                                                             <div class="invest-data-history">
-                                                                                <div class="title">Unit Amount</div>
-                                                                                <div class="amount">${value.amount_asset}</span></div>
+                                                                                <div class="title">${labelCap}</div>
+                                                                                <div class="amount" style="display:flex"><p>${value.capacity}</p><i class="icon fa-solid fa-users" style="margin-left:15px"></i></div>
                                                                             </div>
                                                                             <?php if (session()->type=='pegawai') {?>
-                                                                            <div class="invest-data-history" >
+                                                                            <div class="invest-data-history" style="display:flex; justify-content:right" >
                                                                                 
-                                                                                <div class="amount mt-3" style="margin-left:15%">
+                                                                                <div class="amount mt-3" style="">
                                                                                 <a class="btn btn-round btn-sm btn-primary" onclick="modalcheck('${value.id_asset}', '${value.no_tlp}','${value.email}')">Check Schedule</a>
                                                                                 </div>
                                                                             </div>
@@ -1132,16 +1145,29 @@
                                        
                                         
                                         <label class="form-label" for="flatpickr-range">Loan Date</label>
-                                        <div class="form-control-wrap">
+                                    
                                             <input type="hidden" name="asset_name" value="${id}">
-                                            <input type="text" class="form-control" id="flatpickr-range" name="loan_date" value="<?php echo set_value('loan_date') ?>" placeholder="Enter Date loan">
-                                            <div id="loan_date-error">
+                                        <div class="form-control-wrap">
+                                           <div class="form-control-wrap">   
+                                                <div class="input-group">        
+                                                    <div class="col-lg-5">    
+                                                     <input type="text" class="form-control" id="flatpickr-range" name="loan_date_start" value="<?php echo set_value('loan_date') ?>" placeholder="Enter start date loan" onchange="formDate()"> 
+                                                     </div> 
+                                                         <div class="input-group-prepend">           
+                                                         <span class="input-group-text">To</span>        
+                                                         </div> 
+                                                     <div class="col-lg-6">      
+                                                      <input type="text" class="form-control" id="loan_date_end" name="loan_date_end" placeholder="Enter end date loan" readonly style="background-color: #F5F6FA">    
+                                                     </div>
+                                                </div>
+                                           </div>
+                                            <div id="loan_date_start-error">
 
                                             </div>
-                                            <div id="asset_name-error">
+                                             <div id="loan_date_end-error">
 
                                             </div>
-                                        </div>
+                                    </div>
                                         
                                 </div>
                                 
@@ -1178,6 +1204,26 @@
 
                     $("#modalcheck").modal('show');
         }
+
+
+     function formDate() {
+
+       var date= document.getElementById('flatpickr-range').value
+      
+        let dateArray = date.split(' to ');
+      
+
+        if (typeof dateArray[1] !== 'undefined') {
+            console.log('Variabel sudah didefinisikan');
+            document.getElementById('loan_date_end').value=dateArray[1];
+            document.getElementById('flatpickr-range').value=dateArray[0];
+        } else {
+             console.log('Variabel belum didefinisikan');
+            document.getElementById('flatpickr-range').value=dateArray[0];
+            document.getElementById('loan_date_end').value='';
+        }
+       //console.log(dateArray)
+    }
 
     function CheckSchedule(adminnum,email){
        var html='';
@@ -1298,7 +1344,11 @@
                                `
                                 $('#mainAdd').html(html);
                                 $("#modaltambah").modal('hide');
+                            <?php  if (session()->status_pgw!='MAGANG') { ?>
                                 $("#modalAdd").modal('show');
+                            <?php }else{ ?>
+                                window.location.href=`https://wa.me/${convertphonenumber(adminnum)}`
+                            <?php } ?>
                           }
                         })
                     }else{

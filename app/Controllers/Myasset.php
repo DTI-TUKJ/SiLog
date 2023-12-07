@@ -67,6 +67,7 @@ class Myasset extends BaseController
                 }
                 $row[]=$status;
                 $row[]=' <span>'.$val['amount_asset'].'</span>';
+                $row[]=' <span>'.$val['capacity'].'</span>';
                 $row[]=' <span class="tb-amount">'.$val['id_owner'].' </span>';
                 $row[]='<a class="btn btn-secondary" onclick="popupedit(\''.$val['id_asset'].'\')"><i class="fa-solid fa-pen-to-square"></i></a>
                         <a class="btn btn-danger" onclick="deletedata(\''.$val['id_asset'].'\',\''.$val['asset_image'].'\')"><i class="fa-solid fa-trash"></i></a>';
@@ -133,7 +134,8 @@ class Myasset extends BaseController
                 'asset_status'          => $this->request->getPost('asset_status'),
                 'id_owner'              => $this->request->getPost('asset_owner'),
                 'amount_asset'          => $this->request->getPost('asset_amount'),
-                'asset_image'        => $newName,
+                'capacity'              => $this->request->getPost('capacity'),
+                'asset_image'           => $newName,
                          
             );
             $this->MAM->createAsset($data);
@@ -210,6 +212,7 @@ class Myasset extends BaseController
                 'asset_status'          => $this->request->getPost('asset_status'),
                 'id_owner'              => $this->request->getPost('asset_owner'),
                 'amount_asset'          => $this->request->getPost('asset_amount'),
+                'capacity'              => $this->request->getPost('capacity'),
 
            
         );

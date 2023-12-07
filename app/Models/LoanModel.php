@@ -132,6 +132,7 @@ class LoanModel extends Model
                 $builder->select('*');
                 $builder->join('ms_assets', $this->table.'.id_asset_loan=ms_assets.id_asset');
                 $builder->where('status', '1');
+
                 if (isset($paramByName)){
                    $builder->like('asset_name', $paramByName); 
                 }
@@ -144,7 +145,7 @@ class LoanModel extends Model
                 $builder2->select('*');
                 $builder2->join('ms_assets', $this->table.'.id_asset_loan=ms_assets.id_asset');
                 $builder2->where('status', '0');
-                 $builder2->where($this->table.'.nip', session()->nip_emp);
+                
                 if (isset($paramByName)){
                    $builder2->like('asset_name', $paramByName); 
                 }
@@ -173,7 +174,7 @@ class LoanModel extends Model
                 $builder2->select('*');
                 $builder2->join('ms_assets', $this->table.'.id_asset_loan=ms_assets.id_asset');
                 $builder2->where('status', '0');
-                 $builder2->where($this->table.'.nip', session()->nip_emp);
+                
                 if (isset($paramByName)){
                    $builder2->like('asset_name', $paramByName); 
                 }
@@ -208,6 +209,27 @@ class LoanModel extends Model
                 return $query->getRowArray();
           
         
+        
+    }
+ 
+ public function getNip($nip)
+  {
+
+
+        $sql ="SELECT * FROM employe_master  where nip_emp like '%$nip%' or  name_emp like '%$nip%' and position='Pegawai' and unit_emp is not null order by nip_emp limit 15";
+        
+        return $query = $this->db->query($sql)->getResult();
+    }
+
+
+    public function getPgwbyId($nip)
+    {   
+         $builder = $this->db->table('employe_master');
+         $builder->select('*');
+         
+         $builder->where('nip_emp',$nip);
+         $query = $builder->get();
+         return $query->getRowArray();
         
     }
 

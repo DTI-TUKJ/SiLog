@@ -38,6 +38,7 @@ $routes->post('/addLoan', 'Loan::addLoan');
 $routes->post('/loanDelete', 'Loan::deleteLoan');
 $routes->post('/statusLoanUp', 'Loan::updateStatusLoan');
 $routes->post('/detailLoan', 'Myasset::loan_detail');
+$routes->post('/getNip', 'Loan::getPgw');
 
 $routes->get('/Silo/MyLoan', 'MyLoan::index');
 $routes->post('/dataJsonMyLoan', 'MyLoan::dataJson');

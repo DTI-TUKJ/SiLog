@@ -44,6 +44,7 @@
                                     <th class="nk-tb-col"><span class="sub-text">Asset Type</span></th>
                                     <th class="nk-tb-col"><span class="sub-text">Status</span></th>
                                     <th class="nk-tb-col"><span class="sub-text">Asset Amount</span></th>
+                                      <th class="nk-tb-col"><span class="sub-text">Asset Capacity</span></th>
                                     <th class="nk-tb-col"><span class="sub-text">Owner</span></th>
                                     <th class="nk-tb-col ">action
                                     </th>
@@ -179,21 +180,32 @@
                             </div>
                         </div>
 
+                         <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="capacity">Asset Capacity</label>
+                                <div class="form-control-wrap">
+                                    <input type="number" class="form-control" name="capacity" id="capacity" placeholder="Enter Amount">
+                                </div>
+                                <div id="capacity-error">
+
+                                </div>
+                            </div>
+                        </div>
 
 
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="pay-amount-1">Asset Image (Optional)</label>
+                                <div class="form-control-wrap">
+                                    <input type="file" class="image-preview-filepond" accept="image/*">
+                                    <div id="asset_image-error">
 
-                        <div class="form-group">
-                            <label class="form-label" for="pay-amount-1">Asset Image (Optional)</label>
-                            <div class="form-control-wrap">
-                                <input type="file" class="image-preview-filepond" accept="image/*">
-                                <div id="asset_image-error">
+                                    </div>
 
                                 </div>
 
                             </div>
-
-                        </div>
-
+                        </div>    
 
                         <div class="col-12">
                             <div class="form-group">
@@ -564,7 +576,19 @@
                                 </div>
                             </div>
                         </div>
-                        
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="capacity_asset">Asset Capacity</label>
+                                <div class="form-control-wrap">
+                                    <input type="number" class="form-control" value="${e.data['capacity']}" name="capacity" id="capacity_asset" placeholder="Enter Amount">
+                                </div>
+                                <div id="capacity-error-edit">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label class="form-label" for="pay-amount-1">Asset Image (Optional)</label>
                                 <div class="form-control-wrap">
@@ -580,7 +604,7 @@
                                 </div>
                                
                             </div>
-                       
+                       </div>
 
                         <div class="col-12">
                             <div class="form-group">

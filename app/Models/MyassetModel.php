@@ -136,6 +136,15 @@ class MyassetModel extends Model
                         'required' => ' {field} mohon diisi',
                     ],
                 ],
+
+                 'capacity'    =>
+                [
+                    'label'  => 'Capacity Asset',
+                    'rules'  => 'required',
+                    'errors' => [
+                        'required' => ' {field} mohon diisi',
+                    ],
+                ],
                 
             ];
     }
@@ -189,6 +198,14 @@ class MyassetModel extends Model
                  'asset_amount'    =>
                 [
                     'label'  => 'Jumlah Asset',
+                    'rules'  => 'required',
+                    'errors' => [
+                        'required' => ' {field} mohon diisi',
+                    ],
+                ],
+                'capacity'    =>
+                [
+                    'label'  => 'Capacity Asset',
                     'rules'  => 'required',
                     'errors' => [
                         'required' => ' {field} mohon diisi',

@@ -154,7 +154,7 @@ class Admin extends BaseController
                  $dataEmp=array(
                     'nip_emp'=> $profile->numberid,
                     'name_emp'=>$profile->fullname,
-                    'unit_emp'=>$position[0]->worklocationparent,
+                    'unit_emp'=>$position[0]->worklocationparent==null?$position[0]->worklocationname:$position[0]->worklocationparent,
                     'email'=>$email,
                     'position'=>'Pegawai',
                     'no_tlp'=>isset($wa)?$wa:$phone,
@@ -167,6 +167,7 @@ class Admin extends BaseController
                     $this->LM->updateEmployee($dataEmp,$profile->numberid );
                  }
                  $dataEmp['type']='pegawai';
+                 $dataEmp['status_pgw']=$position[0]->employmentstatusname;
                  session()->set($dataEmp);
                 //print_r(session()->get());
                 return redirect()->to(base_url('Silo'));

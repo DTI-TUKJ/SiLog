@@ -90,7 +90,7 @@ class MyLoan extends BaseController
                         }
                     }
 
-                    if ($val['status']!=0){
+                    if ($val['status']==3 || $val['status']==2 ){
                          $btndis='disabled';
                     }
                   

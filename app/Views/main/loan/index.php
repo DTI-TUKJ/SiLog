@@ -110,14 +110,37 @@
                                             <?php } ?>
                                         
                                     </select>
-                                </div>
-                                <div id="asset_name-error">
+                                    <div id="asset_name-error">
 
+                                    </div>
                                 </div>
+                                
                                 <label class="form-label mt-3" for="full-name-1">Loan Date</label>
-                                <div class="form-control-wrap">
-                                    <input type="text" class="form-control" id="flatpickr-range" name="loan_date" value="<?php echo set_value('loan_date') ?>" placeholder="Enter Date loan">
+                                <!-- <div class="form-control-wrap">
+                                    <input type="text" class="form-control" id="flatpickr-range" name="loan_date" value="<?php echo set_value('loan_date') ?>" placeholder="Enter Date loan" onchange="formDate()">
                                     <div id="loan_date-error">
+
+                                    </div>
+                                </div> -->
+                                <div class="form-control-wrap">
+                                   <div class="form-control-wrap">   
+                                        <div class="input-group">        
+                                            <div class="col-lg-5">    
+                                             <input type="text" class="form-control" id="flatpickr-range" name="loan_date_start" value="<?php echo set_value('loan_date') ?>" placeholder="Enter start date loan" onchange="formDate()"> 
+                                             
+                                             </div> 
+                                                 <div class="input-group-prepend">           
+                                                 <span class="input-group-text">To</span>        
+                                                 </div> 
+                                             <div class="col-lg-6">      
+                                              <input type="text" class="form-control" id="loan_date_end" name="loan_date_end" placeholder="Enter end date loan" readonly>    
+                                             </div>
+                                        </div>
+                                   </div>
+                                    <div id="loan_date_start-error">
+
+                                    </div>
+                                     <div id="loan_date_end-error">
 
                                     </div>
                                 </div>
@@ -239,6 +262,9 @@
             // ]
 
         })
+
+
+
        
    
              
@@ -265,6 +291,26 @@
             }),
         });
       })
+
+
+     function formDate() {
+
+       var date= document.getElementById('flatpickr-range').value
+      
+        let dateArray = date.split(' to ');
+      
+
+        if (typeof dateArray[1] !== 'undefined') {
+            console.log('Variabel sudah didefinisikan');
+            document.getElementById('loan_date_end').value=dateArray[1];
+            document.getElementById('flatpickr-range').value=dateArray[0];
+        } else {
+             console.log('Variabel belum didefinisikan');
+            document.getElementById('flatpickr-range').value=dateArray[0];
+            document.getElementById('loan_date_end').value='';
+        }
+       //console.log(dateArray)
+    }
 
 function CheckSchedule(){
        var html='';
@@ -341,9 +387,14 @@ function CheckSchedule(){
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label class="form-label" for="WhatsApp">NIP</label>
+                                                    <label class="form-label" for="nip">PIC</label>
                                                     <div class="form-control-wrap">
-                                                        <input type="text" class="form-control" value="" name="nip" id="WhatsApp" placeholder="Enter NIP" >
+                                                  
+                                                            <select class="form-select" id="nip" name="nip" >
+                                                                <option value="">- Pilih PIC -</option>
+                                                            
+                                                                
+                                                            </select>
                                                     </div>
                                                     <div id="nip-error">
 
@@ -351,51 +402,8 @@ function CheckSchedule(){
                                                 </div>
                                             </div>
                                      
+                                            
                                              <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="name_loaner">Name</label>
-                                                    <div class="form-control-wrap">
-                                                        <input type="text" class="form-control" value="" name="name_loaner" id="name_loaner" placeholder="Enter Name" >
-                                                    </div>
-                                                    <div id="name_loaner-error">
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="unit">Unit</label>
-                                                    <div class="form-control-wrap">
-                                                        <input type="text" class="form-control" value="" name="unit" id="unit" placeholder="Enter Unit" >
-                                                    </div>
-                                                    <div id="unit-error">
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="activity">Activity Name</label>
-                                                    <div class="form-control-wrap">
-                                                        <input type="text" class="form-control" value="" name="activity" id="activity" placeholder="Enter Activity" >
-                                                    </div>
-                                                    <div id="activity-error">
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="contact">Contact</label>
-                                                    <div class="form-control-wrap">
-                                                        <input type="text" class="form-control" value="" name="contact" id="contact" placeholder="Enter contact" >
-                                                    </div>
-                                                    <div id="contact-error">
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
                                                 <div class="form-group">
                                                  <input type="hidden" name="max_req" value="${e.data.max_req}">
                                                     <label class="form-label" for="amount_loan">Amount Loan</label>
@@ -410,6 +418,20 @@ function CheckSchedule(){
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="activity">Activity Name</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control" value="" name="activity" id="activity" placeholder="Enter Activity" >
+                                                    </div>
+                                                    <div id="activity-error">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                         
                                             
                                           
                                            
@@ -425,6 +447,27 @@ function CheckSchedule(){
                                     </form>
                                `
                                 $('#mainAdd').html(html);
+                                $("#nip").select2({
+                                    dropdownParent: $("#modalAdd"),
+                                    ajax: {
+                                        url: "getNip",
+                                        dataType: 'json',
+                                        type: 'POST',
+                                        data: function (params) {
+                                          return {
+                                            searchTerm: params.term
+                                          };
+                                        },
+                                        processResults: function (data) {
+                                          return { results: data };
+                                        }
+                                      },
+                                    minimumInputLength: 3,
+
+                                  }).on('select2:open', function(e){
+                                        $('.select2-search__field').attr('placeholder', 'Search NIP or Name');
+                                    });
+
                                 $("#modaltambah").modal('hide');
                                 $("#modalAdd").modal('show');
                           }

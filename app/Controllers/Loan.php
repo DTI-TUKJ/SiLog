@@ -150,27 +150,6 @@ class Loan extends BaseController
                             ],
 
                         ],
-                     'name_loaner'=>[
-                         'rules'=>'required',
-                         'errors'=>[
-                                'required'=>'Nama Peminjam Belum diisi',
-                            ],
-
-                        ],
-
-                    'unit' =>[
-                        'rules'=>'required',
-                        'errors'=>[
-                               'required'=>'Unit Belum diisi',
-                        ]
-                    ],
-                     'contact' =>[
-                        'rules'=>'required',
-                        'errors'=>[
-                               'required'=>'Kontak Belum diisi',
-
-                        ]
-                    ],
                       'amount_loan' =>[
                         'rules'=>'required|greater_than_equal_to['.$max_req.']',
                         // rules greater_than_equal_to sudah dirubah defaultnya
@@ -190,6 +169,8 @@ class Loan extends BaseController
 
 
                 ]);
+
+             $dataPgw=$this->LM->getPgwbyId($this->request->getPost('nip'));
         }
         $isDataValid = $this->validation->withRequest($this->request)->run();
          
@@ -204,16 +185,16 @@ class Loan extends BaseController
              $date_end=date('Y-m-d H:i:s', strtotime($date_loan[1]));
 
             $data = array(
-                'nip'            => session()->type=='pegawai'? session()->nip_emp :$this->request->getPost('nip'),
-                'name'           => session()->type=='pegawai'? session()->name_emp :$this->request->getPost('name_loaner'),
-                'unit'            => session()->type=='pegawai'? session()->unit_emp :$this->request->getPost('unit'),
-                'tanggal_pinjam'   => $date_start,
+                'nip'               => session()->type=='pegawai'? session()->nip_emp :$dataPgw['nip_emp'],
+                'name'              => session()->type=='pegawai'? session()->name_emp :$dataPgw['name_emp'],
+                'unit'              => session()->type=='pegawai'? session()->unit_emp :$dataPgw['unit_emp'],
+                'tanggal_pinjam'    => $date_start,
                 'tanggal_kembali'   =>$date_end,
-                'status'          => session()->type=='pegawai'? 0 :1,
-                'no_telepon'        => session()->type=='pegawai'? session()->no_tlp :$this->request->getPost('contact'),
+                'status'            => session()->type=='pegawai'? 0 :1,
+                'no_telepon'        => session()->type=='pegawai'? session()->no_tlp :$dataPgw['no_tlp'],
                 'amount_loan'       => $this->request->getPost('amount_loan'),
-                'id_asset_loan'   =>$this->request->getPost('id_asset'),
-                'activity'        => $this->request->getPost('activity'),
+                'id_asset_loan'     =>$this->request->getPost('id_asset'),
+                'activity'          => $this->request->getPost('activity'),
                          
             );
             $this->LM->createLoan($data);
@@ -279,15 +260,22 @@ class Loan extends BaseController
                     ],
 
                 ],
-             'loan_date'=>[
-                 'rules'=>'required|min_length[18]',
+             'loan_date_start'=>[
+                 'rules'=>'required',
                  'errors'=>[
-                        'required'=>'Tanggal Pinjam Belum diisi',
-                        'min_length'=>'format tidak sesuai' 
-
+                        'required'=>'Tanggal Awal Pinjam Belum diisi',
+                        
                     ],
 
-                ],   
+                ], 
+           'loan_date_end'=>[
+                 'rules'=>'required',
+                 'errors'=>[
+                        'required'=>'Tanggal akhir Pinjam Belum diisi',
+                        
+                    ],
+
+                ],     
 
 
         ]);
@@ -298,15 +286,15 @@ class Loan extends BaseController
              $dataasset=$this->MAM->getByIdRow($id_asset);
              //print_r($dataasset);
              //die();
-             $date_loan= explode(' to ', $this->request->getPost('loan_date'));
              
-             $date_start=date('Y-m-d H:i:s', strtotime($date_loan[0]));
-             $date_end=date('Y-m-d H:i:s', strtotime($date_loan[1]));
+             
+             $date_start=date('Y-m-d H:i:s', strtotime($this->request->getPost('loan_date_start')));
+             $date_end=date('Y-m-d H:i:s', strtotime($this->request->getPost('loan_date_end')));
              $check_asset =$this->LM->checkScheduleAvailable($id_asset, $date_start, $date_end);
              if(count($check_asset)==0){
                 $data=array(
                         'id_asset'=>$id_asset,
-                        'date_loan'=> $this->request->getPost('loan_date'),
+                        'date_loan'=> $this->request->getPost('loan_date_start').' to '.$this->request->getPost('loan_date_end'),
                         'data_asset'=>$this->MAM->getAssetByOwner(),
                         'max_req'=>$dataasset['amount_asset']
                         );
@@ -321,7 +309,7 @@ class Loan extends BaseController
                 if ($max_req>0){
                    $data=array(
                         'id_asset'=>$id_asset,
-                        'date_loan'=> $this->request->getPost('loan_date'),
+                        'date_loan'=> $this->request->getPost('loan_date_start').' to '.$this->request->getPost('loan_date_end'),
                         'data_asset'=>$this->MAM->getAssetByOwner(),
                         'max_req'=>$max_req
                         );
@@ -379,7 +367,7 @@ class Loan extends BaseController
         if ($action!='finish'){
             if(!$this->SendWaReq('',$wa, $action)){
                  $this->sendEmailRequest('',  $email, $action );
-            }
+             }
         
         }
      
@@ -457,7 +445,7 @@ You Receive a Loan Request
 
 There is request from ".$nama.", Please check on your silo account to accept/reject request or you can visit url bellow
 
-dti-jkt.telkomuniversity.ac.id/Silo
+dti-jkt.telkomuniversity.ac.id/Silo/AdminSignin
 
 Notifikasi Silo" ); 
          }else if($act=='accept'){
@@ -494,6 +482,22 @@ Notifikasi Silo" );
             
        
         return NotifReqWa($data);
+    }
+
+
+   public function getPgw()
+    {
+        $s = $this->request->getPost('searchTerm');
+        $dbs = $this->LM->getNip($s);
+
+        $result = array();
+        foreach ($dbs as $db)
+            $result[] = array(
+                'id' => $db->nip_emp,
+                'text' => $db->name_emp.'( '.$db->nip_emp.')'
+            );
+
+        echo json_encode($result);
     }
 
 
