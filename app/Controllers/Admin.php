@@ -19,6 +19,10 @@ class Admin extends BaseController
     }
     public function index()
     {   
+
+        if (session()->nip_emp!=null){
+                return redirect()->to(base_url('Silo'));
+        }
         
 
         if (!isset($_POST['simpan'])) {
@@ -83,6 +87,9 @@ class Admin extends BaseController
 
     public function pgwSignin()
     {   
+     if (session()->nip_emp!=null){
+                return redirect()->to(base_url('Silo'));
+        }
         
 
         if (!isset($_POST['simpan'])) {
@@ -163,9 +170,16 @@ class Admin extends BaseController
                  $checkData=$this->LM->Chekdata($profile->numberid);
                  if(count($checkData)==0){
                     $this->LM->addEmployee($dataEmp);
+                    
                  }else{
-                    $this->LM->updateEmployee($dataEmp,$profile->numberid );
+                     $getDataPgw=$this->LM->getDataEmpByNip($profile->numberid);
+                    if($position[0]->employmentstatusname!='MAGANG' || !isset($getDataPgw['unit_emp']) ){
+                      $this->LM->updateEmployee($dataEmp,$profile->numberid );  
+                    }
+
                  }
+                 $getDataPgw=$this->LM->getDataEmpByNip($profile->numberid);
+                 $dataEmp['unit_emp']=$getDataPgw['unit_emp'];
                  $dataEmp['type']='pegawai';
                  $dataEmp['status_pgw']=$position[0]->employmentstatusname;
                  session()->set($dataEmp);
@@ -212,6 +226,8 @@ class Admin extends BaseController
 
      public function Logout()
     {
+          
+
         session()->destroy();
         return redirect()->to(base_url('Silo'));
     }

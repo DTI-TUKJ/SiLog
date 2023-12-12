@@ -139,7 +139,7 @@ class MyassetModel extends Model
 
                  'capacity'    =>
                 [
-                    'label'  => 'Capacity Asset',
+                    'label'  => 'Capacity',
                     'rules'  => 'required',
                     'errors' => [
                         'required' => ' {field} mohon diisi',
@@ -203,14 +203,6 @@ class MyassetModel extends Model
                         'required' => ' {field} mohon diisi',
                     ],
                 ],
-                'capacity'    =>
-                [
-                    'label'  => 'Capacity Asset',
-                    'rules'  => 'required',
-                    'errors' => [
-                        'required' => ' {field} mohon diisi',
-                    ],
-                ],
                 
             ];
     }
@@ -253,8 +245,6 @@ class MyassetModel extends Model
                 if (isset($paramByName) && $paramByName!='' && $paramByName!=null){
                    $builder->like('asset_name', $paramByName); 
                 }
-                $builder->join('user', 'ms_assets.id_owner=user.type');
-                $builder->join('employe_master', 'user.Admin_name=employe_master.id');
                 $builder->orderBy('id_asset','DESC');
                 $query = $builder->get();
                 return $query->getResultArray();
@@ -265,8 +255,6 @@ class MyassetModel extends Model
                 if (isset($paramByName) && $paramByName!='' && $paramByName!=null){
                    $builder->like('asset_name',$paramByName); 
                 }
-                $builder->join('user', 'ms_assets.id_owner=user.type');
-                $builder->join('employe_master', 'user.Admin_name=employe_master.id');
                 $builder->orderBy('id_asset','DESC');
                 $query = $builder->get();
                 return $query->getResultArray();

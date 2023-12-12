@@ -21,6 +21,9 @@ $routes->get('/Silo/Signin', 'Admin::pgwSignin');
 $routes->get('/Logout', 'Admin::Logout');
 $routes->get('/Silo/User', 'User::index');
 $routes->get('/Silo/User', 'User::index');
+
+$routes->post('/changeUnit', 'Myasset::UpUnit');
+
 $routes->get('/Silo/MyAsset', 'Myasset::index');
 $routes->post('/callDataJson', 'Myasset::dataJson');
 $routes->post('/addAsset', 'Myasset::insertAsset');

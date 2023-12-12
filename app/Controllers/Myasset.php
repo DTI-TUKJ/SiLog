@@ -315,7 +315,47 @@ class Myasset extends BaseController
         
     }
 
+     public function UpUnit()
+    {
+        if (session()->nip_emp==null){
+            return false;
+        }
 
+
+      
+        $this->validation->setRules([
+            
+                 'unit_emp' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => 'unit tidak boleh kosong',
+                    ],
+                ],
+                
+            
+
+        ]);
+        $isDataValid = $this->validation->withRequest($this->request)->run();
+        
+        if ($isDataValid) {
+            
+            $data = array(
+                'unit_emp' => strtoupper($this->request->getPost('unit_emp')),
+                
+            );
+            session()->set($data);
+            $this->LM->updateEmployee($data, session()->nip_emp);
+            echo json_encode(array('status' => 'ok;', 'text' => ''));
+        }else {
+
+            $validation = $this->validation;
+            $error=$validation->getErrors();
+            $dataname=$_POST;
+            echo json_encode(array('status' => 'error;', 'text' => '', 'data'=>$error, 'dataname'=>$dataname));
+         }
+
+    
+    }
 
 
 

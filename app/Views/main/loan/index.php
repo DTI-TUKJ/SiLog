@@ -315,6 +315,7 @@
 function CheckSchedule(){
        var html='';
        var option='';
+              var driver='';
         var form_data = new FormData($('#frmcheck')[0]);
                $.ajax({
                  url:"<?php echo base_url('checkSchedule') ?>",
@@ -348,6 +349,20 @@ function CheckSchedule(){
                                $.each(e.data.data_asset, function(key, value) {
                                     if(value.id_asset==e.data.id_asset){
                                         option+=` <option value="${value.id_asset}">${value.asset_name}</option>`
+                                        if(value.asset_type=='Kendaraan'){
+                                            driver +=`<div class="col-lg-6">
+                                                <div class="form-group">
+                                                  
+                                                    <div class="custom-control custom-checkbox">
+                                                         <input type="checkbox" class="custom-control-input" id="driver" name="driver" value="1">    
+                                                         <label class="custom-control-label" for="driver">Driver</label>
+                                                    </div>
+                                                    <div id="driver-error">
+
+                                                    </div>
+                                                </div>
+                                            </div>`
+                                        }
                                     }
                                 });
 
@@ -430,7 +445,7 @@ function CheckSchedule(){
                                                     </div>
                                                 </div>
                                             </div>
-                                        
+                                            ${driver}
                                          
                                             
                                           

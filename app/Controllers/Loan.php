@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use \App\Models\MyassetModel;
 use App\Models\LoanModel;
+use App\Models\LoginModel;
 
 class Loan extends BaseController
 {
@@ -17,6 +18,7 @@ class Loan extends BaseController
         $this->email = \Config\Services::email();
         $this->MAM = new MyassetModel($this->req);
         $this->LM = new LoanModel($this->req);
+        $this->LgM = new LoginModel();
 
    
     }
@@ -185,7 +187,7 @@ class Loan extends BaseController
              $date_end=date('Y-m-d H:i:s', strtotime($date_loan[1]));
 
             $data = array(
-                'nip'               => session()->type=='pegawai'? session()->nip_emp :$dataPgw['nip_emp'],
+                'nip'               => session()->type=='pegawai'? session()->nip_emp  :$dataPgw['nip_emp'],
                 'name'              => session()->type=='pegawai'? session()->name_emp :$dataPgw['name_emp'],
                 'unit'              => session()->type=='pegawai'? session()->unit_emp :$dataPgw['unit_emp'],
                 'tanggal_pinjam'    => $date_start,
@@ -195,18 +197,26 @@ class Loan extends BaseController
                 'amount_loan'       => $this->request->getPost('amount_loan'),
                 'id_asset_loan'     =>$this->request->getPost('id_asset'),
                 'activity'          => $this->request->getPost('activity'),
+                'driver'            =>($this->request->getPost('driver')!==null)?$this->request->getPost('driver'):0,
                          
             );
             $this->LM->createLoan($data);
             if (session()->type=='pegawai'){
-                $namapeminjam = $data['name'].' ( '.$data['nip'].') ';
-                if(!$this->SendWaReq($namapeminjam, $this->request->getPost('no_tlp'),'addloan')){
-                    $this->sendEmailRequest($namapeminjam, $this->request->getPost('email'),'addloan');
+                 $getOwner = $this->LgM->getOwner($this->request->getPost('owner'));
+                  // print_r($getOwner);
+
+                $namapeminjam = $data['name'].' ('.$data['nip'].')';
+
+                foreach ($getOwner as $val) {
+                    if(!$this->SendWaReq($namapeminjam, $val['no_tlp'],'addloan',$this->request->getPost('activity'))){
+                     $this->sendEmailRequest($namapeminjam, $val['email'],'addloan');
+                    }
                 }
+                
              
             }
            //print_r($data);
-           echo json_encode(array('status' => 'ok;', 'text' => ''));
+          echo json_encode(array('status' => 'ok;', 'text' => ''));
         } else {
            $validation = $this->validation;
             $error=$validation->getErrors();
@@ -220,7 +230,7 @@ class Loan extends BaseController
     public function deleteLoan()
     {
 
-         if (session()->id==null){
+         if (session()->nip_emp==null){
             return false;
         }
      
@@ -430,7 +440,7 @@ class Loan extends BaseController
         }
     }
 
-    protected function SendWaReq($nama, $num,$act)
+    protected function SendWaReq($nama, $num,$act, $activity='')
     {
 
         if ($act=='addloan'){
@@ -443,7 +453,8 @@ class Loan extends BaseController
 
 You Receive a Loan Request
 
-There is request from ".$nama.", Please check on your silo account to accept/reject request or you can visit url bellow
+There is request from *".$nama."* for activity *".$activity."*, 
+Please check on your silo account to accept/reject request or you can visit url bellow
 
 dti-jkt.telkomuniversity.ac.id/Silo/AdminSignin
 

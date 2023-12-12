@@ -156,6 +156,12 @@
                                     </a>
                                     
                                 </li><!-- .nk-menu-item -->
+                                 <li class="nk-menu-item has-sub">
+                                    <a href="<?php echo base_url('Silo/DataEmployee') ?>" class="nk-menu-link">
+                                        <span class="nk-menu-text">Employee </span>
+                                    </a>
+                                    
+                                </li><!-- .nk-menu-item -->
                                  <?php }
                               }  ?>
 
@@ -220,15 +226,16 @@
                                                 </div> -->
                                             </div>
                                         </div>
-                                       
+                                       <?php if (session()->status_pgw=='MAGANG') {?>
                                         <div class="dropdown-inner">
                                             <ul class="link-list">
                                              <!--    <li><a href="html/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
                                                 <li><a href="html/user-profile-setting.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
                                                 <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li> -->
-                                                 <li><a type="button" class="li-menu-user" data-bs-toggle="modal" data-bs-target="#modalpassword"><i class="icon fa-solid fa-key"></i><span>Change Password</span></a></li>
+                                                 <li><a type="button" class="li-menu-user" data-bs-toggle="modal" data-bs-target="#modalunit"><i class="icon fa-solid fa-people-roof"></i><span>My Unit</span></a></li>
                                             </ul>
                                         </div>
+                                    <?php } ?>
                                         <div class="dropdown-inner">
                                             <ul class="link-list">
                                                 <li><a href="<?php echo base_url('Logout') ?>"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>                                            </ul>
@@ -241,6 +248,7 @@
                     </div><!-- .nk-header-wrap -->
                 </div><!-- .container-fliud -->
             </div>
+
             <!-- main header @e -->
             <!-- content @s -->
             <?= $this->renderSection('content') ?>
@@ -255,6 +263,113 @@
     <!-- select region modal -->
 
   
+                <div class="modal fade " tabindex="-1" id="modalunit">
+                            <div class="modal-dialog modal-md" role="document">
+                                <div class="modal-content">
+                                    <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                        <em class="icon ni ni-cross"></em>
+                                    </a>
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Change Unit</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                      
+                                            <form id="frmupunit">
+                                               
+                                                <div class="form-group">
+                                                    <label class="form-label" for="cf-full-name">Unit Name</label>
+                                                    <input type="text" class="form-control" id="unit_emp" name="unit_emp" value="<?php echo session()->unit_emp; ?>">
+                                                    
+                                                    <div id="unit_emp-error">
+                                                    </div>
+                                                </div>
+                                                
+                                              
+                                                <div class="form-group">
+                                                    <button type="button" class="btn btn-lg btn-primary" id="buttonChangeUnit" onclick="ChangeUnit()">Save</button>
+                                                    <span class="loader" id="loaderChangeUnit" style="display: none;"></span>
+
+                                                </div>
+                                            </form>
+                                       
+                               
+                                </div>  
+                              
+                            </div>
+                        </div>
+                </div>
+
+            <script type="text/javascript">
+                function ChangeUnit()
+                    {
+                        var form_data = new FormData($('#frmupunit')[0]);
+
+                       $.ajax({
+                         url:"<?php echo base_url('changeUnit') ?>",
+                         global:false,
+                         async:true,
+                         type:'post',
+                        processData: false,
+                         contentType: false,
+                         dataType:'json',
+                         enctype: "multipart/form-data",
+                         data: form_data,
+                         beforeSend: function () {
+                                    $('#buttonChangeUnit').hide()
+                                    $('#loaderChangeUnit').show()
+                                  },
+                         success : function(e) {
+                           if(e.status == 'ok;') 
+                           {
+                            $('#buttonChangeUnit').show()
+                            $('#loaderChangeUnit').hide()
+                             let timerInterval
+                              Swal.fire({
+                                icon: 'success',
+                                title: ' Data has been Updated',
+                                showConfirmButton: false,
+                                timer: 1500,
+                                timerProgressBar: true,
+                                didOpen: () => {
+                                  timerInterval = setInterval(() => {
+
+                                  }, 100)
+                                },
+                                willClose: () => {
+                                  clearInterval(timerInterval)
+                                }
+                              }).then((result) => {
+                                /* Read more about handling dismissals below */
+                                if (result.dismiss === Swal.DismissReason.timer) {
+                                  location.reload();
+                                }
+                              })
+                          } 
+                          else{ 
+                             $('#buttonChangeUnit').show()
+                            $('#loaderChangeUnit').hide()
+                            var msgeror='';
+                            console.log(e.data)
+                             $.each(e.dataname, function(key, value) {
+                                document.getElementById(key+"-error").innerHTML ="";
+                              });
+
+                            $.each(e.data, function(key, value) {
+                             document.getElementById(key+"-error").innerHTML = `<span class="badge badge-dim bg-danger">`+value+`
+                                                                                </span>`;
+                          });
+                            $('#buttonChangeUnit').show()
+                            $('#loaderChangeUnit').hide()
+                            $("#modalunit").modal('show');
+                         }
+                      },
+                      error :function(xhr, status, error) {
+                       alert(xhr.responseText);
+                    }
+
+                 });
+                }
+                            </script>
 </body>
 
 </html>

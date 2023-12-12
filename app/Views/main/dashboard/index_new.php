@@ -57,8 +57,7 @@
                                             </ul>
                                             <div class="tab-content">
                                                   <div class="toggle-wrap nk-block-tools-toggle mb-2">
-                                                        <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
-                                                        <div class="toggle-expand-content" data-content="pageMenu">
+                                                       
                                                             <ul class="nk-block-tools g-3">
                                                                   <li> 
                                                                     
@@ -66,7 +65,7 @@
                                                                 </li>   
                                                                
                                                             </ul>
-                                                        </div>
+                                                   
                                                       </div>
                                                 <div class="tab-pane active" id="tabItem1_used">
                                                     <div class="row g-gs kontenproduk_loan"  id="kontenproduk_loan" style="justify-content: center;">
@@ -193,16 +192,14 @@
                                             </ul>
                                             <div class="tab-content">
                                                  <div class="toggle-wrap nk-block-tools-toggle mb-2">
-                                                        <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
-                                                        <div class="toggle-expand-content" data-content="pageMenu">
-                                                            <ul class="nk-block-tools g-3">
+                                                         <ul class="nk-block-tools g-3">
                                                                   <li> 
                                                                     
                                                                     <input type="text" class="form-control"  name="search_All" id="search_All" placeholder="Search Available Asset">
                                                                 </li>   
                                                                
                                                             </ul>
-                                                        </div>
+                                                      
                                                       </div>
                                                 <div class="tab-pane active" id="tabItem1">
                                                          
@@ -489,7 +486,7 @@
                                                                             <div class="invest-data-history" style="display:flex; justify-content:right" >
                                                                                 
                                                                                 <div class="amount mt-3" style="">
-                                                                                <a class="btn btn-round btn-sm btn-primary"  onclick="modalcheck('${value.id_asset}','${value.no_tlp}','${value.email}')">Check Schedule</a>
+                                                                                <a class="btn btn-round btn-sm btn-primary"  onclick="modalcheck('${value.id_asset}','${value.id_owner}')">Check Schedule</a>
                                                                                 </div>
                                                                             </div>
                                                                             <?php } ?>
@@ -789,14 +786,21 @@
                                 
                              var date_start=new Date(e.data.tanggal_pinjam)
                              var date_end=new Date(e.data.tanggal_kembali)
-                          
+                             var driver=''
+                                 if (e.data.asset_type=='Kendaraan'){
+                                    if (e.data.driver==1){
+                                        driver +=' ( With Driver )'
+                                    }else{
+                                         driver +='( Without Driver )'
+                                    }
+                                 }
                              html +=`  <div class="tab-pane " id="overview">
                                           <div class="invest-ov gy-2 pb-1 pt-1">
                                               <div class="subtitle mb-0 pb-0">Activity Name</div>
                                               <div class="invest-ov-details">
-                                                  <div class="invest-ov-info">
-                                                      <div class="amount">${e.data.activity}</div>
-                                                  </div>
+                                       
+                                                      <div class="amount">${e.data.activity} </div>
+                                     
                                             
                                                </div>
                                              
@@ -804,21 +808,21 @@
                                            <div class="invest-ov gy-2 pb-1 pt-1">
                                               <div class="subtitle mb-0 pb-0">Schedule Activity</div>
                                               <div class="invest-ov-details">
-                                                  <div class="invest-ov-info">
+                                    
                                                       <div class="amount"> <span class="badge badge-dim badge-md bg-info">${formatDate(date_start)}</span> - <span class="badge badge-dim badge-md bg-info">${formatDate(date_end)}</span></div>
-                                                 
-                                                  </div>
+
+                                          
                                             
                                                </div>
+                                               <div class="amount">${driver}</div>
                                              
                                            </div>
                                            <div class="invest-ov gy-2 pb-1 pt-1">
                                               <div class="subtitle mb-0 pb-0">PIC Name</div>
                                               <div class="invest-ov-details">
-                                                  <div class="invest-ov-info">
-                                                      <div class="amount">${e.data.name} ( ${e.data.nip} )</div>
                                                  
-                                                  </div>
+                                                      <div class="amount">${e.data.name} ( ${e.data.nip} )</div>
+                                        
                                             
                                                </div>
                                              
@@ -826,10 +830,10 @@
                                            <div class="invest-ov gy-2 pb-1 pt-1">
                                               <div class="subtitle mb-0 pb-0">Unit</div>
                                               <div class="invest-ov-details">
-                                                  <div class="invest-ov-info">
+                                                 
                                                       <div class="amount">${e.data.unit}</div>
                                                  
-                                                  </div>
+                                            
                                             
                                                </div>
                                              
@@ -837,11 +841,9 @@
                                            <div class="invest-ov gy-2 pb-1 pt-1">
                                               <div class="subtitle mb-0 pb-0">PIC contact</div>
                                               <div class="invest-ov-details">
-                                                  <div class="invest-ov-info">
+                                           
                                                       <div class="amount">${e.data.no_telepon}<a href="https://wa.me/${convertphonenumber(e.data.no_telepon)}" class="btn btn-dim btn-success"><i class="icon fa-brands fa-whatsapp"></i></a></div>
-                                                 
-                                                  </div>
-                                            
+                                                                                    
                                                </div>
                                              
                                            </div>
@@ -931,26 +933,30 @@
                                                                     </div>   
                                                                     
                                                                      <div class="invest-data mt-1">
-                                                                        <div class="invest-data-amount g-2">
+                                                                        <div class="invest-data-amount ">
                                                                             
                                                                             <div class="invest-data-history">
                                                                                 <div class="title">${labelCap}</div>
-                                                                                <div class="amount" style="display:flex"><p>${value.capacity}</p><i class="icon fa-solid fa-users" style="margin-left:15px"></i></div>
+                                                                                <div class="amount mb-0" style="display:flex; height:17px">
+                                                                                 <p>${value.capacity}</p><i class="icon fa-solid fa-users" style="margin-left:15px"></i></div>
                                                                             </div>
-                                                                            <?php if (session()->type=='pegawai') {?>
+                                                                       
+                                                                        </div>   
+                                                                    </div>
+                                                                      <div class="invest-data mt-0">
+                                                                         <?php if (session()->type=='pegawai') {?>
                                                                             <div class="invest-data-history" style="display:flex; justify-content:right" >
                                                                                 
-                                                                                <div class="amount mt-3" style="">
-                                                                                <a class="btn btn-round btn-sm btn-primary" onclick="modalcheck('${value.id_asset}', '${value.no_tlp}','${value.email}')">Check Schedule</a>
+                                                                                <div class="amount" style="">
+                                                                                <a class="btn btn-round btn-sm btn-primary" onclick="modalcheck('${value.id_asset}','${value.id_owner}')">Check Schedule</a>
                                                                                 </div>
                                                                             </div>
                                                                         <?php } ?>
-                                                                        </div>   
-                                                                    </div>
+                                                                      </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div><!-- .card -->
+                                                </div>
                                             </div><!-- .col -->
 
                                   `;
@@ -1133,10 +1139,10 @@
               var minutes = date.getMinutes().toString().padStart(2, '0');
               var seconds = date.getSeconds().toString().padStart(2, '0');
 
-              return `${month}/${day}/${year}  ${hours}:${minutes}`;
+              return `${day}/${month}/${year}  ${hours}:${minutes}`;
             }
 
-        function modalcheck(id,no_tlp,email){
+        function modalcheck(id,owner){
             var html = `
                         <form id="frmcheck">
                               <div class="row g-0">
@@ -1174,7 +1180,7 @@
 
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-lg btn-primary" id="buttonsave" onclick="CheckSchedule('${no_tlp}','${email}')">Check</button>
+                                        <button type="button" class="btn btn-lg btn-primary" id="buttonsave" onclick="CheckSchedule('${owner}')">Check</button>
                                         <span class="loader" id="loader" style="display: none;"></span>
 
                                     </div>
@@ -1225,9 +1231,10 @@
        //console.log(dateArray)
     }
 
-    function CheckSchedule(adminnum,email){
+    function CheckSchedule(owner){
        var html='';
        var option='';
+       var driver='';
         var form_data = new FormData($('#frmcheck')[0]);
                $.ajax({
                  url:"<?php echo base_url('checkSchedule') ?>",
@@ -1261,17 +1268,34 @@
                                $.each(e.data.data_asset, function(key, value) {
                                     if(value.id_asset==e.data.id_asset){
                                         option+=` <option value="${value.id_asset}">${value.asset_name}</option>`
+                                        if(value.asset_type=='Kendaraan'){
+                                            driver +=`<div class="col-lg-6">
+                                                <div class="form-group">
+                                                  
+                                                    <div class="custom-control custom-checkbox">
+                                                         <input type="checkbox" class="custom-control-input" id="driver" name="driver" value="1">    
+                                                         <label class="custom-control-label" for="driver">Driver</label>
+                                                    </div>
+                                                    <div id="driver-error">
+
+                                                    </div>
+                                                </div>
+                                            </div>`
+                                        }
                                     }
                                 });
-
+                            
                                html +=`
                                         <form id="frmAdd">
                                           <div class="row g-4"  >
                                          
                                              <input type="hidden" name="id_asset" value="${e.data.id_asset}">
-                                             <input type="hidden" name="email" value="${email}">
-                                             <input type="hidden" name="no_tlp" value="${adminnum}">
-                                            
+                                             <input type="hidden" name="owner" value="${owner}">
+                                   
+                                          
+                                                    <div id="owner-error">
+
+                                                    </div>                                      
                                              <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label class="form-label" for="asset_name_add">Asset Name</label>
@@ -1312,6 +1336,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                           
                                             
                                             <div class="col-lg-6">
                                                 <div class="form-group">
@@ -1328,9 +1353,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            
-                                          
-                                           
+                                            ${driver}
 
                                             <div class="col-12">
                                                 <div class="form-group">
@@ -1344,11 +1367,29 @@
                                `
                                 $('#mainAdd').html(html);
                                 $("#modaltambah").modal('hide');
-                            <?php  if (session()->status_pgw!='MAGANG') { ?>
+                            <?php  if (session()->unit_emp!=='') { ?>
                                 $("#modalAdd").modal('show');
                             <?php }else{ ?>
-                                window.location.href=`https://wa.me/${convertphonenumber(adminnum)}`
-                            <?php } ?>
+
+                                $("#modalcheck").modal('hide');
+                                Swal.fire({
+                     
+                                  text: "Lengkapi data unit terlebih dahulu",
+                                  icon: "warning",
+                                  showCancelButton: false,
+                                  confirmButtonColor: "#3085d6",
+                                  cancelButtonColor: "#d33",
+                                  confirmButtonText: "Ok!"
+                                }).then((result) => {
+                                  if (result.isConfirmed) {
+                                    
+
+                                    $("#modalunit").modal('show');
+                                  }
+                                });
+
+                               
+                             <?php } ?>
                           }
                         })
                     }else{
@@ -1450,6 +1491,7 @@
              $('#buttonAddLoan').show()
             $('#loaderAddLoan').hide()
             var msgeror='';
+            console.log(e.dataname)
              $.each(e.dataname, function(key, value) {
                 document.getElementById(key+"-error").innerHTML ="";
               });

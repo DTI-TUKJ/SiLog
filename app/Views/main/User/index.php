@@ -53,7 +53,6 @@
                                         <th>No</th>
                                         <th>Name</th>
                                         <th>Username</th>
-                                        <th>Password</th>
                                         <th>Type</th>
                                         <th>Input date</th>
                                         <th>Action</th>
@@ -65,9 +64,8 @@
                                     foreach ($data as $u) {; ?>
                                         <tr>
                                             <td><?= $no++;; ?></td>
-                                            <td><?= $u['Admin_name'] ?></td>
+                                            <td><?= $u['name_emp'] ?></td>
                                             <td><?= $u['username'] ?></td>
-                                            <td><?= $u['password_plain'] ?></td>
                                             <td><?= $u['type'] ?></td>
                                             <td><?= $u['input_date'] ?></td>
                                             <td>
@@ -85,6 +83,8 @@
         </div>
     </div>
 </div>
+
+
 <div class="modal fade " role="dialog" aria-hidden="true" id="modaltambah">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
@@ -180,7 +180,6 @@
 
         </div>
     </div>
-
 
     <?= $this->endSection() ?>
 

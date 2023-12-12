@@ -11,15 +11,22 @@ class User extends BaseController
     
     public function __construct()
     {
+         $this->validation =  \Config\Services::validation();
         $this->session = \Config\Services::session();
+        $this->req = \Config\Services::request();
+        $this->email = \Config\Services::email();
         $this->LM = new LoginModel();
     }
 
     public function index()
     {
+          if (session()->nip_emp==null){
+                return redirect()->to(base_url('Silo/Signin'));
+            }
+
         $data = [
             'title' => 'Users',
-            'data' => $this->LM->findAll(),
+            'data' => $this->LM->getUsersAll(),
             'total' => $this->LM->countAll()
         ];
         return view('main/User/index', $data);
@@ -27,6 +34,10 @@ class User extends BaseController
 
     public function simpanData()
     {
+          if (session()->nip_emp==null){
+                return redirect()->to(base_url('Silo/Signin'));
+            }
+            
         $validation = \Config\Services::validation();
         $valid = $this->validate([
             'adminName' => [
@@ -90,4 +101,8 @@ class User extends BaseController
             return redirect()->to('Silo/User');
         }
     }
+
+
+
+
 }
